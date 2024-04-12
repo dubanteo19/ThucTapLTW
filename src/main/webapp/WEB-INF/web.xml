@@ -20,10 +20,10 @@
 	</error-page>
 
 	<!-- Cấu hình trang lỗi 500 -->
-	<error-page>
-		<error-code>500</error-code>
-		<location>/page500.jsp</location>
-	</error-page>
+<!--	<error-page>-->
+<!--		<error-code>500</error-code>-->
+<!--		<location>/page500.jsp</location>-->
+<!--	</error-page>-->
    <context-param>
       <param-name>
          javax.servlet.jsp.jstl.fmt.locale

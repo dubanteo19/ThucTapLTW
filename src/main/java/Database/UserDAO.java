@@ -7,10 +7,7 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import Model.Address;
-import Model.Orders;
-import Model.Product;
-import Model.User;
+import Model.*;
 import RowMaper.ProductMapper;
 import RowMaper.RowMapper;
 import RowMaper.UserMapper;
@@ -100,14 +97,11 @@ public class UserDAO extends AbtractDAO<User> implements IUserDAO {
 		return query(sql, userId, productId) == 1;
 	}
 
-	public static void main(String[] args) {
-		UserDAO userDAO = new UserDAO();
-		System.out.println(userDAO.findUserById(6));
-	}
-
 	@Override
 	public boolean updateStatus(User user) {
 		String sql = "UPDATE users SET statusId=? WHERE userId = ?";
 		return update(sql, user.getStatus().getId(), user.getId());
 	}
+
+
 }
