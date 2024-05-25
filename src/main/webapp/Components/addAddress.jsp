@@ -11,59 +11,9 @@
     <title>Title</title>
 </head>
 <style>
-    /* CSS */
-    /* Thiết lập màu sắc và font chữ */
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f7f7f7;
+    .adress-form-content form input, select {
+        width: 100%!important;
     }
-
-    /* Cải thiện kiểu dáng và kích thước của input fields */
-    .form-input {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        margin-bottom: 10px;
-    }
-
-    /* Tinh chỉnh nút xác nhận */
-    .btn-hover {
-        background-color: #4CAF50;
-        color: white;
-        padding: 12px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    /* Tinh chỉnh layout */
-    .adress-form-content {
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-    }
-
-    /* Điều chỉnh checkbox và label */
-    .form-check input[type="checkbox"] {
-        margin-right: 5px;
-    }
-
-    .form-check label {
-        font-weight: normal;
-    }
-
-    /* Thay đổi màu sắc cho phần tử select */
-    .select-field {
-        background-color: #f9f9f9;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        padding: 10px;
-        margin-bottom: 10px;
-    }
-
 </style>
 <body>
 <div class="row adress-form wrapper">
