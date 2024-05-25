@@ -1,0 +1,58 @@
+
+Š
+java:S1192J"NDefine a constant instead of duplicating this literal "tai-khoan.jsp" 5 times.(Ô³ñJ$0233a905-efe6-4298-bc40-ec4b9c61853c
+	java:S117›"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ş¥ò¿J$5b43b9e5-689a-477f-9976-a32abca194e1
+’	java:S117œ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(«ê’ÚùÿÿÿÿJ$2b10a0df-f9b4-4f0b-ba1c-85439b51f250
+’	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ì–™ÆûÿÿÿÿJ$08bf1301-d3f8-4d46-9435-964a6ff90075
+•	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(º›°ÎJ$c01ff0cf-8046-496b-849a-acbdf92e40b8
+½
+java:S1186+"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(÷¤‹úJ$677f57d9-2d9a-405e-8f61-79881fbfe84f
+ƒ
+java:S6813"BRemove this field injection and use constructor injection instead.(Áº–üÿÿÿÿJ$8bebf1ee-b477-4c69-90b3-da6d43c6076a
+ƒ
+java:S6813"BRemove this field injection and use constructor injection instead.(Áº–üÿÿÿÿJ$c84b4ef8-0f14-4d7c-88ea-3ba4d6159a04
+s
+java:S1135$"2Complete the task associated to this TODO comment.(ƒŠ® úÿÿÿÿJ$f6a53d46-e205-414f-b6af-dd203a8f1f0c
+v
+java:S1161+":Add the "@Override" annotation above this method signature(÷¤‹úJ$a2ba72ce-a76c-4bbd-bad5-2ec08ea8159f
+{
+java:S11613":Add the "@Override" annotation above this method signature(ş³‚”ûÿÿÿÿJ$426b8b50-1935-4b3d-831e-77df9abd43a6
+¤
+java:S19897"hHandle the following exceptions that could be thrown by "changePassword": ServletException, IOException.(¤ˆòËJ$12e0f7a3-33d6-40bb-9993-3af0a75523a6
+ 
+java:S19898"dHandle the following exceptions that could be thrown by "addAddress": ServletException, IOException.(ó°²ıJ$fb411a77-5621-43df-bb47-4e86a5b405b5
+¢
+java:S19899"gHandle the following exceptions that could be thrown by "changeAddress": ServletException, IOException.(‡àØCJ$4f045fb6-1ae2-4811-8bd9-19889071d412
+¨
+java:S1989:"gHandle the following exceptions that could be thrown by "deleteAddress": ServletException, IOException.(¤ƒşÕıÿÿÿÿJ$082d3a46-73fb-4b19-9d9a-a26ed245b08f
+Ÿ
+java:S1989;"dHandle the following exceptions that could be thrown by "updateInfo": ServletException, IOException.(Ù—ÜfJ$b2912da3-0740-46ee-a217-ef2550999643
+Š
+java:S1989<"IHandle the "IllegalArgumentException" thrown here in a "try/catch" block.(×Å“½ıÿÿÿÿJ$6559d450-1f1c-47b3-9a7b-5dd45e21aef6
+f	java:S106D"+Replace this use of System.out by a logger.(£€¤ŠJ$b27bb38b-fb82-4602-848f-08cf1428ec99
+v
+java:S2441I":Make "User" serializable or don't store it in the session.(úÆè“J$001b69a3-545d-47b4-87ef-7d52c40b4897
+k	java:S106P"+Replace this use of System.out by a logger.(éĞ«şÿÿÿÿJ$512fd85b-93d2-41e9-b9a3-29763b732734
+v
+java:S2441W":Make "User" serializable or don't store it in the session.(úÆè“J$1340467b-873d-4ad2-96bc-22c82490a949
+i
+java:S1125c"(Remove the unnecessary boolean literals.(áÂ«ØûÿÿÿÿJ$ad754d92-b01d-40e6-8ebb-6a3490a90c69
+k	java:S106d"+Replace this use of System.out by a logger.(ÁÄôùÿÿÿÿJ$32e704df-f9c9-433a-9062-2f912f02970a
+v
+java:S2441u":Make "User" serializable or don't store it in the session.(úÆè“J$d5fd00a0-604f-42b3-bb37-a51c8100ce77
+f	java:S106~"+Replace this use of System.out by a logger.(«‹ÎõJ$13d6b370-b48a-44b0-824c-7c7c6a52e1b3
+i
+java:S1125"(Remove the unnecessary boolean literals.(áÂ«ØûÿÿÿÿJ$f3f10b8a-bb4f-4240-b20a-16bc0226cc89
+w
+java:S2441”":Make "User" serializable or don't store it in the session.(úÆè“J$69986a80-89c7-4796-b651-9dc489a51ac6
+y
+java:S1854 "7Remove this useless assignment to local variable "url".(†ôçûÿÿÿÿJ$3baaef8d-52fc-4488-99a8-f4d2a7a12b3f
+³
+java:S1130š"wRemove the declaration of thrown exception 'javax.servlet.ServletException', as it cannot be thrown from method's body.(ıù±J$581a8c64-c46c-4ecb-a5ae-bcbea87162ab
+j
+java:S1481 "(Remove this unused "url" local variable.(†ôçûÿÿÿÿJ$040492c4-2175-4734-ade5-3ddf2ea378f2
+w
+java:S2441¬":Make "User" serializable or don't store it in the session.(úÆè“J$eaded7ce-866d-48b0-a066-171fc68cddd3
+x	java:S125°"<This block of commented-out lines of code should be removed.(÷²ÁàJ$c200d922-5bc7-47f2-ae67-3faf9b4cccab
+p
+java:S1128"4Remove this unused import 'Services.AddressService'.(şÃˆìJ$b2e9c8d6-6184-42e7-a3b5-20655bc23bf8
