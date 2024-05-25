@@ -123,3 +123,7 @@ V
 &src/main/java/Database/AddressDAO.java,7\c\7c14832954e6d37bcfa747712ca2d062730caa7a
 Z
 *src/main/java/Services/IAddressSerice.java,2\2\221340b4c9d4e41d13151fe2d6efc45d2706516c
+K
+src/main/webapp/hoa-don.jsp,6\e\6e58e5ab1b017692786a83fbaec1d2de3130327e
+N
+src/main/webapp/thanh-toan.jsp,7\1\71b18b1110743cd7a13717ab2c4ecbeb63a74afc
