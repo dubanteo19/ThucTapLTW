@@ -99,62 +99,63 @@ String menuId = request.getAttribute("menu") == null ? "ACCOUNT_INFORMATION" : r
 							<div class="table-responsive-block tab-all"
 								style="overflow-x: auto;">
 								<h5 class="title-acccount">ĐƠN HÀNG CỦA BẠN</h5>
-								<table class="table table-cart table-order" id="my-orders-table"
-									style="border: #2c3034 solid 1px">
-									<thead class="thead-default bg-primary-green text-white">
-										<tr>
-											<th>Đơn hàng</th>
-											<th>Ngày</th>
-											<th>Địa chỉ</th>
-											<th>Giá trị đơn hàng</th>
-											<th>TT đơn hàng</th>
-											<th>Xem chi tiết</th>
-										</tr>
-									</thead>
-									<c:if test="${user.getOrders().size() ==0}">
-										<tbody>
-											<tr>
-												<td colspan="6" class="text-center">
-													<p>Không có đơn hàng nào.</p>
-												</td>
-											</tr>
-										</tbody>
-									</c:if>
-									<c:if test="${user ne null}">
-										<c:forEach var="order" items="${user.getOrders()}">
-											<tr>
-												<td class="text-center">
-													<p>${order.getId()}</p>
-												</td>
-												<td class="text-center">
-													<p>${order.getDateCreated()}</p>
-												</td>
-												<td class="text-center">
-													<p>${order.getAddress()}</p>
-												</td>
-												<td class="text-center">
-													<p>
-														<fmt:formatNumber value="${order.getTotalPrice()}"
-															type="currency"></fmt:formatNumber>
-													</p>
-												</td>
-												<td class="text-center" style="color: #e39b04">
-													<p>${order.getStatus().getDescription()}</p>
-												</td>
-												<td class="text-center"><div class="btn-group">
-														<a target="_blank"
-															href="UserOrderController?action=detail&orderId=${order.id}">
-															<button
-																class="btn btn-secondary btn-sm me-1 btn-order-detail"
-																data-target=${item.id}>
-																<i class="fa-solid fa-circle-info"></i>
-															</button>
-														</a>
-													</div></td>
-											</tr>
-										</c:forEach>
-									</c:if>
-								</table>
+								<jsp:include page="Components/myAddres.jsp" />
+<%--								<table class="table table-cart table-order" id="my-orders-table"--%>
+<%--									style="border: #2c3034 solid 1px">--%>
+<%--									<thead class="thead-default bg-primary-green text-white">--%>
+<%--										<tr>--%>
+<%--											<th>Đơn hàng</th>--%>
+<%--											<th>Ngày</th>--%>
+<%--											<th>Địa chỉ</th>--%>
+<%--											<th>Giá trị đơn hàng</th>--%>
+<%--											<th>TT đơn hàng</th>--%>
+<%--											<th>Xem chi tiết</th>--%>
+<%--										</tr>--%>
+<%--									</thead>--%>
+<%--									<c:if test="${user.getOrders().size() ==0}">--%>
+<%--										<tbody>--%>
+<%--											<tr>--%>
+<%--												<td colspan="6" class="text-center">--%>
+<%--													<p>Không có đơn hàng nào.</p>--%>
+<%--												</td>--%>
+<%--											</tr>--%>
+<%--										</tbody>--%>
+<%--									</c:if>--%>
+<%--									<c:if test="${user ne null}">--%>
+<%--										<c:forEach var="order" items="${user.getOrders()}">--%>
+<%--											<tr>--%>
+<%--												<td class="text-center">--%>
+<%--													<p>${order.getId()}</p>--%>
+<%--												</td>--%>
+<%--												<td class="text-center">--%>
+<%--													<p>${order.getDateCreated()}</p>--%>
+<%--												</td>--%>
+<%--												<td class="text-center">--%>
+<%--													<p>${order.getAddress()}</p>--%>
+<%--												</td>--%>
+<%--												<td class="text-center">--%>
+<%--													<p>--%>
+<%--														<fmt:formatNumber value="${order.getTotalPrice()}"--%>
+<%--															type="currency"></fmt:formatNumber>--%>
+<%--													</p>--%>
+<%--												</td>--%>
+<%--												<td class="text-center" style="color: #e39b04">--%>
+<%--													<p>${order.getStatus().getDescription()}</p>--%>
+<%--												</td>--%>
+<%--												<td class="text-center"><div class="btn-group">--%>
+<%--														<a target="_blank"--%>
+<%--															href="UserOrderController?action=detail&orderId=${order.id}">--%>
+<%--															<button--%>
+<%--																class="btn btn-secondary btn-sm me-1 btn-order-detail"--%>
+<%--																data-target=${item.id}>--%>
+<%--																<i class="fa-solid fa-circle-info"></i>--%>
+<%--															</button>--%>
+<%--														</a>--%>
+<%--													</div></td>--%>
+<%--											</tr>--%>
+<%--										</c:forEach>--%>
+<%--									</c:if>--%>
+<%--								</table>--%>
 							</div>
 							<div
 								class="paginate-pages pull-right page-account text-right col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -548,9 +549,6 @@ String menuId = request.getAttribute("menu") == null ? "ACCOUNT_INFORMATION" : r
             showMenu(id);
         })
     });
-    
-    
-    
     
     </script>
 

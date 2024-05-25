@@ -105,3 +105,9 @@ i
 9src/main/webapp/Components/ProductDetail/sanPhamDaXem.jsp,e\f\ef084383bd5e4ae787d6f8284cab1d9af479b404
 J
 src/main/webapp/signup.jsp,e\5\e5522cd3d0b3598d3702de2bf21f10cd7b094ad8
+M
+src/main/webapp/tai-khoan.jsp,b\c\bc5eb2fc83c5c75ab1b1dee84ccea6ae7049b5ed
+W
+'src/main/webapp/Components/myAddres.jsp,f\3\f34b0c1da6b4d2d4e6be59a392fca08cbfb151a9
+O
+src/main/webapp/styles/base.css,a\c\ace282d2dfa34c4e6c1fb021d2faa8a3363525d8
