@@ -99,63 +99,7 @@ String menuId = request.getAttribute("menu") == null ? "ACCOUNT_INFORMATION" : r
 							<div class="table-responsive-block tab-all"
 								style="overflow-x: auto;">
 								<h5 class="title-acccount">ĐƠN HÀNG CỦA BẠN</h5>
-								<jsp:include page="Components/myAddres.jsp" />
-<%--								<table class="table table-cart table-order" id="my-orders-table"--%>
-<%--									style="border: #2c3034 solid 1px">--%>
-<%--									<thead class="thead-default bg-primary-green text-white">--%>
-<%--										<tr>--%>
-<%--											<th>Đơn hàng</th>--%>
-<%--											<th>Ngày</th>--%>
-<%--											<th>Địa chỉ</th>--%>
-<%--											<th>Giá trị đơn hàng</th>--%>
-<%--											<th>TT đơn hàng</th>--%>
-<%--											<th>Xem chi tiết</th>--%>
-<%--										</tr>--%>
-<%--									</thead>--%>
-<%--									<c:if test="${user.getOrders().size() ==0}">--%>
-<%--										<tbody>--%>
-<%--											<tr>--%>
-<%--												<td colspan="6" class="text-center">--%>
-<%--													<p>Không có đơn hàng nào.</p>--%>
-<%--												</td>--%>
-<%--											</tr>--%>
-<%--										</tbody>--%>
-<%--									</c:if>--%>
-<%--									<c:if test="${user ne null}">--%>
-<%--										<c:forEach var="order" items="${user.getOrders()}">--%>
-<%--											<tr>--%>
-<%--												<td class="text-center">--%>
-<%--													<p>${order.getId()}</p>--%>
-<%--												</td>--%>
-<%--												<td class="text-center">--%>
-<%--													<p>${order.getDateCreated()}</p>--%>
-<%--												</td>--%>
-<%--												<td class="text-center">--%>
-<%--													<p>${order.getAddress()}</p>--%>
-<%--												</td>--%>
-<%--												<td class="text-center">--%>
-<%--													<p>--%>
-<%--														<fmt:formatNumber value="${order.getTotalPrice()}"--%>
-<%--															type="currency"></fmt:formatNumber>--%>
-<%--													</p>--%>
-<%--												</td>--%>
-<%--												<td class="text-center" style="color: #e39b04">--%>
-<%--													<p>${order.getStatus().getDescription()}</p>--%>
-<%--												</td>--%>
-<%--												<td class="text-center"><div class="btn-group">--%>
-<%--														<a target="_blank"--%>
-<%--															href="UserOrderController?action=detail&orderId=${order.id}">--%>
-<%--															<button--%>
-<%--																class="btn btn-secondary btn-sm me-1 btn-order-detail"--%>
-<%--																data-target=${item.id}>--%>
-<%--																<i class="fa-solid fa-circle-info"></i>--%>
-<%--															</button>--%>
-<%--														</a>--%>
-<%--													</div></td>--%>
-<%--											</tr>--%>
-<%--										</c:forEach>--%>
-<%--									</c:if>--%>
-<%--								</table>--%>
+								<jsp:include page="Components/myOrder.jsp" />
 							</div>
 							<div
 								class="paginate-pages pull-right page-account text-right col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -264,79 +208,79 @@ String menuId = request.getAttribute("menu") == null ? "ACCOUNT_INFORMATION" : r
 									value="address_your">
 							</form>
 						</div>
+						<jsp:include page="Components/addAddress.jsp" />
 						<!-- 		Add address form -->
-						<div class="row adress-form wrapper">
-							<div class="col-md-8 mb-4">
-								<div class="card mb-4">
-									<div class="adress-form">
-										<div class="adress-form-content">
-											<h2>
-												Địa chỉ nhận hàng <span id="adress-close">X Đóng</i></span>
-											</h2>
-											<form action="UserInfo" method="post" id="address-form">
-												<input type="hidden" name="pos" id="pos" value=""> <input
-													type="hidden" name="action" value="addAddress"> <input
-													type="hidden" name="menu" value="address_your">
-												<p>Chọn đầy đủ địa chỉ nhận hàng để biết chính xác thời
-													gian giao</p>
-												<div class=" col-lg-12 col-sm-12 col-xs-12">
-													<fieldset class="form-group" style="margin: 0">
-														<input type="text" class="form-input select-field"
-															value="" name="fullName" id="fullName"
-															placeholder="Họ tên" required="">
-													</fieldset>
-												</div>
-												<div class=" col-lg-12 col-sm-12 col-xs-12">
-													<fieldset class="form-group">
-														<input placeholder="Số điện thoại" type="text"
-															pattern="\d+" class="form-input form-control-comment"
-															name="PhoneNumber" required="" id="PhoneNumber">
-													</fieldset>
-												</div>
-												<div
-													class="group-country col-md-12 col-lg-12 col-sm-12 col-xs-12">
-													<fieldset
-														class="form-group select-field select-field-provinces">
-														<select name="Province" value=""
-															class="form-control add provinces" id="provinces"
-															onchange="getDistricts()"></select>
-													</fieldset>
-													<fieldset class="form-group select-field">
-														<select name="District" class="form-control add districts"
-															value="" id="districts" onchange="getWards()">
-															<option value="" hidden="">Quận huyện</option>
-														</select>
-													</fieldset>
-													<fieldset class="form-group select-field">
-														<select name="Ward" class="form-control add wards"
-															value="" id="wards">
-															<option value="" hidden="">Phường xã</option>
-														</select>
-													</fieldset>
-												</div>
-												<div class=" col-lg-12 col-sm-12 col-xs-12">
-													<fieldset class="form-group">
-														<input class="description" type="text" name="Description"
-															placeholder="Số nhà tên đường (không bắt buộc)"
-															style="margin: 0">
-													</fieldset>
-												</div>
-												<div class="d-flex">
-													<div class="form-check">
-														<input class="" type="checkbox" value=1 name="default"
-															id=""> <label class="" for=""> Địa chỉ
-															mặc định </label>
+<%--						<div class="row adress-form wrapper">--%>
+<%--							<div class="col-md-8 mb-4">--%>
+<%--								<div class="card mb-4">--%>
+<%--									<div class="adress-form">--%>
+<%--										<div class="adress-form-content">--%>
+<%--											<h2>--%>
+<%--												Địa chỉ nhận hàng <span id="adress-close">X Đóng</span>--%>
+<%--											</h2>--%>
+<%--											<form action="UserInfo" method="post" id="address-form">--%>
+<%--												<input type="hidden" name="pos" id="pos" value=""> <input--%>
+<%--													type="hidden" name="action" value="addAddress"> <input--%>
+<%--													type="hidden" name="menu" value="address_your">--%>
+<%--												<p>Chọn đầy đủ địa chỉ nhận hàng để biết chính xác thời--%>
+<%--													gian giao</p>--%>
+<%--												<div class=" col-lg-12 col-sm-12 col-xs-12">--%>
+<%--													<fieldset class="form-group" style="margin: 0">--%>
+<%--														<input type="text" class="form-input select-field"--%>
+<%--															value="" name="fullName" id="fullName"--%>
+<%--															placeholder="Họ tên" required="">--%>
+<%--													</fieldset>--%>
+<%--												</div>--%>
+<%--												<div class=" col-lg-12 col-sm-12 col-xs-12">--%>
+<%--													<fieldset class="form-group">--%>
+<%--														<input placeholder="Số điện thoại" type="text"--%>
+<%--															pattern="\d+" class="form-input form-control-comment"--%>
+<%--															name="PhoneNumber" required="" id="PhoneNumber">--%>
+<%--													</fieldset>--%>
+<%--												</div>--%>
+<%--												<div--%>
+<%--													class="group-country col-md-12 col-lg-12 col-sm-12 col-xs-12">--%>
+<%--													<fieldset--%>
+<%--														class="form-group select-field select-field-provinces">--%>
+<%--														<select name="Province" value=""--%>
+<%--															class="form-control add provinces" id="provinces"--%>
+<%--															onchange="getDistricts()"></select>--%>
+<%--													</fieldset>--%>
+<%--													<fieldset class="form-group select-field">--%>
+<%--														<select name="District" class="form-control add districts"--%>
+<%--															value="" id="districts" onchange="getWards()">--%>
+<%--															<option value="" hidden="">Quận huyện</option>--%>
+<%--														</select>--%>
+<%--													</fieldset>--%>
+<%--													<fieldset class="form-group select-field">--%>
+<%--														<select name="Ward" class="form-control add wards"--%>
+<%--															value="" id="wards">--%>
+<%--															<option value="" hidden="">Phường xã</option>--%>
+<%--														</select>--%>
+<%--													</fieldset>--%>
+<%--												</div>--%>
+<%--												<div class=" col-lg-12 col-sm-12 col-xs-12">--%>
+<%--													<fieldset class="form-group">--%>
+<%--														<input class="description" type="text" name="Description"--%>
+<%--															placeholder="Số nhà tên đường (không bắt buộc)"--%>
+<%--															style="margin: 0">--%>
+<%--													</fieldset>--%>
+<%--												</div>--%>
+<%--												<div class="d-flex">--%>
+<%--													<div class="form-check">--%>
+<%--														<input class="" type="checkbox" value=1 name="default"> <label class="" for=""> Địa chỉ--%>
+<%--															mặc định </label>--%>
 
-													</div>
-													<button class="btn-hover">Xác nhận</button>
-												</div>
+<%--													</div>--%>
+<%--													<button class="btn-hover">Xác nhận</button>--%>
+<%--												</div>--%>
 
-											</form>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+<%--											</form>--%>
+<%--										</div>--%>
+<%--									</div>--%>
+<%--								</div>--%>
+<%--							</div>--%>
+<%--						</div>--%>
 					</div>
 				</div>
 			</div>
