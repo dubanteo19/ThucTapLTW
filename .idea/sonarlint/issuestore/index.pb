@@ -107,12 +107,8 @@ J
 src/main/webapp/signup.jsp,e\5\e5522cd3d0b3598d3702de2bf21f10cd7b094ad8
 M
 src/main/webapp/tai-khoan.jsp,b\c\bc5eb2fc83c5c75ab1b1dee84ccea6ae7049b5ed
-W
-'src/main/webapp/Components/myAddres.jsp,f\3\f34b0c1da6b4d2d4e6be59a392fca08cbfb151a9
 O
 src/main/webapp/styles/base.css,a\c\ace282d2dfa34c4e6c1fb021d2faa8a3363525d8
-X
-(src/main/webapp/Components/myAddress.jsp,c\e\ce1c8c4067a790265fdb2d394c6578681ee6236f
 Y
 )src/main/webapp/Components/addAddress.jsp,9\3\93cab73339fb473f490bbb115aed29e03c829c19
 T
@@ -127,3 +123,19 @@ K
 src/main/webapp/hoa-don.jsp,6\e\6e58e5ab1b017692786a83fbaec1d2de3130327e
 N
 src/main/webapp/thanh-toan.jsp,7\1\71b18b1110743cd7a13717ab2c4ecbeb63a74afc
+L
+src/main/webapp/gio-hang.jsp,c\c\ccbe02b59b612e95f04891393f700cf754a32c33
+c
+3src/main/java/Controller/CartForwardController.java,7\5\7591b27c68935796017ef048e59bf1fab376d4b5
+S
+#src/main/webapp/javascripts/main.js,5\a\5ac209f08d86e8a2afc570c6d0d2895253767c31
+\
+,src/main/webapp/javascripts/shopping-cart.js,1\b\1bed912467c8241233dc7d8a43c74c26f07ac0d8
+T
+$src/main/webapp/javascripts/slick.js,6\f\6fa32bf68342cc846fac2a4d49bf10e964007270
+Z
+*src/main/webapp/admin/carousel-manager.jsp,6\d\6d962ed92387a2fb72f6b902c54512ad1ee3a306
+V
+&src/main/webapp/admin/order-detail.jsp,3\8\389476aef4ba9361e57359384c19165d0e474e2c
+[
++src/main/webapp/admin/orders-data-table.jsp,d\0\d071e1368af208f24ebe3b79bdabe063547cf411
