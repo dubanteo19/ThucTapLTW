@@ -105,10 +105,7 @@
                       <p>${order.getAddress()}</p>
                   </td>
                   <td class="text-center">
-                      <p>
-                          <fmt:formatNumber value="${order.getTotalPrice()}"
-                                            type="currency"></fmt:formatNumber>
-                      </p>
+                      ${order.getTotalPrice()}
                   </td>
                   <td class="text-center" style="color: #e39b04">
                       <p>${order.getStatus().getDescription()}</p>
