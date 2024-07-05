@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+         pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 
@@ -21,6 +21,24 @@
 <style>
     .btn-order-detail i {
         color: #fFffff;
+    }
+
+    .level {
+        margin: 10px !important;
+        padding: 20px !important;
+    }
+
+    .info {
+        background-color: #3dd5f3 !important;
+        padding: 10px !important;
+        border-radius: 5px !important;
+    }
+
+    .alertz {
+        background-color: orange;
+        padding: 10px !important;
+        border-radius: 5px !important;
+
     }
 </style>
 <body>
@@ -56,19 +74,29 @@
                             </tr>
                             </thead>
                             <c:forEach items="${logs}" var="item">
-                                <c:set var="className" value="${item.level}"/>
+                                <c:set var="level">
+                                    <c:choose>
+                                        <c:when test="${item.level == 'INFO'}">info</c:when>
+                                        <c:when test="${item.level == 'ALERT'}">alertz</c:when>
+                                        <c:when test="${item.level == 'WARNING'}">warning</c:when>
+                                        <c:when test="${item.level == 'DANGER'}">danger</c:when>
+                                    </c:choose>
+                                </c:set>
+
                                 <tbody id="${item.id}">
                                 <tr>
                                     <td>${item.id}</td>
                                     <td>${item.ipAddress}</td>
                                     <td>${item.nation}</td>
                                     <td>${item.url}</td>
-                                    <td>${item.level}</td>
+                                    <td class="level">
+                                        <span class="${level}">${item.level}</span>
+                                    </td>
                                     <td>${item.currentValue}</td>
                                     <td>${item.afterValue}</td>
                                     <td>${item.description}</td>
                                     <td>${item.dateCreated}</td>
-                                    <td></td>
+                                    <td>${level}</td>
                                 </tr>
                                 </tbody>
                             </c:forEach>
