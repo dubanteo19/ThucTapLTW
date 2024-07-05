@@ -47,7 +47,8 @@ public class HomeController extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		request.setAttribute("productsSale", productService.findProductSales(30, 0));
-		
+
+		System.out.println(productService.findProductSales(30, 0));
 		request.setAttribute("dsCuQua", productService.findProductByCategoryId(7, 16, 0));
 		request.setAttribute("dsGao", productService.findProductByCategoryId(1, 16, 0));
 		request.setAttribute("dsHat", productService.findProductByCategoryId(9, 16, 0));
