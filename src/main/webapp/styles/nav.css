@@ -115,7 +115,11 @@ header {
 	margin: 0 6px;
 	z-index: 1;
 	font-weight: 500;
-	position: relative; &: before { content : "";
+	position: relative;
+}
+
+.nav-item:before {
+	content: "";
 	position: absolute;
 	bottom: -6px;
 	left: 0;
@@ -125,8 +129,6 @@ header {
 	border-radius: 8px 8px 0 0;
 	opacity: 0;
 	transition: 0.3s;
-}
-
 }
 .nav-item:not(.is-active):hover:before {
 	opacity: 1;

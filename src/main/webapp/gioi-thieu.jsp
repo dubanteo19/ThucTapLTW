@@ -6,6 +6,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="styles/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="styles/base.css?versionrg">
+	<link rel="stylesheet" type="text/css" href="styles/main.css?versionrg">
+	<link rel="stylesheet" type="text/css" href="styles/nav.css?rgrg">
+	<link rel="stylesheet"
+		  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css?versio">
 <title></title>
 <style>
 #introduce .content-page h3 {

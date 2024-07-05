@@ -5,14 +5,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Title</title>
-<link rel="stylesheet" type="text/css" href="styles/bootstrap.css">
-<link rel="stylesheet" type="text/css" href="styles/base.css">
-<link rel="stylesheet" type="text/css" href="styles/main.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link rel="stylesheet" type="text/css" href="styles/news.css">
-<link rel="stylesheet" type="text/css" href="styles/footer.css">
-<link rel="stylesheet" href="styles/nav.css">
+	<link rel="stylesheet" type="text/css" href="styles/bootstrap.css?rr">
+	<link rel="stylesheet" type="text/css" href="styles/base.css?versionrg">
+	<link rel="stylesheet" type="text/css" href="styles/main.css?versionrg">
+	<link rel="stylesheet" type="text/css" href="styles/nav.css?rgrg">
+	<link rel="stylesheet"
+		  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css?versio">
+<link rel="stylesheet" type="text/css" href="styles/news.css?r">
 <link rel="stylesheet" href="styles/lien-he.css">
 <script type="text/javascript" src="javascripts/jquery-3.7.1.js"></script>
 </head>

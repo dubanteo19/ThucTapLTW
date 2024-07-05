@@ -19,12 +19,10 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css?version=1">
 <link rel="stylesheet" type="text/css" href="styles/news.css?version=1">
-<link rel="stylesheet" type="text/css"
-	href="styles/footer.css?version=1">
 <link rel="stylesheet" type="text/css" href="styles/nav.css?dsds">
 <link rel="stylesheet" type="text/css"
 	href="styles/lightslider.css?version=1">
-<link rel="stylesheet" href="styles/gio-hang.css">
+
 </head>
 <body>
 	<jsp:include page="Components/header.jsp" />

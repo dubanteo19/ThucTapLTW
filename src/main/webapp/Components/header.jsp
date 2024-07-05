@@ -16,9 +16,8 @@
 <head>
 <meta charset="utf-8">
 <title>Header</title>
-<link rel="stylesheet" type="text/css" href="styles/icon.css?d">
-<link rel="stylesheet" type="text/css" href="styles/base.css">
-<style type="text/css">
+
+<style >
 .cart_submit:hover {
 	opacity: 0.8;
 	transition: opacity 0.8s;
@@ -147,7 +146,7 @@ request.setAttribute("wishlistId", wishlist.getWishListId());
 							class="position-relative btn btn-hover ms-md-2 bg-primary-green"
 							data-bs-toggle="tooltip" data-bs-placement="left"
 							title="Giỏ hàng">
-							<a href="gio-hang.jsp" target="_top" style="color: #fff"><i
+							<a href="${pageContext.request.contextPath}/CartDispatcher" target="_top" style="color: #fff"><i
 								class="fas fa-cart-shopping"></i></a> <span
 								class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"><%=cart.getTotalItems() != 0 ? cart.getTotalItems() : ""%></span>
 							<span class="visually-hidden">unread messages</span>
@@ -169,7 +168,6 @@ request.setAttribute("wishlistId", wishlist.getWishListId());
 														value="${item.calculatePrice()}" />
 												</jsp:include>
 											</c:forEach>
-
 										</div>
 										<div class="d-flex justify-content-between aligh-items-center"
 											style="padding: 10px 20px;">
@@ -192,6 +190,7 @@ request.setAttribute("wishlistId", wishlist.getWishListId());
 								</form>
 							</div>
 						</div>
+
 					</div>
 					<div class="languages d-none d-md-flex align-items-center">
 						<a class="nav-link text-primary-green fw-bolder" href="#">EN</a> <a
@@ -268,11 +267,11 @@ request.setAttribute("wishlistId", wishlist.getWishListId());
 	</header>
 </body>
 <style type="text/css">
-.title-group {
-	background-image: url("images/titlebackground/title-bg.png");
-	height: 200px;
-	box-shadow: inset 0px -40px 60px 40px rgba(0, 0, 0, 0.8);
-}
+/*.title-group {*/
+/*	background-image: url("images/titlebackground/title-bg.png");*/
+/*	height: 200px;*/
+/*	box-shadow: inset 0px -40px 60px 40px rgba(0, 0, 0, 0.8);*/
+/*}*/
 
 .text-green {
 	color: #679210;

@@ -16,6 +16,7 @@
 <link rel="stylesheet" type="text/css" href="styles/bootstrap.css?d">
 <link rel="stylesheet" type="text/css" href="styles/base.css?d">
 <link rel="stylesheet" type="text/css" href="styles/main.css?d">
+<link rel="stylesheet" type="text/css" href="styles/nav.css">
 <link rel="stylesheet" type="text/css" href="styles/lightslider.css">
 <link rel="stylesheet" type="text/css"
 	href="styles/san-pham-khuyen-mai.css?">
@@ -23,7 +24,7 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <title>Sản phẩm</title>
-<style type="text/css">
+<style>
 #pagination ul {
 	display: flex;
 	list-style: none;
