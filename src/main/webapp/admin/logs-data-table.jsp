@@ -34,24 +34,35 @@
         border-radius: 5px !important;
     }
 
-    .alertz {
+    .danger {
+        background-color: red;
+        padding: 10px !important;
+        border-radius: 5px !important;
+    }
+
+    .warning {
         background-color: orange;
         padding: 10px !important;
         border-radius: 5px !important;
+    }
 
+    .alertz {
+        background-color: yellow;
+        padding: 10px !important;
+        border-radius: 5px !important;
     }
 </style>
 <body>
 <jsp:include page="header.jsp"></jsp:include>
 <div class="row">
     <jsp:include page="left-menu.jsp"></jsp:include>
-    <div class="col-9 pt-3">
+    <div class="col-10 pt-3 ">
         <div
                 class="container title d-flex justify-content-between bg-white rounded">
             <h5>Hệ thống</h5>
             <span class="date">Thứ 2, ngày 30/10/2023 - 11 giờ 25 phút</span>
         </div>
-        <div class="container-fluid">
+        <div class="container-fluid ">
             <div class="row w-100">
                 <div class="col-12">
                     <div class="list-orders mt-3 bg-white">

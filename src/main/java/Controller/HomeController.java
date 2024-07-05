@@ -12,12 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import Database.IProductDAO;
 import Database.UserDAO;
+import Model.Log;
+import Model.LogLevel;
 import Model.User;
 import Model.Product;
-import Services.ICarouselServices;
-import Services.ICategoryService;
-import Services.IProductService;
-import Services.ProductService;
+import Services.*;
 
 /**
  * Servlet implementation class HomeController
@@ -30,7 +29,8 @@ public class HomeController extends HttpServlet {
 	ICarouselServices carouselServices;
 	@Inject
 	ICategoryService categoryService;
-
+	@Inject
+	ILogService logService;
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -45,10 +45,17 @@ public class HomeController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+		Log log = new Log();
+		log.setUrl("Home");
+		log.setDescription("View home page");
+		log.setIpAddress(request.getRemoteAddr());
+		log.setAfterValue("");
+		log.setNation("");
+		log.setCurrentValue("");
+		log.setLevel(LogLevel.INFO);
+		logService.saveLog(log);
 		request.setAttribute("productsSale", productService.findProductSales(30, 0));
 
-		System.out.println(productService.findProductSales(30, 0));
 		request.setAttribute("dsCuQua", productService.findProductByCategoryId(7, 16, 0));
 		request.setAttribute("dsGao", productService.findProductByCategoryId(1, 16, 0));
 		request.setAttribute("dsHat", productService.findProductByCategoryId(9, 16, 0));

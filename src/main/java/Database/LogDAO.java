@@ -9,13 +9,17 @@ import java.util.List;
 public class LogDAO extends AbtractDAO<Log> implements ILogDAO {
     @Override
     public List<Log> findAll() {
-        String sql ="SELECT * FROM logs";
+        String sql = "SELECT * FROM logs";
         return querry(sql, new LogMapper());
     }
 
     @Override
     public int save(Log log) {
-        return 0;
+        String sql = """
+                INSERT INTO logs(ipAddress,url,nation,currentValue,afterValue,description,level)
+                 VALUES(?,?,?,?,?,?,?)
+                """;
+        return query(sql, log.getIpAddress(), log.getUrl(), log.getNation(), log.getCurrentValue(), log.getAfterValue(), log.getDescription(), log.getLevel().toString());
     }
 
     @Override

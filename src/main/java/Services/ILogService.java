@@ -7,5 +7,6 @@ import javax.inject.Inject;
 import java.util.List;
 
 public interface ILogService {
-    public List<Log> findAllLogs();
+    List<Log> findAllLogs();
+    void saveLog(Log log);
 }
