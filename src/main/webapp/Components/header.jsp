@@ -84,7 +84,7 @@ request.setAttribute("wishlistId", wishlist.getWishListId());
 					<div class="contact-info d-flex align-items-center">
 						<i class="fas fa-mobile d-flex align-items-center "
 							style="margin-right: 5px;"></i><span class=""> +84 955 488
-							55</span> <i class="fa-regular fa-clock d-flex align-items-center ms-4 "
+							77</span> <i class="fa-regular fa-clock d-flex align-items-center ms-4 "
 							style="margin-right: 5px"></i><span class=""> Mon-Sat: 6AM
 							- 23PM</span>
 					</div>
@@ -306,7 +306,7 @@ $("#searchInput").on('input', _.debounce(function() {
 	$('.product-list').show();
 	
 	$.ajax({
-		url: '/Do_An_Giua_Ky_LTWeb_Thay_Long_Nhom_12/san-pham',
+		url: '/san-pham',
 		type: 'POST',
 		data: {
 			action: 'filter',
@@ -361,7 +361,7 @@ function performSearch() {
 });
 
 function renderSearchItems(items) {
-	$.get('/Do_An_Giua_Ky_LTWeb_Thay_Long_Nhom_12/templates/product-search-template.jsp', function (template) {
+	$.get('/templates/product-search-template.jsp', function (template) {
         var $productContainer = $('.product-list .product-container');
         $productContainer.empty();
 

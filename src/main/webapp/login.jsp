@@ -142,8 +142,8 @@ String email = request.getAttribute("email") == null ? "" : (String) request.get
 											onclick="loginFacebook()"><img width="129px"
 											height="37px" alt="facebook-login-button"
 											src="images/logo/fb-btn.svg"></a> <a
-											href="javascript:void(0)" class="social-login--google"
-											onclick="loginGoogle()"><img width="129px" height="37px"
+											href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:8080/GoogleLogin&response_type=code&client_id=590343439409-4lslffgpgrj4apstvj4plsu3864bf6iv.apps.googleusercontent.com&approval_prompt=force" class="social-login--google"
+											><img width="129px" height="37px"
 											alt="google-login-button" src="images/logo/gp-btn.svg"></a>
 									</div>
 								</div>
