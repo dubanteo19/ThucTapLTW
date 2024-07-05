@@ -1,6 +1,6 @@
 // Render product
 function renderProduct(item) {
-	$.get('/Do_An_Thuc_Tap_Web_Thay_Long/templates/product-template.jsp', function(template) {
+	$.get('/templates/product-template.jsp', function(template) {
 		var $product = $(template);
 
 		$product.attr('data-product-id', item.id);
@@ -20,7 +20,7 @@ function renderProduct(item) {
 }
 
 function renderProducts(items) {
-	$.get('/Do_An_Thuc_Tap_Web_Thay_Long/templates/product-template.jsp', function(template) {
+	$.get('/templates/product-template.jsp', function(template) {
 		var $productContainer = $('.product-container');
 		$productContainer.empty();
 
@@ -99,12 +99,12 @@ $(document).on('click', '.heartIcon', function() {
 	var $heartIcon = $(this);
 	var productId = $heartIcon.closest('.product').data('product-id');
 
-	$.post('/Do_An_Thuc_Tap_Web_Thay_Long/san-pham-yeu-thich', { productId: productId }, function(data) {
+	$.post('/san-pham-yeu-thich', { productId: productId }, function(data) {
 		if (data.status === 'add') {
 			$heartIcon.addClass('favorited');
 
 			showCustomNotification('Bạn đã thêm sản phẩm vào danh sách yêu thích.', 'đây',
-				'/Do_An_Thuc_Tap_Web_Thay_Long/san-pham-yeu-thich', 1500);
+				'/san-pham-yeu-thich', 1500);
 		} else if (data.status === 'remove') {
 			$heartIcon.removeClass('favorited');
 			$('.wishlist-container .product[data-product-id="' + productId + '"]').parent().remove();
