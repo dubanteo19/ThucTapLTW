@@ -33,7 +33,7 @@ body {
 .error-template {
     padding: 40px 15px;
     text-align: center;
-    color: #00000;
+    color: #000000;
 }
 
 .error-actions {
@@ -70,7 +70,7 @@ body {
                     Sorry, an error has occurred. The requested page was not found!
                 </div>
                 <div class="error-actions">
-                    <a href="http://localhost:8080/Do_An_Giua_Ky_LTWeb_Thay_Long_Nhom_12/Home" class="btn btn-primary btn-lg">
+                    <a href="http://localhost:8080/Home" class="btn btn-primary btn-lg">
                         <span class="glyphicon glyphicon-home"></span> Take Me Home
                     </a>
                     <a href="" class="btn btn-default btn-lg">

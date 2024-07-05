@@ -131,7 +131,7 @@
 <script type="text/javascript">
 
 function renderProducts(items, favoritedIds) {
-    $.get('/Do_An_Thuc_Tap_Web_Thay_Long/templates/product-template.jsp', function (template) {
+    $.get('/templates/product-template.jsp', function (template) {
         var $productContainer = $('.product-container');
         $productContainer.empty();
 
@@ -256,7 +256,7 @@ function formatPrice(price) {
 				dataSource: function(done){
 					var result = [];
 					$.ajax({
-						url: '/Do_An_Thuc_Tap_Web_Thay_Long/san-pham',
+						url: '/san-pham',
 			    	    type: 'POST',
 			    	    data: {
 			    	    	action: action,
@@ -285,7 +285,7 @@ function formatPrice(price) {
 			    },
 			    callback: function (data, pagination) {
 			    	$.ajax({
-			    	    url: '/Do_An_Thuc_Tap_Web_Thay_Long/san-pham',
+			    	    url: '/san-pham',
 			    	    type: 'POST',
 			    	    data: {
 			    	    	action: isCreate? action : null,
@@ -297,7 +297,7 @@ function formatPrice(price) {
 			    	    },
 			    	    dataType: 'json',
 			    	    success: function(response) {
-			    	    	var newUrl = '/Do_An_Thuc_Tap_Web_Thay_Long/san-pham?action=' + action + '&page=' +
+			    	    	var newUrl = '/san-pham?action=' + action + '&page=' +
 			    	    	  pagination.pageNumber;
 			    	    	
 			    	    	if(name !== null && name != undefined && name.trim() !== '') {

@@ -40,7 +40,6 @@
 					<div class="card-deck d-flex mr-child-20 product-container">
 						<c:forEach items="${dsCuQua}" var="item">
 							<c:set var="isSale" value="${item.getClass().getSimpleName() eq 'ProductSale'}" />
-
 							<jsp:include page="/templates/product-template.jsp">
 								<jsp:param name="id" value="${item.id}" />
 								<jsp:param name="name" value="${item.name}" />
