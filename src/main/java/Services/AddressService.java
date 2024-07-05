@@ -42,7 +42,16 @@ public class AddressService implements IAddressSerice{
 		return null;
 	}
 
-	
+	@Override
+	public boolean updateDefaultAddress(int userId) {
+		return addressDAO.updateDefaultAddress(userId);
+	}
+
+	@Override
+	public Address getDefaultAddressByUserId(int userId) {
+		return addressDAO.getDefaultAddressByUserId(userId);
+	}
+
 
 	@Override
 	public List<Address> findAll(int limit, int offSet) {

@@ -32,12 +32,37 @@
 </body>
 
 <script type="text/javascript">
-    $(".coupon-footer .coupon-copy").click(
-	    function() {
-		let code = $(this).data("target");
-		navigator.clipboard.writeText(code);
-		notify("Chúc mừng", "Bạn đã lưu mã giảm giá " + code
-			+ " thành công", "success", false, 800);
-	    })
+	$(document).ready(function(){
+		$(".coupon-footer .coupon-copy").click(function() {
+			let copyBtn = $(this);
+			let code = copyBtn.data("target");
+
+			if (copyBtn.hasClass('copied')) {
+				return;
+			}
+			navigator.clipboard.writeText(code).then(() => {
+				Swal.fire({
+					title: "Chúc mừng",
+					text: "Bạn đã lưu mã giảm giá " + code + " thành công",
+					icon: "success",
+					timer: 800,
+					showConfirmButton: false
+				});
+
+				$(".coupon-copy").not(copyBtn).text('Sao chép').removeClass('copied');
+
+				copyBtn.text('Đã lưu').addClass('copied');
+				copyBtn.off('click');
+			}).catch(err => {
+				Swal.fire({
+					title: "Lỗi",
+					text: "Không thể sao chép mã giảm giá. Vui lòng thử lại.",
+					icon: "error",
+					timer: 800,
+					showConfirmButton: false
+				});
+			});
+		});
+	});
 </script>
 </html>

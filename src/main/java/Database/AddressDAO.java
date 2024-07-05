@@ -39,6 +39,25 @@ public class AddressDAO extends AbtractDAO<Address> implements IAddressDAO{
 		String sql = "DELETE FROM addresses WHERE addressId = ?";
 		return update(sql, Addresses.getId());
 	}
+	public boolean updateDefaultAddress(int userId) {
+		Address currentDefaultAddress = getDefaultAddressByUserId(userId);
+
+		if (currentDefaultAddress != null) {
+			currentDefaultAddress.setDefault(false);
+			update(currentDefaultAddress);
+			return true;
+		}
+
+		return false;
+	}
+	public Address getDefaultAddressByUserId(int userId) {
+		String sql = "SELECT * FROM addresses WHERE userId = ? AND isDefault = 1";
+		List<Address> addresses = querry(sql, new AddressMapper(), userId);
+		if (!addresses.isEmpty()) {
+			return addresses.get(0);
+		}
+		return null;
+	}
 	public static void main(String[] args) {
 		AddressDAO dao = new AddressDAO();
 		System.out.println(dao.save(new Address( 4, "minh","0343521","BR-VT", "dat do", "phuoc hai","gan khu van hoa")));

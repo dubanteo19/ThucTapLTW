@@ -77,7 +77,11 @@
 <script type="text/javascript">
     $(document).ready(function () {
         function ajaxReview() {
+<<<<<<< HEAD
+            if (<%= isLogin %> false)
+=======
             if (<%= isLogin %> !=false)
+>>>>>>> c0dbb2aeee9116203ba32e979f2a0f90856d72c5
             {
                 let contents = $(".textarea textarea").val();
                 let rating = $(".star-rating input[type='radio']:checked").val();

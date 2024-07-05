@@ -19,12 +19,10 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css?version=1">
 <link rel="stylesheet" type="text/css" href="styles/news.css?version=1">
-<link rel="stylesheet" type="text/css"
-	href="styles/footer.css?version=1">
 <link rel="stylesheet" type="text/css" href="styles/nav.css?dsds">
 <link rel="stylesheet" type="text/css"
 	href="styles/lightslider.css?version=1">
-<link rel="stylesheet" href="styles/gio-hang.css">
+
 </head>
 <body>
 	<jsp:include page="Components/header.jsp" />
@@ -301,8 +299,8 @@
 <script type="text/javascript" src="javascripts/jquery-3.7.1.js"></script>
 <script type="text/javascript" src="javascripts/bootstrap.bundle.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script type="text/javascript" src="javascripts/shopping-cart.js"></script>
-<script type="text/javascript" src="javascripts/main.js"></script>
+<script type="text/javascript" src="javascripts/shopping-cart.js?k"></script>
+<script type="text/javascript" src="javascripts/main.js?j"></script>
 <script>
     
 <%String error = request.getAttribute("error") != null ? request.getAttribute("error") + " " : " ";%>

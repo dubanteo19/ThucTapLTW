@@ -75,12 +75,13 @@
 }
 
 .left {
-	padding-left: 10%;
+	padding-left: 5%;
 	padding-right: 2%;
 }
 
 .right {
 	height: 100vh;
+	padding-right: 5%;
 	border-left: 2px solid #ddd;
 	background-color: rgba(245, 245, 245, 0.8);
 }
@@ -152,6 +153,15 @@
 	padding: 4px 8px;
 	font-size: 10px;
 }
+.group-country{
+	padding: 0;!important;
+}
+.form-group {
+	 border-bottom: 0;!important;
+}
+.select2-container--default{
+	width: 100%!important;
+}
 </style>
 
 </head>
@@ -195,28 +205,42 @@ if (cart == null)
 									class="form-control" pattern="\d+" placeholder="Số điện thoại"
 									required="" value="${user.phone}">
 								<div id="error-phone" style="color: red;"></div>
-								<c:forEach var="item" items="${user.getAddresses()}">
-									<c:if test="${item.isDefault()}">
-										<input type="text" id="address" name="address"
-											class="form-control" placeholder="Địa chỉ (tùy chọn)"
-											value="${item.getDescription()}">
-										<div class="col">
-											<input type="text" id="provinces" name="provinces"
-												class="form-control" placeholder="Tỉnh, thành phố"
-												value="${item.getProvince()} ">
-										</div>
-										<div class="col">
-											<input type="text" id="districts" name="districts"
-												class="form-control" placeholder="Quận huyện"
-												value="${item.getDistricts()}">
-										</div>
-										<div class="col">
-											<input type="text" id="wards" name="wards"
-												class="form-control" placeholder="Phường xã"
-												value="${item.getWards()}">
-										</div>
-									</c:if>
-								</c:forEach>
+
+								<c:if test="${not item.isDefault()}">
+									<select name="otherAddress" id="otherAddressSelect" class="form-control" onchange="toggleCustomForm()">
+										<c:forEach var="item" items="${user.getAddresses()}">
+											<option value="">${item.getDescription()}
+													${item.getWards()} ${item.getDistricts()}
+													${item.getProvince()} </option>
+										</c:forEach>
+										<option value="other">Khác</option>
+									</select>
+								</c:if>
+									<c:forEach var="item" items="${user.getAddresses()}">
+										<c:if test="${item.isDefault()}">
+											<div class="group-country col-md-12 col-lg-12 col-sm-12 col-xs-12" id="customForm" style="display: none;">
+												<fieldset
+														class="form-group select-field select-field-provinces">
+													<select name="Province" value=""
+															class="form-control add provinces" id="provinces"
+															onchange="getDistricts()"></select>
+												</fieldset>
+												<fieldset class="form-group select-field">
+													<select name="District" class="form-control add districts"
+															value="" id="districts" onchange="getWards()">
+														<option value="" hidden="">Quận huyện</option>
+													</select>
+												</fieldset>
+												<fieldset class="form-group select-field">
+													<select name="Ward" class="form-control add wards"
+															value="" id="wards">
+														<option value="" hidden="">Phường xã</option>
+													</select>
+												</fieldset>
+											</div>
+										</c:if>
+
+									</c:forEach>
 								<textarea id="note" name="note" rows="4"
 									placeholder="Ghi chú (tùy chọn)"></textarea>
 							</form>
@@ -354,8 +378,18 @@ if (cart == null)
 	</div>
 </body>
 <script src="https://code.jquery.com/jquery-3.7.1.js"
-	integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-	crossorigin="anonymous"></script>
+		integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+		crossOrigin="anonymous"></script>
+<script src="javascripts/tinh.js" charset="UTF-8"></script>
+<link
+		href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+		rel="stylesheet" />
+<script
+		src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script type="text/javascript" src="javascripts/bootstrap.min.js"></script>
+<script type="text/javascript" src="javascripts/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script src="javascripts/vn-provinces.js"></script>
 <link
 	href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
@@ -363,45 +397,54 @@ if (cart == null)
 <script
 	src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
-    var districts;
-    var provincesElement = $("#provinces");
-    var districtsE = $("#districts");
-    for (const province of provinces) {
-        var optionE = $("<option>").html(province.name);
-        provincesElement.append(optionE);
-    }
-    provincesElement.select2();
-    function  getDistricts(){
-        var selectedProvince = $("#provinces").val();
+	var districts;
+	let provincesElement = $("#provinces");
+	let districtsE = $("#districts");
+	for (const province of provinces) {
+		var optionE = $("<option>").html(province.name);
+		provincesElement.append(optionE);
+	}
+	provincesElement.select2();
 
+	function getDistricts() {
 
-        districtsE.empty();
-        for (const province of provinces) {
-            if(province.name===(selectedProvince)){
-                districts = province.districts
-            }
-        }
-        for (const district of districts) {
-            var option = $("<option>").html(district.name);
-            districtsE.append(option);
-        }
-    }
+		var selectedProvince = $("#provinces").val();
+		districtsE.empty();
+		for (const province of provinces) {
+			if (province.name === (selectedProvince)) {
+				districts = province.districts
+			}
+		}
+		for (const district of districts) {
+			var option = $("<option>").html(district.name);
+			districtsE.append(option);
+		}
+	}
 
-    function  getWards(){
-        var selectedDisctrict = districtsE.val();
-        var wards;
-        var wardE = $("#wards");
-        wardE.empty();
-        for (const district of districts) {
-            if(district.name===(selectedDisctrict)){
-                wards = district.wards;
-            }
-        }
-        for (const ward of wards) {
-            var option = $("<option>").html(ward.name);
-            wardE.append(option);
-        }
-    }
+	function getWards() {
+		var selectedDisctrict = districtsE.val();
+		var wards;
+		var wardE = $("#wards");
+		wardE.empty();
+		for (const district of districts) {
+			if (district.name === (selectedDisctrict)) {
+				wards = district.wards;
+			}
+		}
+		for (const ward of wards) {
+			var option = $("<option>").html(ward.name);
+			wardE.append(option);
+		}
+	}
+	function toggleCustomForm() {
+		var select = document.getElementById("otherAddressSelect");
+		var customForm = document.getElementById("customForm");
+		if (select.value === "other") {
+			customForm.style.display = "block";
+		} else {
+			customForm.style.display = "none";
+		}
+	}
 
 </script>
 <script>

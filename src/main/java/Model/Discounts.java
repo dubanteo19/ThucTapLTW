@@ -11,6 +11,21 @@ public class Discounts {
 	private String description;
 	private double condition;
 	private Date expDate;
+	private int categoryId;
+	private int quantity;
+
+	public Discounts(int id, int amount, String code, String type, String description, double condition, Date expDate, int categoryId, int quantity) {
+		this.id = id;
+		this.amount = amount;
+		this.code = code;
+		this.type = type;
+		this.description = description;
+		this.condition = condition;
+		this.expDate = expDate;
+		this.categoryId = categoryId;
+		this.quantity = quantity;
+	}
+
 	/**
 	 * Constructor khởi tạo một đối tượng Discounts với các thuộc tính được cung
 	 * cấp.
@@ -21,12 +36,23 @@ public class Discounts {
 	 * @param type        Loại giảm giá
 	 * @param description Mô tả giảm giá
 	 * @param condition   Điều kiện áp dụng giảm giá
-	 * @param exp_date    Ngày hết hạn giảm giá
+	 * @param expDate    Ngày hết hạn giảm giá
 	 */
 
 	// Getter và Setter cho các thuộc tính
-	public Discounts(int id, int amount, String code, String type, String description, double condition,
-			Date expDate) {
+
+	public Discounts(int amount, String code, String type, double condition,Date date, int categoryId, int quantity) {
+		super();
+		this.amount = amount;
+		this.code = code;
+		this.type = type;
+		this.condition = condition;
+		this.expDate = date;
+		this.categoryId = categoryId;
+		this.quantity =quantity;
+	}
+
+	public Discounts(int id, int amount, String code, String type, String description, double condition, Date expDate) {
 		this.id = id;
 		this.amount = amount;
 		this.code = code;
@@ -34,26 +60,6 @@ public class Discounts {
 		this.description = description;
 		this.condition = condition;
 		this.expDate = expDate;
-	}
-
-	public Discounts(int id, int amount, String code, String type, double condition, Date expDate) {
-		super();
-		this.id = id;
-		this.amount = amount;
-		this.code = code;
-		this.type = type;
-		this.condition = condition;
-		this.expDate = expDate;
-	}
-
-	public Discounts(int amount, String code, String type, double condition,Date date) {
-		super();
-		this.amount = amount;
-		this.code = code;
-		this.type = type;
-		
-		this.condition = condition;
-		this.expDate = date;
 	}
 
 	public Discounts() {
@@ -115,12 +121,34 @@ public class Discounts {
 		this.expDate = date;
 	}
 
-	@Override
-	public String toString() {
-		return "Discounts [id=" + id + ", amount=" + amount + ", code=" + code + ", type=" + type + ", description="
-				+ description + ", condition=" + condition + ", expDate=" + expDate + "]";
+	public int getCategoryId() {
+		return categoryId;
 	}
 
-	
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
+	}
 
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	@Override
+	public String toString() {
+		return "Discounts{" +
+				"id=" + id +
+				", amount=" + amount +
+				", code='" + code + '\'' +
+				", type='" + type + '\'' +
+				", description='" + description + '\'' +
+				", condition=" + condition +
+				", expDate=" + expDate +
+				", categoryId=" + categoryId +
+				", quantity=" + quantity +
+				'}';
+	}
 }

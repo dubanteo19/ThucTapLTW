@@ -37,4 +37,29 @@ public class DiscountService implements IDiscountService {
 		return discountDAO.delete(discounts);
 	}
 
+	@Override
+	public Discounts findById(int id) {
+		return null;
+	}
+
+	@Override
+	public Discounts findByCode(String code) {
+		return null;
+	}
+
+	@Override
+	public List<Discounts> findActiveDiscounts() {
+		return null;
+	}
+
+	@Override
+	public List<Discounts> findByCategoryId(int categoryId) {
+		return null;
+	}
+
+	@Override
+	public boolean isApplicable(Discounts discounts, double condition) {
+		return false;
+	}
+
 }

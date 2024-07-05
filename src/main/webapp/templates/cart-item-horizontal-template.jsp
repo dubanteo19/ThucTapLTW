@@ -21,7 +21,7 @@
 			</div>
 		</div>
 		<div class="grid col-xl-2">
-			<div class="button-control d-flex"
+			<div class="button-control d-flex justify-content-between"
 				style="border: 1px solid #000; border-radius: 4px; padding: 2px;">
 				<div class="btn-green btn-small cart_decrease"
 					style="width: 26px; height: 26px; border-radius: 4px;">

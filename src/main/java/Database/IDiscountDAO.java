@@ -13,4 +13,14 @@ public interface IDiscountDAO {
 	boolean update(Discounts discounts);
 	
 	boolean delete(Discounts discounts);
+
+	Discounts findById(int id);
+
+	Discounts findByCode(String code);
+
+	List<Discounts> findActiveDiscounts();
+
+	List<Discounts> findByCategoryId(int categoryId);
+
+	boolean isApplicable(Discounts discounts, double condition);
 }
