@@ -4,5 +4,6 @@ public enum LogsColumn {
     LogId, IpAddress,
     Url, Nation,
     CurrentValue, AfterValue,
-    Description, Level
+    Description, Level,
+    DateCreated
 }

@@ -1,8 +1,10 @@
 package Controller.Admin;
 
+import Model.Log;
 import Model.Order_details;
 import Model.Orders;
 import Model.Status;
+import Services.ILogService;
 import Services.IOrderDetailsService;
 import Services.IOrderService;
 
@@ -18,11 +20,10 @@ import java.util.List;
 /**
  * Servlet implementation class OrderController
  */
-@WebServlet("/admin/OrderController")
+@WebServlet("/admin/LogController")
 public class LogController extends HttpServlet {
 	@Inject
-	IOrderService orderService;
-
+	ILogService logService;
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
@@ -32,7 +33,6 @@ public class LogController extends HttpServlet {
 		String action = request.getParameter("action") != null ? request.getParameter("action") : "get";
 		switch (action) {
 		case "get" -> get(request, response);
-		case "put" -> put(request, response);
 
 		default -> throw new IllegalArgumentException("Unexpected value: " + action);
 		}
@@ -44,9 +44,9 @@ public class LogController extends HttpServlet {
 	 *      response)
 	 */
 	protected void get(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<Orders> orders = orderService.findAll();
-		request.setAttribute("logs", orders);
-		request.getRequestDispatcher("/admin/orders-data-table.jsp").forward(request, response);
+		List<Log> logs = logService.findAllLogs();
+		request.setAttribute("logs",logs);
+		request.getRequestDispatcher("/admin/logs-data-table.jsp").forward(request, response);
 	}
 
 	protected void detail(HttpServletRequest request, HttpServletResponse response)
@@ -60,18 +60,6 @@ public class LogController extends HttpServlet {
 
 	}
 
-	protected void put(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		int statusId = request.getParameter("statusId") != null ? Integer.valueOf(request.getParameter("statusId")) : 0;
-		int orderId = request.getParameter("orderId") != null ? Integer.valueOf(request.getParameter("orderId")) : 0;
-		Orders order = orderService.findById(orderId);
-		order.setStatus(new Status(statusId, ""));
-		boolean re = orderService.updateStatus(order);
-		String result = re ? "Cập nhập trạng thái đơn hàng thành công" : "Cập nhập trạng thái đơn hàng thất bại";
-		request.setAttribute("result", result);
-		detail(request, response);
-		System.out.println(order);
-	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

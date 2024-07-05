@@ -30,7 +30,7 @@
     <div class="col-9 pt-3">
         <div
                 class="container title d-flex justify-content-between bg-white rounded">
-            <h5>Quản lý đơn hàng</h5>
+            <h5>Hệ thống</h5>
             <span class="date">Thứ 2, ngày 30/10/2023 - 11 giờ 25 phút</span>
         </div>
         <div class="container-fluid">
@@ -38,37 +38,37 @@
                 <div class="col-12">
                     <div class="list-orders mt-3 bg-white">
                         <div class="sub-title">
-                            <h4>Danh sách đơn hàng</h4>
+                            <h4>Bảng ghi log</h4>
                         </div>
                         <table class="table" id="orders">
                             <thead>
                             <tr>
-                                <th scope="col">ID đơn hàng</th>
-                                <th scope="col">Tên khách hàng</th>
-                                <th scope="col">Tổng tiền</th>
-                                <th scope="col">Trạng thái</th>
-                                <th scope="col">Ngày tạo đơn hàng</th>
+                                <th scope="col">ID Log</th>
+                                <th scope="col">Địa chỉ IP</th>
+                                <th scope="col">Quốc gia</th>
+                                <th scope="col">URL</th>
+                                <th scope="col">LEVEL</th>
+                                <th scope="col">Giá trị trước</th>
+                                <th scope="col">Giá trị sau</th>
+                                <th scope="col">Miêu tả</th>
+                                <th scope="col">Thời gian</th>
                                 <th scope="col">Chức năng</th>
                             </tr>
                             </thead>
-                            <c:forEach items="${orders}" var="item">
+                            <c:forEach items="${logs}" var="item">
+                                <c:set var="className" value="${item.level}"/>
                                 <tbody id="${item.id}">
                                 <tr>
                                     <td>${item.id}</td>
-                                    <td>${item.user.fullName}</td>
-                                    <td><fmt:formatNumber value="${item.totalPrice}"
-                                                          type="currency" /></td>
-                                    <td>${item.status.description}</td>
-                                    <td>${item.getDateCreated()}</td>
-                                    <td class="text-center"><div class="btn-group">
-                                        <a href="OrderController?action=detail&orderId=${item.id}">
-                                            <button
-                                                    class="btn btn-secondary btn-sm me-1 btn-order-detail"
-                                                    data-target=${item.id}>
-                                                <i class="fa-solid fa-circle-info"></i>
-                                            </button>
-                                        </a>
-                                    </div></td>
+                                    <td>${item.ipAddress}</td>
+                                    <td>${item.nation}</td>
+                                    <td>${item.url}</td>
+                                    <td>${item.level}</td>
+                                    <td>${item.currentValue}</td>
+                                    <td>${item.afterValue}</td>
+                                    <td>${item.description}</td>
+                                    <td>${item.dateCreated}</td>
+                                    <td></td>
                                 </tr>
                                 </tbody>
                             </c:forEach>
