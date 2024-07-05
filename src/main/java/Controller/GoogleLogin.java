@@ -48,6 +48,7 @@ public class GoogleLogin extends HttpServlet {
             session.setAttribute("wishlist", new Wishlist(userServices.getWishlist(user.getId())));
         }
         session.setAttribute("user", user);
+        System.out.println(user);
         String url = "tai-khoan.jsp";
         response.sendRedirect(url);
     }

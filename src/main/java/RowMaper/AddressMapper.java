@@ -11,7 +11,6 @@ public class AddressMapper implements RowMapper<Address>{
 	@Override
 	public Address map(ResultSet r) {
 		Address address = new Address();
-		
 		try {
 			address.setId(r.getInt(AddressesColumn.AddressId.name()));
 			address.setUserId(r.getInt(AddressesColumn.UserId.name()));
