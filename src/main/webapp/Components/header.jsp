@@ -146,7 +146,7 @@ request.setAttribute("wishlistId", wishlist.getWishListId());
 							class="position-relative btn btn-hover ms-md-2 bg-primary-green"
 							data-bs-toggle="tooltip" data-bs-placement="left"
 							title="Giỏ hàng">
-							<a href="${pageContext.request.contextPath}/CartDispatcher" target="_top" style="color: #fff"><i
+							<a href="../../CartDispatcher" target="_top" style="color: #fff"><i
 								class="fas fa-cart-shopping"></i></a> <span
 								class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"><%=cart.getTotalItems() != 0 ? cart.getTotalItems() : ""%></span>
 							<span class="visually-hidden">unread messages</span>

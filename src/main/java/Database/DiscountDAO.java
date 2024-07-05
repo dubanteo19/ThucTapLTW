@@ -76,42 +76,42 @@ public class DiscountDAO extends AbtractDAO<Discounts> implements IDiscountDAO {
 		List<Discounts> allDiscounts = dao.findAll();
 		System.out.println("All Discounts: " + allDiscounts);
 
-//		// Test save
-//		String selectedDate = "25/01/2024";
-//		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-//		java.util.Date date = dateFormat.parse(selectedDate);
-//		Date sqlDate = new Date(date.getTime());
-//		Discounts newDiscount = new Discounts(0, 10, "NEWCODE", "type1", "description", 100.0, sqlDate, 1, 50);
-//		int newDiscountId = dao.save(newDiscount);
+		// Test save
+		String selectedDate = "25/01/2024";
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		java.util.Date date = dateFormat.parse(selectedDate);
+		Date sqlDate = new Date(date.getTime());
+		Discounts newDiscount = new Discounts(0, 10, "NEWCODE", "type1", "description", 100.0, sqlDate, 1, 50);
+		int newDiscountId = dao.save(newDiscount);
 //		System.out.println("Saved new discount with ID: " + newDiscountId);
-//
-//		// Test findById
-//		Discounts discountById = dao.findById(newDiscountId);
-//		System.out.println("Found Discount by ID: " + discountById);
-//
-//		// Test findByCode
-//		Discounts discountByCode = dao.findByCode("NEWCODE");
-//		System.out.println("Found Discount by Code: " + discountByCode);
+
+		// Test findById
+		Discounts discountById = dao.findById(newDiscountId);
+		System.out.println("Found Discount by ID: " + discountById);
+
+		// Test findByCode
+		Discounts discountByCode = dao.findByCode("NEWCODE");
+		System.out.println("Found Discount by Code: " + discountByCode);
 //
 //		// Test update
-//		discountById.setAmount(20);
-//		boolean updateResult = dao.update(discountById);
-//		System.out.println("Update result: " + updateResult);
-//
-//		// Test delete
-//		boolean deleteResult = dao.delete(discountById);
-//		System.out.println("Delete result: " + deleteResult);
-//
-//		// Test findActiveDiscounts
-//		List<Discounts> activeDiscounts = dao.findActiveDiscounts();
-//		System.out.println("Active Discounts: " + activeDiscounts);
-//
-//		// Test findByCategoryId
-//		List<Discounts> discountsByCategory = dao.findByCategoryId(1);
-//		System.out.println("Discounts by Category: " + discountsByCategory);
-//
-//		// Test isApplicable
-//		boolean applicable = dao.isApplicable(newDiscount, 200.0);
-//		System.out.println("Is discount applicable: " + applicable);
+		discountById.setAmount(20);
+		boolean updateResult = dao.update(discountById);
+		System.out.println("Update result: " + updateResult);
+
+		// Test delete
+		boolean deleteResult = dao.delete(discountById);
+		System.out.println("Delete result: " + deleteResult);
+
+		// Test findActiveDiscounts
+		List<Discounts> activeDiscounts = dao.findActiveDiscounts();
+		System.out.println("Active Discounts: " + activeDiscounts);
+
+		// Test findByCategoryId
+		List<Discounts> discountsByCategory = dao.findByCategoryId(1);
+		System.out.println("Discounts by Category: " + discountsByCategory);
+
+		// Test isApplicable
+		boolean applicable = dao.isApplicable(newDiscount, 200.0);
+		System.out.println("Is discount applicable: " + applicable);
 	}
 }

@@ -52,11 +52,89 @@
     overflow: auto;
     resize: vertical;
 }
+
+
+.col-cart-right {
+    padding-right: 0;
+}
+
+.formVAT {
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.formVAT h4 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.timedeli-modal {
+    margin-bottom: 20px;
+}
+
+.input_group {
+    margin-bottom: 15px;
+}
+
+.date_pick .date_picker,
+.date_time select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s;
+}
+
+.date_pick .date_picker:focus,
+.date_time select:focus {
+    border-color: #007bff;
+}
+
+.r-bill .checkbox {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.r-bill .checkbox input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.r-bill .checkbox label.box {
+    margin-right: 10px;
+}
+
+.r-bill .checkbox label.title {
+    font-weight: 500;
+}
+
 .bill-field {
-    transition: max-height 0.1s ease;
+    display: none;
+    margin-top: 20px;
 }
 
-.bill-field.active {
-    max-height: 500px; /* Điều chỉnh độ cao tùy ý */
+.bill-field .form-group {
+    margin-bottom: 15px;
 }
 
+.bill-field .form-group label {
+    font-weight: 500;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.bill-field .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s;
+}
+
+.bill-field .form-control:focus {
+    border-color: #007bff;
+}

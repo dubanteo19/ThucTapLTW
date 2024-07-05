@@ -19,7 +19,7 @@ public class DiscountMapper implements RowMapper<Discounts> {
 			discounts.setDescription(r.getString(DiscountsColumn.Description.name()));
 			discounts.setType(r.getString(DiscountsColumn.Type.name()));
 			discounts.setExpDate(r.getDate(DiscountsColumn.ExpDate.name()));
-			discounts.setCategoryId(r.getInt(DiscountsColumn.CaterogyId.name()));
+			discounts.setCategoryId(r.getInt(DiscountsColumn.CategoryId.name()));
 			discounts.setQuantity(r.getInt(DiscountsColumn.Quantity.name()));
 			
 		} catch (SQLException e) {

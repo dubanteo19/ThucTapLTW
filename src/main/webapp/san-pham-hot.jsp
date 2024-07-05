@@ -193,6 +193,7 @@
 								</div>
 							</div>
 						</div>
+					</section>
 				</div>
 			</div>
 		</div>
@@ -200,6 +201,7 @@
 		<footer>
 			<jsp:include page="Components/footer.jsp" />
 		</footer>
+	</div>
 </body>
 <script type="text/javascript" src="javascripts/jquery-3.7.1.js"></script>
 <script type="text/javascript" src="javascripts/lightslider.js"></script>

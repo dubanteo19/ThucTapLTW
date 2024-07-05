@@ -52,6 +52,16 @@ public class Discounts {
 		this.quantity =quantity;
 	}
 
+	public Discounts(int id, int amount, String code, String type, String description, double condition, Date expDate) {
+		this.id = id;
+		this.amount = amount;
+		this.code = code;
+		this.type = type;
+		this.description = description;
+		this.condition = condition;
+		this.expDate = expDate;
+	}
+
 	public Discounts() {
 	}
 
