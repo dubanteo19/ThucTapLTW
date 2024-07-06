@@ -17,6 +17,18 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css"
 	rel="stylesheet" type="text/css" />
+
+	<style>
+		.label {
+			font-size: 14px;
+			font-weight: bold;
+			color: var(--primary-green);
+		}
+
+		.form-control {
+			margin-bottom: 10px;
+		}
+	</style>
 </head>
 <body>
 	<jsp:include page="header.jsp"></jsp:include>
@@ -35,28 +47,39 @@
 				<input type="hidden" name="product_id" value="${product.id}">
 				<div class="row">
 					<div class="col-6">
+						<label class="label" for="product-id">Mã sản phẩm</label>
 						<div class="input-group">
-							<input class="form-control" type="text" placeholder="Mã sản phẩm"
+
+							<input class="form-control" id="product-id" type="text" placeholder="Mã sản phẩm"
 								disabled value=${product.id}>
 							<div class="input-group-append" style="margin-top: 10px;">
 								<div class="input-group-text">#</div>
 							</div>
 						</div>
-						<input class="form-control" name="product_name" type="text"
+						<label class="label" for="product-name">Tên sản phẩm</label>
+						<input class="form-control" id="product-name" name="product_name" type="text"
 							placeholder="Tên sản phẩm" required value='${product.name}'>
-						<input type="number" class="form-control"
+						<label class="label" for="product-sell-price">Giá bán</label>
+						<input type="number" class="form-control" id="product-sell-price"
 							name="product_sell_price" placeholder="Giá bán" required
-							value=${product.unitPrice}> <input type="number"
-							class="form-control" name="product_buy_price"
+							value=${product.unitPrice}>
+						<label class="label" for="product-buy-price">Giá nhập</label>
+						<input type="number"
+							class="form-control" id="product-buy-price" name="product_buy_price"
 							placeholder="Giá nhập" required value=${product.costPrice}>
 					</div>
 					<div class="col-6">
-						<input class="form-control" type="number" name="product_quantity"
+						<label class="label" for="product-quantity">Số lượng</label>
+						<input class="form-control" id="product-quantity" type="number" name="product_quantity"
 							type="text" placeholder="Số lượng" required
-							value=${product.unitsInStock}> <input
-							class="form-control" type="number" name="product_weight"
+							value=${product.unitsInStock}>
+						<label class="label" for="product-weight">Trọng lượng</label>
+						<input
+							class="form-control" type="number" id="product-weight" name="product_weight"
 							type="text" placeholder="Trọng lượng" required
-							value=${product.weight}> <select name="danhMuc"
+							value=${product.weight}>
+						<label class="label" for="danhMuc">Danh mục</label>
+						<select name="danhMuc"
 							id="danhMuc" class="form-control" required>
 							<option hidden value="">Danh mục</option>
 							<c:forEach var="item" items="${categories}">
