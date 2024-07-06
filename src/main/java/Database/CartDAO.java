@@ -2,7 +2,12 @@ package Database;
 
 import Model.CartItem;
 import RowMaper.CartItemMapper;
+import adapter.CartItemTypeAdapter;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CartDAO extends AbtractDAO<CartItem> implements ICartItemDAO {
@@ -26,7 +31,42 @@ public class CartDAO extends AbtractDAO<CartItem> implements ICartItemDAO {
         return querry(sql, new CartItemMapper(), userId);
     }
 
+    @Override
+    public int insert(int userId, List<CartItem> cartItems) {
+        String sql = "INSERT INTO carts (userId, cartItems) VALUES (?, ?)";
+        return save(sql, userId, toJson(cartItems));
+    }
+
+    @Override
+    public boolean update(int userId, List<CartItem> cartItems) {
+        String sql = "UPDATE carts SET cartItems = ? WHERE userId = ?";
+        return update(sql, toJson(cartItems), userId);
+    }
+
+    @Override
+    public boolean delete(int userId) {
+        String sql = "DELETE FROM carts WHERE userId = ?";
+        return update(sql, userId);
+    }
+
+    @Override
+    public int getCountCartItems(int userId) {
+        String sql = """
+                SELECT count(*) AS cartItem
+                FROM carts, JSON_TABLE(cartItems, '$[*]' COLUMNS (cartItem JSON PATH '$')) AS ci\s
+                WHERE userId = ?
+                """;
+        return count(sql, userId);
+    }
+
+    private String toJson(List<CartItem> cartItems) {
+        Gson gson = new GsonBuilder().registerTypeAdapter(CartItem.class, new CartItemTypeAdapter()).create();
+        return gson.toJson(cartItems);
+    }
+
     public static void main(String[] args) {
-        System.out.println(new CartDAO().findByUserId(12));
+//        List<CartItem> cartItems = new CartDAO().findByUserId(12);
+//        System.out.println(new CartDAO().update(1, cartItems));
+        System.out.println(new CartDAO().getCountCartItems(12));
     }
 }

@@ -1,10 +1,13 @@
 package Controller.cart;
 
 import Model.CartItem;
+import Model.User;
+import Services.ICartService;
 import Utils.JsonUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,6 +28,9 @@ public class CartController extends HttpServlet {
 
     private final String PRODUCT_NOT_FOUND = "Lỗi, không tìm thấy sản phẩm";
     private final String ADD_SUCCESS = "Thêm vào giỏ hàng thành công";
+
+    @Inject
+    private ICartService cartService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -58,8 +64,11 @@ public class CartController extends HttpServlet {
         int quantity = Integer.parseInt(req.getParameter("quantity"));
         JsonObject jsonResp = new JsonObject();
         int status;
+        User user = (User) session.getAttribute("user");
+        int userId = -1;
+        if(user != null) userId = user.getId();
 
-        if (cart.update(idProduct, quantity)) {
+        if (cart.update(userId, idProduct, quantity)) {
             session.setAttribute("cart", cart);
 
             addJsonCart(cart.getItem(idProduct), jsonResp);
@@ -85,8 +94,11 @@ public class CartController extends HttpServlet {
         int idProduct = Integer.parseInt(req.getParameter("idProduct"));
         JsonObject jsonResp = new JsonObject();
         int status;
+        User user = (User) session.getAttribute("user");
+        int userId = -1;
+        if(user != null) userId = user.getId();
 
-        if (cart.add(idProduct, quantity)) {
+        if (cart.add(userId, idProduct, quantity)) {
             session.setAttribute("cart", cart);
 
             addJsonCart(cart.getItem(idProduct), jsonResp);

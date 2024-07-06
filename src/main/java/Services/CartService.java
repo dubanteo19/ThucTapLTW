@@ -17,6 +17,16 @@ public class CartService implements ICartService {
     }
 
     @Override
+    public int insert(int userId, List<CartItem> cartItems) {
+        return cartItemDAO.insert(userId, cartItems);
+    }
+
+    @Override
+    public boolean update(int userId, List<CartItem> cartItems) {
+        return cartItemDAO.update(userId, cartItems);
+    }
+
+    @Override
     public List<CartItem> findAll() {
         return List.of();
     }

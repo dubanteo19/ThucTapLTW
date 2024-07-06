@@ -60,7 +60,7 @@ public class GoogleLogin extends HttpServlet {
             if(cart == null) {
                 cart = new Cart();
             }
-            cart.addAll(map);
+            cart.addAll(user.getId(), map);
 
             session.setAttribute("cart", cart);
             session.setAttribute("wishlist", new Wishlist(userServices.getWishlist(user.getId())));

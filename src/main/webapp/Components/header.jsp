@@ -66,6 +66,7 @@ User user = session.getAttribute("user") == null ? null : (User) session.getAttr
 Cart cart = (Cart) session.getAttribute("cart");
 if (cart == null) {
 	cart = new Cart();
+	session.setAttribute("cart", cart);
 }
 Wishlist wishlist = (Wishlist) session.getAttribute("wishlist");
 if (wishlist == null) {

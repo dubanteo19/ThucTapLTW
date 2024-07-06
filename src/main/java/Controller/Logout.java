@@ -44,6 +44,8 @@ public class Logout extends HttpServlet {
 		System.out.println("abc");
 		if(user != null) {
 			session.removeAttribute("user");
+			session.removeAttribute("cart");
+			session.removeAttribute("wishlist");
 			response.sendRedirect("Home");
 		}
 		
