@@ -17,6 +17,7 @@ public class User {
 	private Date lastUpdated;
 	private List<Address> addresses;
 	private List<Orders> orders;
+
 	/**
 	 * Constructor khởi tạo một đối tượng User với các thuộc tính được cung cấp.
 	 *

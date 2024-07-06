@@ -1,9 +1,8 @@
 package Controller;
 
-import Model.GoogleAccount;
-import Model.Status;
-import Model.User;
-import Model.Wishlist;
+import Controller.cart.Cart;
+import Model.*;
+import Services.ICartService;
 import Services.UserServices;
 import Utils.BHash;
 import Utils.GoogleLoginHelper;
@@ -13,11 +12,16 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @WebServlet(name = "GoogleLogin", value = "/GoogleLogin")
 public class GoogleLogin extends HttpServlet {
     @Inject
     UserServices userServices;
+    @Inject
+    private ICartService cartService;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -45,6 +49,20 @@ public class GoogleLogin extends HttpServlet {
             session.setAttribute("wishlist", new Wishlist());
             userServices.save(user);
         } else {
+            List<CartItem> cartItems = cartService.findByUserId(user.getId());
+
+            Map<Integer, CartItem> map = new HashMap<>();
+            cartItems.forEach(ci -> {
+                map.put(ci.getProduct().getId(), ci);
+            });
+
+            Cart cart = (Cart) session.getAttribute("cart");
+            if(cart == null) {
+                cart = new Cart();
+            }
+            cart.addAll(user.getId(), map);
+
+            session.setAttribute("cart", cart);
             session.setAttribute("wishlist", new Wishlist(userServices.getWishlist(user.getId())));
         }
         session.setAttribute("user", user);

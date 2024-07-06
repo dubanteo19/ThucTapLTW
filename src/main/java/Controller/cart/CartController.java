@@ -1,7 +1,11 @@
 package Controller.cart;
 
-import java.io.IOException;
-import java.net.http.HttpResponse;
+import Model.CartItem;
+import Model.User;
+import Services.ICartService;
+import Utils.JsonUtils;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -10,106 +14,111 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
-import Model.CartItem;
-import Utils.JsonUtils;
+import java.io.IOException;
 
 /**
  * Servlet implementation class Cart
  */
 @WebServlet("/CartController")
 public class CartController extends HttpServlet {
-	
-	private static final long serialVersionUID = 1L;
 
-	private Cart cart;
+    private static final long serialVersionUID = 1L;
 
-	private final String PRODUCT_NOT_FOUND = "Lỗi, không tìm thấy sản phẩm";
-	private final String ADD_SUCCESS = "Thêm vào giỏ hàng thành công";
+    private Cart cart;
 
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    private final String PRODUCT_NOT_FOUND = "Lỗi, không tìm thấy sản phẩm";
+    private final String ADD_SUCCESS = "Thêm vào giỏ hàng thành công";
 
-	}
+    @Inject
+    private ICartService cartService;
 
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String action = req.getParameter("action");
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		if (action != null) {
-			action = action.trim().toUpperCase();
-		} else
-			action = "";
+    }
 
-		switch (action) {
-		case "ADD" -> addToCart(req, resp);
-		case "UPDATE" -> update(req, resp);
-		}
-	}
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = req.getParameter("action");
 
-	private void update(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		HttpSession session = req.getSession();
+        if (action != null) {
+            action = action.trim().toUpperCase();
+        } else
+            action = "";
 
-		cart = (Cart) session.getAttribute("cart");
+        switch (action) {
+            case "ADD" -> addToCart(req, resp);
+            case "UPDATE" -> update(req, resp);
+        }
+    }
 
-		if (cart == null)
-			return;
+    private void update(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
 
-		int idProduct = Integer.parseInt(req.getParameter("idProduct"));
-		int quantity = Integer.parseInt(req.getParameter("quantity"));
-		JsonObject jsonResp = new JsonObject();
-		int status;
+        cart = (Cart) session.getAttribute("cart");
 
-		if (cart.update(idProduct, quantity)) {
-			session.setAttribute("cart", cart);
+        if (cart == null)
+            return;
 
-			addJsonCart(cart.getItem(idProduct), jsonResp);
+        int idProduct = Integer.parseInt(req.getParameter("idProduct"));
+        int quantity = Integer.parseInt(req.getParameter("quantity"));
+        JsonObject jsonResp = new JsonObject();
+        int status;
+        User user = (User) session.getAttribute("user");
+        int userId = -1;
+        if(user != null) userId = user.getId();
 
-			status = HttpServletResponse.SC_OK;
-		} else {
-			jsonResp.addProperty("error", PRODUCT_NOT_FOUND);
-			status = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
-		}
-		JsonUtils.sendJsonResponse(resp, status, jsonResp.toString());
-	}
+        if (cart.update(userId, idProduct, quantity)) {
+            session.setAttribute("cart", cart);
 
-	private void addToCart(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		HttpSession session = req.getSession();
-		cart = (Cart) session.getAttribute("cart");
-		if (cart == null) {
-			cart = new Cart();
-			session.setAttribute("cart", cart);
-		}
-		int quantity = 1;
-		quantity = req.getParameter("quanlity") == null ? quantity : Integer.valueOf(req.getParameter("quanlity"));
-		int idProduct = Integer.parseInt(req.getParameter("idProduct"));
-		JsonObject jsonResp = new JsonObject();
-		int status;
-		if (cart.add(idProduct, quantity)) {
-			session.setAttribute("cart", cart);
+            addJsonCart(cart.getItem(idProduct), jsonResp);
 
-			addJsonCart(cart.getItem(idProduct), jsonResp);
+            status = HttpServletResponse.SC_OK;
+        } else {
+            jsonResp.addProperty("error", PRODUCT_NOT_FOUND);
+            status = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+        }
+        JsonUtils.sendJsonResponse(resp, status, jsonResp.toString());
+    }
 
-			jsonResp.addProperty("success", ADD_SUCCESS);
+    private void addToCart(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        cart = (Cart) session.getAttribute("cart");
+        if (cart == null) {
+            cart = new Cart();
+            session.setAttribute("cart", cart);
+        }
 
-			status = HttpServletResponse.SC_OK;
-		} else {
-			jsonResp.addProperty("error", PRODUCT_NOT_FOUND);
-			status = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
-		}
+        int quantity = 1;
+        quantity = req.getParameter("quantity") == null ? quantity : Integer.valueOf(req.getParameter("quantity"));
+        int idProduct = Integer.parseInt(req.getParameter("idProduct"));
+        JsonObject jsonResp = new JsonObject();
+        int status;
+        User user = (User) session.getAttribute("user");
+        int userId = -1;
+        if(user != null) userId = user.getId();
 
-		JsonUtils.sendJsonResponse(resp, status, jsonResp.toString());
-	}
+        if (cart.add(userId, idProduct, quantity)) {
+            session.setAttribute("cart", cart);
 
-	private void addJsonCart(CartItem item, JsonObject jsonResp) {
-		jsonResp.addProperty("totalItems", cart.getTotalItems());
-		jsonResp.addProperty("totalPrice", cart.getTotalPrice());
-		jsonResp.addProperty("itemTotalPrice", item != null ? item.calculatePrice() : 0);
+            addJsonCart(cart.getItem(idProduct), jsonResp);
 
-		jsonResp.add("item", new Gson().toJsonTree(item, CartItem.class));
-	}
+            jsonResp.addProperty("success", ADD_SUCCESS);
+
+            status = HttpServletResponse.SC_OK;
+        } else {
+            jsonResp.addProperty("error", PRODUCT_NOT_FOUND);
+            status = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+        }
+
+        JsonUtils.sendJsonResponse(resp, status, jsonResp.toString());
+    }
+
+    private void addJsonCart(CartItem item, JsonObject jsonResp) {
+        jsonResp.addProperty("totalItems", cart.getTotalItems());
+        jsonResp.addProperty("totalPrice", cart.getTotalPrice());
+        jsonResp.addProperty("itemTotalPrice", item != null ? item.calculatePrice() : 0);
+
+        jsonResp.add("item", new Gson().toJsonTree(item, CartItem.class));
+    }
 }

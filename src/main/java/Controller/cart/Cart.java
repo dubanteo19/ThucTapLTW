@@ -1,74 +1,113 @@
 package Controller.cart;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.inject.Inject;
-
+import Database.CartDAO;
+import Database.ICartItemDAO;
 import Database.IProductDAO;
 import Database.ProductDAO;
 import Model.CartItem;
 import Model.Product;
-import Services.IProductService;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Cart {
 
-    IProductDAO productService;
-	
-	private HashMap<Integer, CartItem> cart;
+    IProductDAO productDAO = new ProductDAO();
+    ICartItemDAO cartItemDAO = new CartDAO();
 
-	public Cart() {
-		productService = new ProductDAO();
-		cart = new HashMap<Integer, CartItem>();
-	}
+    private Map<Integer, CartItem> cart;
 
-	public boolean add(int id) {
-		return add(id, 1);
-	}
+    public Cart() {
+        cart = new HashMap<Integer, CartItem>();
+    }
 
-	public boolean add(int id, int quantity) {
-		Product product = productService.findProductById(id);
-		if (product == null)
-			return false;
-		CartItem cartItem = cart.getOrDefault(id, new CartItem(product, 0));
-		cartItem.increase(quantity);
+    public Cart(Map<Integer, CartItem> cart) {
+        this.cart = cart;
+    }
 
-		cart.put(id, cartItem);
+    public boolean add(int userId, int productId) {
+        return add(userId, productId, 1);
+    }
 
-		return true;
-	}
+    public boolean add(int userId, int productId, int quantity) {
+        Product product = productDAO.findProductById(productId);
+        if (product == null)
+            return false;
+        CartItem cartItem = cart.getOrDefault(productId, new CartItem(product, 0));
+        cartItem.increase(quantity);
 
-	public boolean update(int id, int quantity) {
-		Product product = productService.findProductById(id);
+        if (userId != -1) {
+            if (getTotalItems() == 0) {
+                cart.put(productId, cartItem);
+                cartItemDAO.insert(userId, getCartItems());
+            } else {
+                cart.put(productId, cartItem);
+                cartItemDAO.update(userId, getCartItems());
+            }
+        }
+        else {
+            cart.put(productId, cartItem);
+        }
 
-		if (product == null)
-			return false;
+        return true;
+    }
 
-		CartItem cartItem = cart.get(id);
-		cartItem.setQuantity(quantity);
+    public boolean update(int userId, int productId, int quantity) {
+        Product product = productDAO.findProductById(productId);
 
-		if (cartItem.getQuantity() <= 0) {
-			cart.remove(id);
-		} else
-			cart.put(id, cartItem);
+        if (product == null)
+            return false;
 
-		return true;
-	}
+        CartItem cartItem = cart.get(productId);
+        cartItem.setQuantity(quantity);
 
-	public int getTotalItems() {
-		return cart.values().stream().mapToInt(CartItem::getQuantity).sum();
-	}
+        if (cartItem.getQuantity() <= 0) {
+            cart.remove(productId);
+        } else
+            cart.put(productId, cartItem);
 
-	public double getTotalPrice() {
-		return cart.values().stream().mapToDouble(CartItem::calculatePrice).sum();
-	}
+        if (userId != -1) {
+            if (getTotalItems() <= 0) {
+                cartItemDAO.delete(userId);
+            } else {
+                cartItemDAO.update(userId, getCartItems());
+            }
+        }
 
-	public List<CartItem> getCartItems() {
-		return cart.values().stream().collect(Collectors.toList());
-	}
+        return true;
+    }
 
-	public CartItem getItem(int id) {
-		return cart.get(id);
-	}
+    public int getTotalItems() {
+        return cart.size();
+    }
+
+    public double getTotalPrice() {
+        return cart.values().stream().mapToDouble(CartItem::calculatePrice).sum();
+    }
+
+    public List<CartItem> getCartItems() {
+        return cart.values().stream().collect(Collectors.toList());
+    }
+
+    public CartItem getItem(int id) {
+        return cart.get(id);
+    }
+
+    public void setCart(Map<Integer, CartItem> cart) {
+        this.cart = cart;
+    }
+
+    public void addAll(int userId, Map<Integer, CartItem> cart) {
+        this.cart.putAll(cart);
+
+        if (cartItemDAO.getCountCartItems(userId) == 0) {
+            if(getTotalItems() != 0) {
+                cartItemDAO.insert(userId, getCartItems());
+            }
+        } else {
+            cartItemDAO.update(userId, getCartItems());
+        }
+    }
 }
