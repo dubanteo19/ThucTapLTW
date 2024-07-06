@@ -30,7 +30,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
-
+        <link rel="stylesheet" type="text/css"
+              href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.css"/>
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.6/css/dataTables.dataTables.css"/>
 
@@ -42,11 +45,15 @@
     <link rel="stylesheet" type="text/css" href="styles/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="styles/base.css?dsdsdsds">
     <link rel="stylesheet" type="text/css" href="styles/main.css?dd">
-    <link rel="stylesheet" type="text/css" href="styles/voucher.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles/nav.css">
     <link rel="stylesheet" type="text/css" href="styles/lightslider.css">
-    <link rel="stylesheet" href="styles/gio-hang.css?KD">
+    <link rel="stylesheet" href="styles/gio-hang.css?ee">
+    <link rel="stylesheet" type="text/css" href="styles/aside.css?">
+    <link rel="stylesheet" type="text/css" href="../styles/voucher.css?fdj">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
     <style>
         .cart-header-info {
             padding: 10px 0;
@@ -150,8 +157,8 @@
                                 <div class="row">
                                     <div class="col-lg-4 col-12 offset-md-8">
                                         <div class="pt-3">
-                                            <div class="cart_subtotal d-flex">
-                                                <div class="cart-left" style="padding-right: 150px">Tổng tiền:</div>
+                                            <div class="cart_subtotal d-flex justify-content-between">
+                                                <div class="cart-left ">Tổng tiền:</div>
                                                 <div class="price-box cart_total_price" style="">
                                                     <fmt:setLocale value='vi-VN'/>
                                                     <fmt:formatNumber value="<%=cart.getTotalPrice()%>"
@@ -232,8 +239,11 @@
     <jsp:include page="Components/footer.jsp"/>
 </footer>
 
-<!-- Custom JavaScript -->
+<script type="text/javascript" src="javascripts/lightslider.js"></script>
+<script type="text/javascript" src="javascripts/pagination.js"></script>
 <script type="text/javascript" src="javascripts/shopping-cart.js?j"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+
 <script>
     $('#btn-proceed-checkout').click(function () {
         window.location.href = "thanh-toan";

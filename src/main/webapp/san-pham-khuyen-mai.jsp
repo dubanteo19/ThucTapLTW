@@ -23,6 +23,12 @@
     <link rel="stylesheet" type="text/css" href="styles/aside.css?d">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="styles/voucher.css?fddgdj">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.css"/>
+
     <title>Sản phẩm khuyến mãi</title>
     <style type="text/css">
         #pagination ul {
@@ -154,6 +160,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript" src="javascripts/lightslider.js"></script>
 <script type="text/javascript" src="javascripts/pagination.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
 <script type="text/javascript">
 
     function renderProducts(items, favoritedIds) {
