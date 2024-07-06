@@ -1,6 +1,9 @@
 package Controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -9,8 +12,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import Controller.cart.Cart;
+import Model.CartItem;
 import Model.User;
 import Model.Wishlist;
+import Services.ICartService;
 import Services.IUserService;
 import Utils.BHash;
 
@@ -22,7 +29,8 @@ public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@Inject
 	IUserService userService;
-
+	@Inject
+	private ICartService cartService;
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -68,6 +76,21 @@ public class Login extends HttpServlet {
 				} else if (user.getStatus().getId() == 1 && user.getRoleId() == 2) {
 					url = "/tai-khoan.jsp";
 					session.setAttribute("user", user);
+
+					List<CartItem> cartItems = cartService.findByUserId(user.getId());
+
+					Map<Integer, CartItem> map = new HashMap<>();
+					cartItems.forEach(ci -> {
+						map.put(ci.getProduct().getId(), ci);
+					});
+
+					Cart cart = (Cart) session.getAttribute("cart");
+					if(cart == null) {
+						cart = new Cart();
+					}
+					cart.addAll(map);
+
+					session.setAttribute("cart", cart);
 					session.setAttribute("wishlist", new Wishlist(userService.getWishlist(user.getId())));
 				} else {
 					request.setAttribute("email", email);

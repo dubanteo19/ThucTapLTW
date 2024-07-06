@@ -9,6 +9,7 @@
 <%@page import="java.text.NumberFormat"%>
 <%@page import="java.util.Formatter"%>
 <%@page import="java.util.logging.SimpleFormatter"%>
+<%@ page import="org.checkerframework.checker.units.qual.C" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
@@ -63,8 +64,9 @@
 <%
 User user = session.getAttribute("user") == null ? null : (User) session.getAttribute("user");
 Cart cart = (Cart) session.getAttribute("cart");
-if (cart == null)
+if (cart == null) {
 	cart = new Cart();
+}
 Wishlist wishlist = (Wishlist) session.getAttribute("wishlist");
 if (wishlist == null) {
 	wishlist = new Wishlist();
@@ -303,7 +305,7 @@ $("#btnSanPhamYeuThich").click(function () {
 
 $("#searchInput").on('input', _.debounce(function() {
 	$('.product-list').show();
-	
+
 	$.ajax({
 		url: '/san-pham',
 		type: 'POST',
@@ -370,7 +372,7 @@ function renderSearchItems(items) {
             $product.attr('data-product-id', item.id);
             $product.find('.product_thumb').attr('src', item.thumb);
             $product.find('.product_name').text(item.name);
-            
+
             if (item.sale != null) {
                 $product.find('.product_new_price').text(formatPrice(item.newPrice));
                 $product.find('.product_unit_price').text(formatPrice(item.unitPrice));
