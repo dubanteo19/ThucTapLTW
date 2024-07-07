@@ -61,7 +61,7 @@
                             <h4>Danh sách sản phẩm</h4>
                         </div>
                         <div class="table-container">
-                            <table id="datatable" class="row-border hover nowrap" data-order='[[0, "asc"]]'>
+                            <table id="datatable" class="row-border hover nowrap">
                                 <thead>
                                 <tr>
                                     <th class="text-center">Mã sản phẩm</th>
@@ -108,28 +108,37 @@
                         {
                             targets: [0, 2, 3, 4],
                             className: 'dt-center'
-                        }
+                        },
+                        {
+                            targets: [2, 5, 6],
+                            orderable: false
+                        },
+                        { targets: 0, name: 'id'},
+                        { targets: 1, name: 'name' },
+                        { targets: 3, name: 'unitsInStock' },
+                        { targets: 4, name: 'totalSold' },
+                        { targets: 7, name: 'lastUpdated' },
                     ],
                     columns: [
-                        {data: 'id'},
+                        {data: 'product.id'},
                         {
-                            data: 'name',
+                            data: 'product.name',
                             render: function (data, type, row) {
                                 return '<span class="product-name">' + data + '</span>';
                             }
                         },
                         {
-                            data: 'thumb',
+                            data: 'product.thumb',
                             render: function (data, type, row) {
                                 return '<img src="../' + data + '" width="100px" height="150px">';
                             }
                         },
-                        {data: 'unitsInStock'},
-                        {data: 'soldQuantity'},
-                        {data: 'status.description'},
-                        {data: 'categories.name'},
+                        {data: 'product.unitsInStock'},
+                        {data: 'totalSold'},
+                        {data: 'product.status.description'},
+                        {data: 'product.categories.name'},
                         {
-                            data: 'lastUpdated',
+                            data: 'product.lastUpdated',
                             render: function (data, type, row) {
                                 return new Date(data).toLocaleString();
                             }

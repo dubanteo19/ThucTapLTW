@@ -265,7 +265,7 @@ public class ProductDAO extends AbtractDAO<Product> implements IProductDAO {
         }
 
         sql.append(getQueryFilters(filters));
-        System.out.println(sql.toString());
+
         return count(sql.toString());
     }
 
@@ -376,7 +376,7 @@ public class ProductDAO extends AbtractDAO<Product> implements IProductDAO {
                 }
                 columnsStr.delete(columnsStr.length() - " OR ".length(), columnsStr.length());
 
-                yield new StringBuilder(MessageFormat.format("({0})", columnsStr.toString()));
+                yield new StringBuilder(MessageFormat.format(" ({0})", columnsStr.toString()));
             }
             default -> null;
         };
@@ -408,10 +408,10 @@ public class ProductDAO extends AbtractDAO<Product> implements IProductDAO {
     }
 
     public static void main(String[] args) {
-        IProductDAO productDAO = new ProductDAO();
+        ProductDAO productDAO = new ProductDAO();
         Map<String, Object> filter = new HashMap<String, Object>();
 		filter.put("category", 1);
-		productDAO.findProductByFilter(filter, 10, 0).forEach(System.out::println);
+		productDAO.findProductByFilter(filter, 81, 0).forEach(System.out::println);
     }
 
     @Override
