@@ -110,14 +110,10 @@ public class CartController extends HttpServlet {
         User user = (User) session.getAttribute("user");
         int userId = -1;
         if (user != null) userId = user.getId();
-
         if (cart.add(userId, idProduct, quantity)) {
             session.setAttribute("cart", cart);
-
             addJsonCart(cart.getItem(idProduct), jsonResp);
-
             jsonResp.addProperty("success", ADD_SUCCESS);
-
             status = HttpServletResponse.SC_OK;
         } else {
             jsonResp.addProperty("error", PRODUCT_NOT_FOUND);
