@@ -6,6 +6,7 @@ import Services.ICarouselServices;
 import Services.ICategoryService;
 import Services.ILogService;
 import Services.IProductService;
+import com.mysql.cj.log.LogFactory;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
