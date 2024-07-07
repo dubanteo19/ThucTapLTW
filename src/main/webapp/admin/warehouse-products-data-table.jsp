@@ -23,6 +23,11 @@
             color: var(--primary-green);
             cursor: pointer;
         }
+
+        .product-name{
+            white-space: normal;
+            word-wrap: break-word;
+        }
     </style>
 </head>
 <body>
@@ -65,7 +70,7 @@
                                 <thead>
                                 <tr>
                                     <th class="text-center">Mã sản phẩm</th>
-                                    <th class="text-center">Tên sản phẩm</th>
+                                    <th style="padding: 0 5vw" class="text-center">Tên sản phẩm</th>
                                     <th class="text-center">Hình ảnh</th>
                                     <th class="text-center">Số lượng tồn kho</th>
                                     <th class="text-center">Số lượng đã bán</th>
