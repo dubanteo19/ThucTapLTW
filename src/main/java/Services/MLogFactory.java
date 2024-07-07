@@ -26,7 +26,8 @@ public class MLogFactory {
         Log log = new Log();
         String ipAddress = hquest.getRemoteAddr();
         log.setIpAddress(ipAddress);
-        log.setUrl(httpServlet.getServletName());
+        String url = hquest.getRequestURI();
+        log.setUrl(url);
         log.setDescription("View");
         log.setAfterValue("");
         log.setCurrentValue("");
