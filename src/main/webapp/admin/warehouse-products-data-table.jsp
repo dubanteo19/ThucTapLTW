@@ -321,6 +321,7 @@
                     $('#datatable').DataTable().ajax.reload();
                 }
 
+                // commit lộn nên commit lại <3
                 $(document).on('click', '#newProduct', function () {
                     let href = $(this).data("target");
                     location.href = href;
