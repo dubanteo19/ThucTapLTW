@@ -14,7 +14,8 @@
     <link rel="stylesheet" type="text/css" href="../styles/main.css">
 
     <link rel="stylesheet" href="styles/admin.css?dd">
-    <link rel="stylesheet" type="text/css" href="../DataTables/datatables.css">
+    <link rel="stylesheet" type="text/css" href="../Datatables-V2/datatables.css">
+    <%--    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.dataTables.min.css">--%>
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -47,6 +48,14 @@
             background-color: #138496;
             border-color: #117a8b;
         }
+
+        .btn-control {
+            margin-left: 10px;
+        }
+
+        .btn-control i {
+            margin-right: 6px;
+        }
     </style>
 </head>
 <body>
@@ -55,34 +64,12 @@
 <div class="row">
     <jsp:include page="left-menu.jsp"></jsp:include>
     <div class="col-10 pt-3">
-        <div
-                class="container title d-flex justify-content-between bg-white rounded">
-            <h5>Quản lý nhập kho</h5>
-            <span class="date">Thứ 2, ngày 30/10/2023 - 11 giờ 25 phút</span>
-        </div>
         <div class="container-fluid">
             <div class="row w-100">
                 <div class="col-12">
-                    <div class="btns mt-3 btn-sm func-btns">
-                        <button id="newProduct"
-                                data-target="AdminProductController?action=forward"
-                                class="btn btn-success">
-                            <i class="fa-solid fa-plus"></i>Tạo sản phẩm mới
-                        </button>
-                        <button class="btn btn-warning ">
-                            <i class="fa-solid fa-file-pdf"></i>Xuất file PDF
-                        </button>
-                        <button class="btn btn-success ">
-                            <i class="fa-solid fa-file-excel"></i>Xuất file excel
-                        </button>
-                        <button id="categorybtn" class="btn btn-info "
-                                data-target="Category?action=get">
-                            <i class="fa-solid fa-list"></i>Quản lý danh mục
-                        </button>
-                    </div>
                     <div class=" mt-3 bg-white">
                         <div class="sub-title">
-                            <h4>Danh sách sản phẩm</h4>
+                            <h4>Quản lý nhập kho</h4>
                         </div>
                         <div class="table-container mt-3">
                             <table id="datatable" class="row-border hover nowrap">
@@ -118,7 +105,8 @@
                                 <div class="form-group row align-items-center">
                                     <label class="col" for="durationSelect">Thời gian thống kê</label>
                                     <div class="col">
-                                        <select id="durationSelect" class="form-select" onchange="handleDurationChange()">
+                                        <select id="durationSelect" class="form-select"
+                                                onchange="handleDurationChange()">
                                             <option value="3">3</option>
                                             <option value="6">6</option>
                                             <option value="12">12</option>
@@ -134,7 +122,8 @@
                                         </select>
                                     </div>
                                 </div>
-                                <input class="mt-2 form-control" type="number" id="durationInput" style="display: none;" placeholder="Khoảng thời gian khác">
+                                <input class="mt-2 form-control" type="number" id="durationInput" style="display: none;"
+                                       placeholder="Khoảng thời gian khác">
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -150,7 +139,8 @@
 </body>
 <script type="text/javascript" src="../javascripts/bootstrap.min.js"></script>
 <script type="text/javascript" src="../javascripts/jquery-3.7.1.js"></script>
-<script type="text/javascript" src="../DataTables/datatables.js"></script>
+<script type="text/javascript" src="../Datatables-V2/datatables.js"></script>
+
 <script type="text/javascript">
     function handleDurationChange() {
         var select = document.getElementById('durationSelect');
@@ -173,6 +163,7 @@
             return select.value;
         }
     }
+
     $(document)
         .ready(
             function () {
@@ -181,12 +172,20 @@
                 controlBar.innerHTML = `
                             <div class="align-items-center">
                             <input style="padding-left: 5px" id="search" class="search" type="text" name="name" placeholder="Tìm kiếm...">
-                            <input id="btn-search" style="margin-left: 10px; font-size: 14px" class="btn btn-success" type="submit" value="Tìm kiếm">
-                             <button type="button" id="btn-filter" class="btn btn-info" style="margin-left: 10px; font-size: 14px""
+                            <input id="btn-search" style="font-size: 14px" class="btn btn-success btn-control" type="submit" value="Tìm kiếm">
+                             <button type="button" id="btn-filter" class="btn btn-info btn-control" style="font-size: 14px""
                                     data-toggle="modal" data-target="#filterModal">
                                 <i class="fa-solid fa-filter"></i>Bộ lọc</button>
                             </div>
                             `;
+
+                let createBar = document.createElement('div');
+                createBar.innerHTML = `
+                        <div style="margin-bottom: 10px">
+                        <button id="newProduct"
+						data-target="AdminProductController?action=forward" class="btn btn-success"><i class="fa-solid fa-plus" style="margin-right: 6px"></i>Tạo sản phẩm mới</button>
+                        </div>
+                `;
 
                 $('#datatable').DataTable({
                     serverSide: true,
@@ -270,9 +269,22 @@
                         }
                     },
                     layout: {
+                        top2Start: createBar,
+                        top2End: 'buttons',
                         topStart: controlBar,
                         topEnd: 'pageLength'
                     },
+                    buttons: [
+                        {
+                            extend: 'collection',
+                            text: 'Xuất File',
+                            attr: {
+                                class: 'btn btn-secondary',
+                                style: 'margin-bottom: 10px'
+                            },
+                            buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5']
+                        }
+                    ],
                     initComplete: function () {
                         var api = this.api();
                         var searchInput = $('#search');
@@ -308,12 +320,13 @@
                 function reloadDataTable() {
                     $('#datatable').DataTable().ajax.reload();
                 }
+
+                $(document).on('click', '#newProduct', function () {
+                    let href = $(this).data("target");
+                    location.href = href;
+                });
             });
 
-    $(".func-btns button").click(function () {
-        let href = $(this).data("target");
-        location.href = href;
-    });
     $(".nav-link").removeClass("active");
     $("#warehouse-product-nav-link").addClass("active");
     let page = '${page}';

@@ -11,7 +11,7 @@
  Target Server Version : 80030 (8.0.30)
  File Encoding         : 65001
 
- Date: 07/07/2024 23:57:36
+ Date: 08/07/2024 21:33:40
 */
 
 SET NAMES utf8mb4;
@@ -456,7 +456,7 @@ CREATE TABLE `logs`  (
   `level` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   `dateCreated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`logId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 137 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 138 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of logs
@@ -595,6 +595,7 @@ INSERT INTO `logs` VALUES (133, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View hom
 INSERT INTO `logs` VALUES (134, '127.0.0.1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 22:31:36');
 INSERT INTO `logs` VALUES (135, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 22:56:04');
 INSERT INTO `logs` VALUES (136, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-07 11:46:48');
+INSERT INTO `logs` VALUES (137, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-08 09:41:52');
 
 -- ----------------------------
 -- Table structure for news
