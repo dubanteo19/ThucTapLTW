@@ -24,10 +24,11 @@
             cursor: pointer;
         }
 
-        .product-name{
+        .product-name {
             white-space: normal;
             word-wrap: break-word;
         }
+
     </style>
 </head>
 <body>
@@ -65,7 +66,7 @@
                         <div class="sub-title">
                             <h4>Danh sách sản phẩm</h4>
                         </div>
-                        <div class="table-container">
+                        <div class="table-container mt-4">
                             <table id="datatable" class="row-border hover nowrap">
                                 <thead>
                                 <tr>
@@ -96,6 +97,14 @@
     $(document)
         .ready(
             function () {
+                let searchBar = document.createElement('div');
+
+                searchBar.innerHTML = `
+                            <label>Tìm kiếm sản phẩm</label>
+                            <input style="padding-left: 5px" id="search" class="search" type="text" name="name" placeholder="Tên sản phẩm">
+                            <input id="btn-serch" style="margin-left: 10px; font-size: 14px" class="btn btn-success" type="submit" value="Tìm kiếm">
+                            `;
+
                 $('#datatable').DataTable({
                     serverSide: true,
                     pageLength: 25,
@@ -111,18 +120,17 @@
                     },
                     columnDefs: [
                         {
-                            targets: [0, 2, 3, 4],
+                            targets: [0, 2, 3, 4, 7],
                             className: 'dt-center'
                         },
                         {
                             targets: [2, 5, 6],
                             orderable: false
                         },
-                        { targets: 0, name: 'id'},
-                        { targets: 1, name: 'name' },
-                        { targets: 3, name: 'unitsInStock' },
-                        { targets: 4, name: 'totalSold' },
-                        { targets: 7, name: 'lastUpdated' },
+                        {targets: 0, name: 'id'},
+                        {targets: 1, name: 'name'},
+                        {targets: 3, name: 'unitsInStock'},
+                        {targets: 4, name: 'totalSold'},
                     ],
                     columns: [
                         {data: 'product.id'},
@@ -145,7 +153,11 @@
                         {
                             data: 'product.lastUpdated',
                             render: function (data, type, row) {
-                                return new Date(data).toLocaleString();
+                                return new Date(data).toLocaleDateString('vi-VN', {
+                                    day: '2-digit',
+                                    month: '2-digit',
+                                    year: 'numeric'
+                                });
                             }
                         }
                     ],
@@ -170,6 +182,30 @@
                             "sSortDescending": ": kích hoạt để sắp xếp cột giảm dần"
                         }
                     },
+                    layout: {
+                        topStart: searchBar,
+                        topEnd: 'pageLength'
+                    },
+                    initComplete: function () {
+                        var api = this.api();
+                        var searchInput = $('#search');
+                        var debounceTimeout;
+
+                        function debounce(func, delay) {
+                            var context = this;
+                            clearTimeout(debounceTimeout);
+                            debounceTimeout = setTimeout(function () {
+                                func.apply(context);
+                            }, delay);
+                        }
+
+                        searchInput.on('keyup', function () {
+                            var value = this.value;
+                            debounce(function () {
+                                api.search(value).draw();
+                            }, 300);
+                        });
+                    }
                 });
 
                 $(document).on('click', '.product-name', function () {
@@ -184,7 +220,7 @@
         location.href = href;
     });
     $(".nav-link").removeClass("active");
-    $("#products-nav-link").addClass("active");
+    $("#warehouse-product-nav-link").addClass("active");
     let page = '${page}';
     let totalPage = '${totalPage}';
     $("#pagination").pagination(
@@ -207,6 +243,8 @@
                 }
             }
         })
+
+
 </script>
 
 </html>
