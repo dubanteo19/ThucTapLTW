@@ -13,8 +13,8 @@ public class ProductStatisticsService implements IProductStatisticsService {
     IProductStatisticsDAO productStatisticsDAO;
 
     @Override
-    public List<ProductStatistics> findProductStatisticsByFilter(Map<String, Object> filters, int limit, int offSet, String order, String sort, int duration) {
-        return productStatisticsDAO.findProductStatisticsByFilter(filters, limit, offSet, order, sort, duration);
+    public List<ProductStatistics> findProductStatisticsByFilter(Map<String, Object> filters, int limit, int offSet, String order, String sort, int duration, String durationType) {
+        return productStatisticsDAO.findProductStatisticsByFilter(filters, limit, offSet, order, sort, duration, durationType);
     }
 
     @Override
@@ -35,5 +35,10 @@ public class ProductStatisticsService implements IProductStatisticsService {
     @Override
     public boolean update(ProductStatistics productStatistics) {
         return false;
+    }
+
+    @Override
+    public int getCount(Map<String, Object> filters, int duration, String durationType) {
+        return productStatisticsDAO.getCount(filters, duration, durationType);
     }
 }

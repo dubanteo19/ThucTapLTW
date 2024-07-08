@@ -43,24 +43,32 @@ public class AdminWarehouseProductController extends HttpServlet {
         String searchValue = req.getParameter("search[value]");
         String orderBy = req.getParameter("order[0][column]");
         String orderDir = req.getParameter("order[0][dir]");
-        int duration = -1;
+        int duration = Integer.parseInt(req.getParameter("duration"));
+        String durationType = req.getParameter("durationType");
 
-        if(orderBy != null) {
+        if (orderBy != null && !orderBy.isEmpty()) {
             orderBy = req.getParameter(MessageFormat.format("columns[{0}][name]", Integer.parseInt(orderBy)));
         }
 
         Map<String, Object> filters = new HashMap<>();
 
-        if (!searchValue.isEmpty()) {
+        if (searchValue != null && !searchValue.isEmpty()) {
             filters.put("search", searchValue);
         }
 
-        JsonObject jsonObject = new JsonObject();
-        List<ProductStatistics> data = productStatisticsService
-                .findProductStatisticsByFilter(filters, limit, offset, orderBy, orderDir, duration);
+        int totalRecordsFiltered;
+        if (duration == -1) {
+            totalRecordsFiltered = productService.getCount(filters);
+        } else {
+            totalRecordsFiltered = productStatisticsService.getCount(filters, duration, durationType);
+        }
 
-        if (data != null && !data.isEmpty()) {
-            jsonObject.addProperty("recordsFiltered", data.size());
+        JsonObject jsonObject = new JsonObject();
+
+        if (totalRecordsFiltered != -1) {
+            List<ProductStatistics> data = productStatisticsService
+                    .findProductStatisticsByFilter(filters, limit, offset, orderBy, orderDir, duration, durationType);
+            jsonObject.addProperty("recordsFiltered", totalRecordsFiltered);
             jsonObject.add("data", new Gson().toJsonTree(data).getAsJsonArray());
         }
 

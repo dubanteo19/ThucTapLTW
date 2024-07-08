@@ -9,15 +9,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title></title>
     <link rel="stylesheet" type="text/css" media="all"
-          href=../styles/bootstrap.css'>
+          href="../styles/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="../styles/base.css">
     <link rel="stylesheet" type="text/css" href="../styles/main.css">
+
+    <link rel="stylesheet" href="styles/admin.css?dd">
+    <link rel="stylesheet" type="text/css" href="../DataTables/datatables.css">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="styles/admin.css?dd">
-    <link rel="stylesheet" href="styles/pagination.css?dds">
-    <link rel="stylesheet" type="text/css" href="../DataTables/datatables.css">
-
     <style>
         .product-name:hover {
             color: var(--primary-green);
@@ -29,6 +28,25 @@
             word-wrap: break-word;
         }
 
+        .close {
+            cursor: pointer;
+        }
+
+        .modal-body label:not(.col) {
+            margin-bottom: 10px;
+        }
+
+        .btn-info {
+            color: #fff !important;
+            background-color: #17a2b8 !important;
+            border-color: #17a2b8 !important;
+        }
+
+        .btn-info:hover {
+            color: #fff;
+            background-color: #138496;
+            border-color: #117a8b;
+        }
     </style>
 </head>
 <body>
@@ -66,7 +84,7 @@
                         <div class="sub-title">
                             <h4>Danh sách sản phẩm</h4>
                         </div>
-                        <div class="table-container mt-4">
+                        <div class="table-container mt-3">
                             <table id="datatable" class="row-border hover nowrap">
                                 <thead>
                                 <tr>
@@ -86,23 +104,88 @@
                 </div>
             </div>
 
+            <div class="modal fade" id="filterModal" tabindex="-1" role="dialog"
+                 aria-labelledby="filterModalCenterTitle"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="filterModalLongTitle">Bộ lọc sản phẩm</h5>
+                            <i data-dismiss="modal" class="close fa-solid fa-xmark"></i>
+                        </div>
+                        <div class="modal-body">
+                            <form id="form-filter">
+                                <div class="form-group row align-items-center">
+                                    <label class="col" for="durationSelect">Thời gian thống kê</label>
+                                    <div class="col">
+                                        <select id="durationSelect" class="form-select" onchange="handleDurationChange()">
+                                            <option value="3">3</option>
+                                            <option value="6">6</option>
+                                            <option value="12">12</option>
+                                            <option selected value="-1">Tất cả</option>
+                                            <option value="other">Khác</option>
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <select id="durationType" class="form-select">
+                                            <option value="DAY">DAY</option>
+                                            <option selected value="MONTH">MONTH</option>
+                                            <option value="YEAR">YEAR</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <input class="mt-2 form-control" type="number" id="durationInput" style="display: none;" placeholder="Khoảng thời gian khác">
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                            <button id="btnApplyFilter" class="btn btn-success" data-dismiss="modal">Áp dụng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 </body>
+<script type="text/javascript" src="../javascripts/bootstrap.min.js"></script>
 <script type="text/javascript" src="../javascripts/jquery-3.7.1.js"></script>
-<script type="text/javascript" src="../javascripts/pagination.js"></script>
 <script type="text/javascript" src="../DataTables/datatables.js"></script>
 <script type="text/javascript">
+    function handleDurationChange() {
+        var select = document.getElementById('durationSelect');
+        var input = document.getElementById('durationInput');
+
+        if (select.value === 'other') {
+            input.style.display = 'block';
+        } else {
+            input.style.display = 'none';
+        }
+    }
+
+    function getDurationValue() {
+        var select = document.getElementById('durationSelect');
+        var input = document.getElementById('durationInput');
+
+        if (select.value === 'other') {
+            return input.value;
+        } else {
+            return select.value;
+        }
+    }
     $(document)
         .ready(
             function () {
-                let searchBar = document.createElement('div');
+                let controlBar = document.createElement('div');
 
-                searchBar.innerHTML = `
-                            <label>Tìm kiếm sản phẩm</label>
-                            <input style="padding-left: 5px" id="search" class="search" type="text" name="name" placeholder="Tên sản phẩm">
-                            <input id="btn-serch" style="margin-left: 10px; font-size: 14px" class="btn btn-success" type="submit" value="Tìm kiếm">
+                controlBar.innerHTML = `
+                            <div class="align-items-center">
+                            <input style="padding-left: 5px" id="search" class="search" type="text" name="name" placeholder="Tìm kiếm...">
+                            <input id="btn-search" style="margin-left: 10px; font-size: 14px" class="btn btn-success" type="submit" value="Tìm kiếm">
+                             <button type="button" id="btn-filter" class="btn btn-info" style="margin-left: 10px; font-size: 14px""
+                                    data-toggle="modal" data-target="#filterModal">
+                                <i class="fa-solid fa-filter"></i>Bộ lọc</button>
+                            </div>
                             `;
 
                 $('#datatable').DataTable({
@@ -113,10 +196,14 @@
                     scrollY: '70vh',
                     ajax: {
                         url: 'warehouse-management',
-                        type: 'POST'
+                        type: 'POST',
+                        data: function (d) {
+                            d.duration = getDurationValue()
+                            d.durationType = $('#durationType').val()
+                        }
                     },
                     rowCallback: function (row, data) {
-                        $(row).attr('data-id', data.id);
+                        $(row).attr('data-id', data.product.id);
                     },
                     columnDefs: [
                         {
@@ -183,7 +270,7 @@
                         }
                     },
                     layout: {
-                        topStart: searchBar,
+                        topStart: controlBar,
                         topEnd: 'pageLength'
                     },
                     initComplete: function () {
@@ -213,6 +300,14 @@
                     let href = "AdminProductController?action=detail&productId=" + productId;
                     location.href = href;
                 });
+
+                $('#btnApplyFilter').click(function (event) {
+                    reloadDataTable();
+                });
+
+                function reloadDataTable() {
+                    $('#datatable').DataTable().ajax.reload();
+                }
             });
 
     $(".func-btns button").click(function () {
