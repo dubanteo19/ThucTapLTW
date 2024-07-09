@@ -137,8 +137,9 @@
      aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="container">
-                <h3>Chi tiết log </h3>
+            <div class="container p-3">
+                <h3 class="text-center">Chi tiết log </h3>
+                <span>Địa chỉ IP: <span id="modal-ipAddress"></span> </span>
             </div>
         </div>
     </div>
