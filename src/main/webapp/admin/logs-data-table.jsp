@@ -110,15 +110,14 @@
                                                     type="button"
                                                     data-toggle="modal"
                                                     data-target="#log-detail-modal-lg"
-                                                    data-logId=${item.id}>
+                                                    data-log='{"id": "${item.id}", "description":"${item.description}", "ipAddress": "${item.ipAddress}", "nation": "${item.nation}", "url": "${item.url}", "level": "${item.level}", "currentValue": "${item.currentValue}", "afterValue": "${item.afterValue}", "dateCreated": "${item.dateCreated}"}'>
+
                                                 <i class="fa-solid fa-circle-info"></i>
                                             </button>
                                             <button
                                                     type="button"
-                                                    data-toggle="modal"
-                                                    data-target="#log-detail-modal-lg"
                                                     class="btn btn-warning btn-sm remove-btn"
-                                                    data-logId=${item.id}>
+                                                    data-target=${item.id}>
                                                 <i class='fa-solid fa-trash'></i>
                                             </button>
                                         </div>
@@ -138,8 +137,15 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="container p-3">
-                <h3 class="text-center">Chi tiết log </h3>
-                <span>Địa chỉ IP: <span id="modal-ipAddress"></span> </span>
+                <h2 class="text-center">Chi tiết log </h2>
+                <h4>Địa chỉ IP: <span id="modal-ipAddress"></span></h4>
+                <h4>Quốc gia : <span id="modal-nation"></span></h4>
+                <h4>URL=: <span id="modal-url"></span></h4>
+                <h4>LEVEL: <span id="modal-level"></span></h4>
+                <h4>Giá trị trước : <span id="modal-currentValue"> </span></h4>
+                <h4>Giá trị sau: <span id="modal-afterValue"></span></h4>
+                <h4>Thời gian : <span id="modal-dateCreated"></span></h4>
+                <h4>Mô tả chi tiết: <span id="modal-description"></span></h4>
             </div>
         </div>
     </div>
@@ -152,6 +158,23 @@
 <script type="text/javascript">
     $(".nav-link").removeClass("active");
     $("#logs-nav-link").addClass("active");
+    function renderModal(log) {
+        $("#modal-ipAddress").text(log.ipAddress);
+        $("#modal-nation").text(log.nation);
+        $("#modal-url").text(log.url);
+        $("#modal-level").text(log.level);
+        $("#modal-currentValue").text(log.currentValue);
+        $("#modal-afterValue").text(log.afterValue);
+        $("#modal-dateCreated").text(log.dateCreated);
+        $("#modal-description").text(log.description);
+
+    }
+
+    $(".detail-btn").click(function () {
+        let log = $(this).data("log");
+        renderModal(log);
+    })
+
     $(".remove-btn").click(function () {
         let logId = $(this).data("target");
         removeLog(logId);

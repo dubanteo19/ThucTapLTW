@@ -37,7 +37,7 @@ public class MLogFactory {
     }
 
     private static String filterLocalIpAddress(String remoteAddr) {
-        return remoteAddr.equals("0:0:0:0:0:0:0:1") ? "Local host" : remoteAddr;
+        return remoteAddr.equals("0:0:0:0:0:0:0:1") ? "127.0.0.1" : remoteAddr;
     }
 
 
