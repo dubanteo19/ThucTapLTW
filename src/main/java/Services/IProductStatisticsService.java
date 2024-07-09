@@ -10,4 +10,5 @@ public interface IProductStatisticsService extends IGenericService<ProductStatis
     int getCount(Map<String, Object> filters, int duration, String durationType);
     List<ProductStatistics> findProductStatisticsByFilterByDate(Map<String, Object> filters, int month, String year);
 
+    Map<Integer, Double> getStatisTicMap();
 }

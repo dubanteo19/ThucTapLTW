@@ -281,6 +281,6 @@ public class ProductStatisticsDAO extends AbtractDAO<ProductStatistics> implemen
 
 //        System.out.println(productStatisticsDAO.getCount(filters, duration, "MONTH"));
 //        System.out.println(productStatisticsDAO.findProductStatisticsByFilter(filters, limit, offset, orderBy, orderDir, duration, "MONTH"));
-        System.out.println(productStatisticsDAO.findProductStatisticsByFilterByDate(filters, 7, "2024").size());
+        System.out.println(productStatisticsDAO.findProductStatisticsByFilterByDate(filters, 7, "2024"));
     }
 }
