@@ -24,7 +24,7 @@ public class MLogFactory {
 
     public static Log getLog(HttpServletRequest hquest, HttpServlet httpServlet, int logLevel) {
         Log log = new Log();
-        String ipAddress = hquest.getRemoteAddr();
+        String ipAddress = filterLocalIpAddress(hquest.getRemoteAddr());
         log.setIpAddress(ipAddress);
         String url = hquest.getRequestURI();
         log.setUrl(url);
@@ -35,6 +35,11 @@ public class MLogFactory {
         log.setLevel(getLogLevel(logLevel));
         return log;
     }
+
+    private static String filterLocalIpAddress(String remoteAddr) {
+        return remoteAddr.equals("0:0:0:0:0:0:0:1") ? "Local host" : remoteAddr;
+    }
+
 
     private static String getNation(String ipAddress) {
         return "Viet Nam";

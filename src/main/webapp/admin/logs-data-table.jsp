@@ -16,7 +16,6 @@
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles/admin.css?aa">
-    <script src="javascripts/chart.js"></script>
 </head>
 <style>
     .btn-order-detail i {
@@ -79,7 +78,6 @@
                                 <th scope="col">LEVEL</th>
                                 <th scope="col">Giá trị trước</th>
                                 <th scope="col">Giá trị sau</th>
-                                <th scope="col">Miêu tả</th>
                                 <th scope="col">Thời gian</th>
                                 <th scope="col">Chức năng</th>
                             </tr>
@@ -105,9 +103,26 @@
                                     </td>
                                     <td>${item.currentValue}</td>
                                     <td>${item.afterValue}</td>
-                                    <td>${item.description}</td>
                                     <td>${item.dateCreated}</td>
-                                    <td>${level}</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button class="btn btn-success btn-sm detail-btn me-1"
+                                                    type="button"
+                                                    data-toggle="modal"
+                                                    data-target="#log-detail-modal-lg"
+                                                    data-logId=${item.id}>
+                                                <i class="fa-solid fa-circle-info"></i>
+                                            </button>
+                                            <button
+                                                    type="button"
+                                                    data-toggle="modal"
+                                                    data-target="#log-detail-modal-lg"
+                                                    class="btn btn-warning btn-sm remove-btn"
+                                                    data-logId=${item.id}>
+                                                <i class='fa-solid fa-trash'></i>
+                                            </button>
+                                        </div>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </c:forEach>
@@ -118,12 +133,44 @@
         </div>
     </div>
 </div>
+<div class="modal fade " id="log-detail-modal-lg" tabindex="-1" role="dialog" aria-labelledby="logDetailModal"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="container">
+                <h3>Chi tiết log </h3>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
+<script src="../javascripts/jquery-3.7.1.js"></script>
+<script src="../javascripts/bootstrap.min.js"></script>
 <script type="text/javascript" src="javascripts/Utils.js"></script>
-<script type="text/javascript" src="../javascripts/jquery-3.7.1.js"></script>
 <script type="text/javascript">
     $(".nav-link").removeClass("active");
-    $("#orders-nav-link").addClass("active");
+    $("#logs-nav-link").addClass("active");
+    $(".remove-btn").click(function () {
+        let logId = $(this).data("target");
+        removeLog(logId);
+    })
+
+    function removeLog(logId) {
+        $.ajax({
+            type: "post",
+            url: "/admin/LogController",
+            data: {
+                logId: logId,
+                action: "remove"
+            },
+            success: function (response) {
+            },
+            error: function (xhr, status, error) {
+                console.log("loi")
+            }
+        });
+    }
 </script>
 
 </html>
