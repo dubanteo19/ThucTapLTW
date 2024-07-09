@@ -37,14 +37,14 @@
 								<i class="fa-solid fa-user icon-green"></i>
 								<p class="fw-bold text-danger text-center mt-2 fs-6">TỔNG
 									KHÁCH HÀNG</p>
-								<h5 class="text-center">${requestScope.userCount}kháchhàng</h5>
+								<h5 class="text-center">${requestScope.userCount} khách hàng</h5>
 								<small> Tổng số khách hàng được quản lý. </small>
 							</div>
 							<div class="widget">
 								<i class="fa-solid fa-box icon-blue"></i>
 								<p class="fw-bold text-danger text-center mt-2 fs-6">TỔNG
 									SẢN PHẨM</p>
-								<h5 class="text-center">${requestScope.productCount}sản
+								<h5 class="text-center">${requestScope.productCount} sản
 									phẩm</h5>
 								<small> Tổng số sản phẩm được quản lý. </small>
 							</div>
@@ -52,7 +52,7 @@
 								<i class="fa-solid fa-file-invoice-dollar icon-orange"></i>
 								<p class="fw-bold text-danger text-center mt-2 fs-6">TỔNG
 									ĐƠN HÀNG</p>
-								<h5 class="text-center">${requestScope.orderCount}đơnhàng</h5>
+								<h5 class="text-center">${requestScope.orderCount} đơn hàng</h5>
 								<small> Tổng số hóa đơn bán hàng trong tháng. </small>
 							</div>
 							<div class="widget">

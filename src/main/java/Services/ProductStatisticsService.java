@@ -41,4 +41,9 @@ public class ProductStatisticsService implements IProductStatisticsService {
     public int getCount(Map<String, Object> filters, int duration, String durationType) {
         return productStatisticsDAO.getCount(filters, duration, durationType);
     }
+
+    @Override
+    public List<ProductStatistics> findProductStatisticsByFilterByDate(Map<String, Object> filters, int month, String year) {
+        return productStatisticsDAO.findProductStatisticsByFilterByDate(filters, month, year);
+    }
 }

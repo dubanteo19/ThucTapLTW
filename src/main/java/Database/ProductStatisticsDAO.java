@@ -41,6 +41,7 @@ public class ProductStatisticsDAO extends AbtractDAO<ProductStatistics> implemen
         return count(sql.toString());
     }
 
+    @Override
     public List<ProductStatistics> findProductStatisticsByFilterByDate(Map<String, Object> filters, int month, String year) {
         StringBuilder queryFilter = getQueryFilters(filters);
         StringBuilder sql = new StringBuilder(MessageFormat.format("""
@@ -268,7 +269,7 @@ public class ProductStatisticsDAO extends AbtractDAO<ProductStatistics> implemen
         ProductStatisticsDAO productStatisticsDAO = new ProductStatisticsDAO();
 
         Map<String, Object> filters = new HashMap<>();
-        filters.put("category", 2);
+//        filters.put("category", 2);
 
         String orderBy = "totalRevenue";
         String orderDir = "DESC";
@@ -278,8 +279,8 @@ public class ProductStatisticsDAO extends AbtractDAO<ProductStatistics> implemen
 
         int duration = 3;
 
-        System.out.println(productStatisticsDAO.getCount(filters, duration, "MONTH"));
-        System.out.println(productStatisticsDAO.findProductStatisticsByFilter(filters, limit, offset, orderBy, orderDir, duration, "MONTH"));
-        System.out.println(productStatisticsDAO.findProductStatisticsByFilterByDate(filters, 7, "2024"));
+//        System.out.println(productStatisticsDAO.getCount(filters, duration, "MONTH"));
+//        System.out.println(productStatisticsDAO.findProductStatisticsByFilter(filters, limit, offset, orderBy, orderDir, duration, "MONTH"));
+        System.out.println(productStatisticsDAO.findProductStatisticsByFilterByDate(filters, 7, "2024").size());
     }
 }
