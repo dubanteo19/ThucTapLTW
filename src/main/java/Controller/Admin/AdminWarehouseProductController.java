@@ -1,6 +1,8 @@
 package Controller.Admin;
 
+import Model.Categories;
 import Model.ProductStatistics;
+import Services.ICategoryService;
 import Services.IProductService;
 import Services.IProductStatisticsService;
 import Utils.JsonUtils;
@@ -27,12 +29,19 @@ public class AdminWarehouseProductController extends HttpServlet {
     @Inject
     IProductStatisticsService productStatisticsService;
 
+    @Inject
+    ICategoryService categoryService;
+
     private int totalRecords;
+    private List<Categories> categoriesList;
     private static final long serialVersionUID = 1L;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         totalRecords = productService.getCount();
+        categoriesList = categoryService.findAll();
+
+        req.setAttribute("categoriesList", categoriesList);
         req.getRequestDispatcher("/admin/warehouse-products-data-table.jsp").forward(req, resp);
     }
 
@@ -45,6 +54,8 @@ public class AdminWarehouseProductController extends HttpServlet {
         String orderDir = req.getParameter("order[0][dir]");
         int duration = Integer.parseInt(req.getParameter("duration"));
         String durationType = req.getParameter("durationType");
+        int categoryId = Integer.parseInt(req.getParameter("categoryId"));
+        String status = req.getParameter("status");
 
         if (orderBy != null && !orderBy.isEmpty()) {
             orderBy = req.getParameter(MessageFormat.format("columns[{0}][name]", Integer.parseInt(orderBy)));
@@ -54,6 +65,25 @@ public class AdminWarehouseProductController extends HttpServlet {
 
         if (searchValue != null && !searchValue.isEmpty()) {
             filters.put("search", searchValue);
+        }
+        if(categoryId > 0) {
+            filters.put("category", categoryId);
+        }
+        if(status != null && !status.equalsIgnoreCase("-1")) {
+            int statusId = 8;
+
+            switch (status.toLowerCase()) {
+                case "còn hàng":
+                    statusId = 8;
+                    break;
+                case "hết hàng":
+                    statusId = 9;
+                    break;
+                case "cần nhập":
+                    break;
+            }
+
+            filters.put("status", statusId);
         }
 
         int totalRecordsFiltered;

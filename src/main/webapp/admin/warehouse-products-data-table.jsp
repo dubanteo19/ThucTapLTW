@@ -56,6 +56,10 @@
         .btn-control i {
             margin-right: 6px;
         }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
@@ -78,9 +82,10 @@
                                     <th class="text-center">Mã sản phẩm</th>
                                     <th style="padding: 0 5vw" class="text-center">Tên sản phẩm</th>
                                     <th class="text-center">Hình ảnh</th>
+                                    <th class="text-center">Tình trạng</th>
                                     <th class="text-center">Số lượng tồn kho</th>
                                     <th class="text-center">Số lượng đã bán</th>
-                                    <th class="text-center">Tình trạng</th>
+                                    <th class="text-center">Doanh thu</th>
                                     <th class="text-center">Danh mục</th>
                                     <th class="text-center">Ngày nhập kho</th>
                                 </tr>
@@ -124,6 +129,30 @@
                                 </div>
                                 <input class="mt-2 form-control" type="number" id="durationInput" style="display: none;"
                                        placeholder="Khoảng thời gian khác">
+
+                                <div class="form-group row align-items-center">
+                                    <label class="col" for="categoriesList">Danh mục sản phẩm</label>
+                                    <div class="col">
+                                        <select id="categoriesList" class="form-select">
+                                            <c:forEach items="${categoriesList}" var="item">
+                                                <option value="${item.id}">${item.name}</option>
+                                            </c:forEach>
+                                            <option selected value="-1">Tất cả</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row align-items-center">
+                                    <label class="col" for="statusList">Tình trạng sản phẩm</label>
+                                    <div class="col">
+                                        <select id="statusList" class="form-select">
+                                            <option selected value="Còn hàng">Còn hàng</option>
+                                            <option selected value="Hết hàng">Hết hàng</option>
+                                            <option selected value="Cần nhập">Cần nhập</option>
+                                            <option selected value="-1">Tất cả</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -171,8 +200,8 @@
 
                 controlBar.innerHTML = `
                             <div class="align-items-center">
-                            <input style="padding-left: 5px" id="search" class="search" type="text" name="name" placeholder="Tìm kiếm...">
-                            <input id="btn-search" style="font-size: 14px" class="btn btn-success btn-control" type="submit" value="Tìm kiếm">
+                            <label>Tìm kiếm sản phẩm</label>
+                            <input style="padding-left: 5px; margin-left: 10px" id="search" class="search" type="text" name="name" placeholder="Tìm kiếm...">
                              <button type="button" id="btn-filter" class="btn btn-info btn-control" style="font-size: 14px""
                                     data-toggle="modal" data-target="#filterModal">
                                 <i class="fa-solid fa-filter"></i>Bộ lọc</button>
@@ -183,7 +212,7 @@
                 createBar.innerHTML = `
                         <div style="margin-bottom: 10px">
                         <button id="newProduct"
-						data-target="AdminProductController?action=forward" class="btn btn-success"><i class="fa-solid fa-plus" style="margin-right: 6px"></i>Tạo sản phẩm mới</button>
+						data-target="AdminProductController?action=forward" class="btn btn-success"><i class="fa-solid fa-plus" style="margin-right: 6px"></i>Nhập sản phẩm</button>
                         </div>
                 `;
 
@@ -199,6 +228,8 @@
                         data: function (d) {
                             d.duration = getDurationValue()
                             d.durationType = $('#durationType').val()
+                            d.categoryId = $('#categoriesList').val()
+                            d.status = $('#statusList').val()
                         }
                     },
                     rowCallback: function (row, data) {
@@ -206,17 +237,18 @@
                     },
                     columnDefs: [
                         {
-                            targets: [0, 2, 3, 4, 7],
+                            targets: [0, 2, 3, 4, 5, 6, 8],
                             className: 'dt-center'
                         },
                         {
-                            targets: [2, 5, 6],
+                            targets: [2, 3, 7],
                             orderable: false
                         },
                         {targets: 0, name: 'id'},
                         {targets: 1, name: 'name'},
-                        {targets: 3, name: 'unitsInStock'},
-                        {targets: 4, name: 'totalSold'},
+                        {targets: 4, name: 'unitsInStock'},
+                        {targets: 5, name: 'totalSold'},
+                        {targets: 6, name: 'totalRevenue'},
                     ],
                     columns: [
                         {data: 'product.id'},
@@ -229,12 +261,18 @@
                         {
                             data: 'product.thumb',
                             render: function (data, type, row) {
-                                return '<img src="../' + data + '" width="100px" height="150px">';
+                                return '<img src="../' + data + '" width="150px" height="150px">';
                             }
                         },
+                        {data: 'product.status.description'},
                         {data: 'product.unitsInStock'},
                         {data: 'totalSold'},
-                        {data: 'product.status.description'},
+                        {
+                            data: 'totalRevenue',
+                            render: function (data, type, row) {
+                                return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data);
+                            }
+                        },
                         {data: 'product.categories.name'},
                         {
                             data: 'product.lastUpdated',
@@ -279,7 +317,7 @@
                             extend: 'collection',
                             text: 'Xuất File',
                             attr: {
-                                class: 'btn btn-secondary',
+                                class: 'btn btn-warning',
                                 style: 'margin-bottom: 10px'
                             },
                             buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5']

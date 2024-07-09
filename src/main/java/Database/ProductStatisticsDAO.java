@@ -20,16 +20,16 @@ public class ProductStatisticsDAO extends AbtractDAO<ProductStatistics> implemen
 
         if (duration != -1) {
             sql = new StringBuilder(MessageFormat.format("""
-                    SELECT COUNT(DISTINCT orderdetails.productId) AS count
+                    SELECT COUNT(*) AS count
                     FROM products
+                    INNER JOIN
+                    	(SELECT orderdetails.productId
+                    	FROM orderdetails
+                    	INNER JOIN orders ON orders.orderId = orderdetails.orderId
+                    	WHERE orders.dateCreated >= DATE_SUB(NOW(), INTERVAL {0} {1}) AND orders.statusId = 6
+                    	GROUP BY orderdetails.productId) AS orderdetails ON orderdetails.productId = products.productId
                     INNER JOIN categories ON products.categoryId = categories.categoryId
                     INNER JOIN status ON products.statusId = status.statusId
-                    INNER JOIN\s
-                    			(SELECT orderdetails.productId
-                    				FROM orderdetails
-                    				INNER JOIN orders ON orders.orderId = orderdetails.orderId
-                            WHERE orders.dateCreated >= DATE_SUB(NOW(), INTERVAL {0} {1})
-                            AND orders.statusId = 6) AS orderdetails ON orderdetails.productId = products.productId
                     """, duration, durationType));
         } else return -1;
 
@@ -39,6 +39,40 @@ public class ProductStatisticsDAO extends AbtractDAO<ProductStatistics> implemen
         }
 
         return count(sql.toString());
+    }
+
+    public List<ProductStatistics> findProductStatisticsByFilterByDate(Map<String, Object> filters, int month, String year) {
+        StringBuilder queryFilter = getQueryFilters(filters);
+        StringBuilder sql = new StringBuilder(MessageFormat.format("""
+                SELECT\s
+                	products.*,
+                	categories.*,
+                	status.*,
+                	orderdetails.totalSold,
+                	((products.unitPrice - products.costPrice) * orderdetails.totalSold) AS totalRevenue
+                FROM products
+                INNER JOIN (
+                	SELECT orderdetails.productId, SUM(orderdetails.quantity) AS totalSold
+                	FROM orderdetails
+                	INNER JOIN orders ON orders.orderId = orderdetails.orderId
+                	WHERE orders.statusId = 6
+                	AND (MONTH(orders.dateCreated) = {0} AND YEAR(orders.dateCreated) = {1})
+                	GROUP BY orderdetails.productId
+                ) AS orderdetails ON orderdetails.productId = products.productId
+                INNER JOIN categories ON products.categoryId = categories.categoryId
+                INNER JOIN status ON products.statusId = status.statusId
+                """, month, year));
+
+        if(month < 1 || month > 12) {
+            return null;
+        }
+
+        if (queryFilter != null && !queryFilter.isEmpty()) {
+            sql.append(" WHERE")
+                    .append(queryFilter);
+        }
+
+        return querry(sql.toString(), new ProductStatisticsMapper());
     }
 
     @Override
@@ -57,8 +91,7 @@ public class ProductStatisticsDAO extends AbtractDAO<ProductStatistics> implemen
             sql.append(" WHERE")
                     .append(queryFilter);
         }
-        sql.append(" GROUP BY products.productId")
-                .append(" ORDER BY");
+        sql.append(" ORDER BY");
 
         if (queryOrder != null) {
             sql.append(queryOrder);
@@ -135,32 +168,35 @@ public class ProductStatisticsDAO extends AbtractDAO<ProductStatistics> implemen
                     products.*,
                     categories.*,
                     status.*,
-                    SUM(orderdetails.quantity) AS totalSold,
-                    SUM((products.unitPrice - products.costPrice) * orderdetails.quantity) AS totalRevenue
+                    orderdetails.totalSold,
+                    ((products.unitPrice - products.costPrice) * orderdetails.totalSold) AS totalRevenue
                 FROM products
                 INNER JOIN categories ON products.categoryId = categories.categoryId
                 INNER JOIN status ON products.statusId = status.statusId
-                LEFT JOIN orderdetails ON orderdetails.productId = products.productId
+                LEFT JOIN (
+                    SELECT orderdetails.productId, SUM(orderdetails.quantity) AS totalSold FROM orderdetails
+                    GROUP BY orderdetails.productId
+                ) AS orderdetails ON orderdetails.productId = products.productId
                 """);
     }
 
     private StringBuilder getQueryProductStatistics(int duration, String durationType) {
         return new StringBuilder(MessageFormat.format("""
                 SELECT\s
-                    products.*,
-                    categories.*,
+                	products.*,
+                	categories.*,
                     status.*,
-                    SUM(orderdetails.quantity) AS totalSold,
-                    SUM((products.unitPrice - products.costPrice) * orderdetails.quantity) AS totalRevenue
+                    orderdetails.totalSold,
+                    ((products.unitPrice - products.costPrice) * orderdetails.totalSold) AS totalRevenue
                 FROM products
+                INNER JOIN
+                	(SELECT orderdetails.productId, SUM(orderdetails.quantity) AS totalSold
+                	FROM orderdetails
+                	INNER JOIN orders ON orders.orderId = orderdetails.orderId
+                	WHERE orders.dateCreated >= DATE_SUB(NOW(), INTERVAL {0} {1}) AND orders.statusId = 6
+                	GROUP BY orderdetails.productId) AS orderdetails ON orderdetails.productId = products.productId
                 INNER JOIN categories ON products.categoryId = categories.categoryId
                 INNER JOIN status ON products.statusId = status.statusId
-                INNER JOIN\s
-                    (SELECT orderdetails.productId, orderdetails.quantity\s
-                     FROM orderdetails\s
-                     INNER JOIN orders ON orders.orderId = orderdetails.orderId\s
-                     WHERE orders.dateCreated >= DATE_SUB(NOW(), INTERVAL {0} {1})\s
-                     AND orders.statusId = 6) AS orderdetails ON orderdetails.productId = products.productId
                 """, duration, durationType));
     }
 
@@ -232,7 +268,7 @@ public class ProductStatisticsDAO extends AbtractDAO<ProductStatistics> implemen
         ProductStatisticsDAO productStatisticsDAO = new ProductStatisticsDAO();
 
         Map<String, Object> filters = new HashMap<>();
-//        filters.put("category", 2);
+        filters.put("category", 2);
 
         String orderBy = "totalRevenue";
         String orderDir = "DESC";
@@ -244,5 +280,6 @@ public class ProductStatisticsDAO extends AbtractDAO<ProductStatistics> implemen
 
         System.out.println(productStatisticsDAO.getCount(filters, duration, "MONTH"));
         System.out.println(productStatisticsDAO.findProductStatisticsByFilter(filters, limit, offset, orderBy, orderDir, duration, "MONTH"));
+        System.out.println(productStatisticsDAO.findProductStatisticsByFilterByDate(filters, 7, "2024"));
     }
 }
