@@ -95,6 +95,7 @@
                             data-target="#updateInfor">Cập nhập thông tin?
                     </button>
                 </div>
+<%--                Đơn hàng của bạn--%>
                 <div class="block-account" id="YOUR_ORDER">
                     <div class="recent-orders">
                         <div class="table-responsive-block tab-all"
@@ -107,6 +108,7 @@
                         </div>
                     </div>
                 </div>
+<%--                Thay đổi mật khẩu--%>
                 <div class="block-account" id="Change_Password">
                     <div class="col-xs-12 col-sm-12 col-lg-9 col-right-ac">
                         <h5 class="title-head margin-top-0">ĐỔI MÂT KHẨU</h5>
@@ -157,6 +159,7 @@
                         </div>
                     </div>
                 </div>
+<%--                Địa chỉ của bạn--%>
                 <div class="block-account" id="address_your">
                     <h5 class="title-acccount">ĐỊA CHỈ CỦA BẠN</h5>
                     <p id="success" style="color: red;"></p>
