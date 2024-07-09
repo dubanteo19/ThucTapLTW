@@ -11,7 +11,7 @@
  Target Server Version : 80030 (8.0.30)
  File Encoding         : 65001
 
- Date: 06/07/2024 14:10:45
+ Date: 08/07/2024 21:33:40
 */
 
 SET NAMES utf8mb4;
@@ -95,7 +95,6 @@ CREATE TABLE `carts`  (
 -- ----------------------------
 -- Records of carts
 -- ----------------------------
-INSERT INTO `carts` VALUES (12, '[{\"quantity\": 2, \"productId\": 1}, {\"quantity\": 1, \"productId\": 2}]');
 
 -- ----------------------------
 -- Table structure for categories
@@ -457,7 +456,7 @@ CREATE TABLE `logs`  (
   `level` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   `dateCreated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`logId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 67 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 138 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of logs
@@ -528,6 +527,75 @@ INSERT INTO `logs` VALUES (63, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home
 INSERT INTO `logs` VALUES (64, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 14:06:40');
 INSERT INTO `logs` VALUES (65, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 14:07:33');
 INSERT INTO `logs` VALUES (66, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 14:07:48');
+INSERT INTO `logs` VALUES (67, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 16:51:01');
+INSERT INTO `logs` VALUES (68, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 16:53:01');
+INSERT INTO `logs` VALUES (69, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 16:53:20');
+INSERT INTO `logs` VALUES (70, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 16:53:30');
+INSERT INTO `logs` VALUES (71, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 16:54:26');
+INSERT INTO `logs` VALUES (72, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 16:55:39');
+INSERT INTO `logs` VALUES (73, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 16:56:08');
+INSERT INTO `logs` VALUES (74, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 16:56:18');
+INSERT INTO `logs` VALUES (75, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 16:56:54');
+INSERT INTO `logs` VALUES (76, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 16:57:05');
+INSERT INTO `logs` VALUES (77, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:00:29');
+INSERT INTO `logs` VALUES (78, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:00:39');
+INSERT INTO `logs` VALUES (79, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:01:25');
+INSERT INTO `logs` VALUES (80, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:01:33');
+INSERT INTO `logs` VALUES (81, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:01:50');
+INSERT INTO `logs` VALUES (82, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:04:26');
+INSERT INTO `logs` VALUES (83, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:04:26');
+INSERT INTO `logs` VALUES (84, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:04:38');
+INSERT INTO `logs` VALUES (85, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:04:50');
+INSERT INTO `logs` VALUES (86, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:06:26');
+INSERT INTO `logs` VALUES (87, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:06:50');
+INSERT INTO `logs` VALUES (88, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:07:30');
+INSERT INTO `logs` VALUES (89, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:07:53');
+INSERT INTO `logs` VALUES (90, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:08:19');
+INSERT INTO `logs` VALUES (91, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:09:15');
+INSERT INTO `logs` VALUES (92, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:09:31');
+INSERT INTO `logs` VALUES (93, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:09:49');
+INSERT INTO `logs` VALUES (94, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:10:34');
+INSERT INTO `logs` VALUES (95, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:10:53');
+INSERT INTO `logs` VALUES (97, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:11:55');
+INSERT INTO `logs` VALUES (99, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:12:18');
+INSERT INTO `logs` VALUES (100, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:16:22');
+INSERT INTO `logs` VALUES (101, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:16:39');
+INSERT INTO `logs` VALUES (102, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:18:12');
+INSERT INTO `logs` VALUES (103, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:19:01');
+INSERT INTO `logs` VALUES (104, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:19:23');
+INSERT INTO `logs` VALUES (105, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:20:40');
+INSERT INTO `logs` VALUES (106, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:20:45');
+INSERT INTO `logs` VALUES (107, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:21:00');
+INSERT INTO `logs` VALUES (108, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:23:16');
+INSERT INTO `logs` VALUES (109, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:23:29');
+INSERT INTO `logs` VALUES (110, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:23:46');
+INSERT INTO `logs` VALUES (111, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:24:04');
+INSERT INTO `logs` VALUES (112, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:28:24');
+INSERT INTO `logs` VALUES (113, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:28:36');
+INSERT INTO `logs` VALUES (114, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:37:40');
+INSERT INTO `logs` VALUES (115, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:38:02');
+INSERT INTO `logs` VALUES (116, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:38:39');
+INSERT INTO `logs` VALUES (117, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:38:40');
+INSERT INTO `logs` VALUES (118, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:39:19');
+INSERT INTO `logs` VALUES (119, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:41:55');
+INSERT INTO `logs` VALUES (120, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:42:06');
+INSERT INTO `logs` VALUES (121, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:43:15');
+INSERT INTO `logs` VALUES (122, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:44:22');
+INSERT INTO `logs` VALUES (123, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:44:37');
+INSERT INTO `logs` VALUES (124, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:45:09');
+INSERT INTO `logs` VALUES (125, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:45:38');
+INSERT INTO `logs` VALUES (126, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:46:07');
+INSERT INTO `logs` VALUES (127, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:46:37');
+INSERT INTO `logs` VALUES (128, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:47:02');
+INSERT INTO `logs` VALUES (129, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 17:47:15');
+INSERT INTO `logs` VALUES (130, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 18:30:48');
+INSERT INTO `logs` VALUES (131, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 18:32:28');
+INSERT INTO `logs` VALUES (132, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 19:14:58');
+INSERT INTO `logs` VALUES (133, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 22:12:39');
+INSERT INTO `logs` VALUES (134, '127.0.0.1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 22:31:36');
+INSERT INTO `logs` VALUES (135, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 22:56:04');
+INSERT INTO `logs` VALUES (136, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-07 11:46:48');
+INSERT INTO `logs` VALUES (137, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-08 09:41:52');
 
 -- ----------------------------
 -- Table structure for news
@@ -539,7 +607,7 @@ CREATE TABLE `news`  (
   `blogId` int NULL DEFAULT NULL,
   `author` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   PRIMARY KEY (`newId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of news
@@ -563,9 +631,10 @@ CREATE TABLE `orderdetails`  (
 -- ----------------------------
 -- Records of orderdetails
 -- ----------------------------
-INSERT INTO `orderdetails` VALUES (1, 2, 25000, 4);
-INSERT INTO `orderdetails` VALUES (2, 6, 35000, 2);
-INSERT INTO `orderdetails` VALUES (3, 16, 28000, 3);
+INSERT INTO `orderdetails` VALUES (1, 2, 149000, 4);
+INSERT INTO `orderdetails` VALUES (2, 6, 133000, 2);
+INSERT INTO `orderdetails` VALUES (3, 16, 23000, 3);
+INSERT INTO `orderdetails` VALUES (1, 6, 133000, 1);
 
 -- ----------------------------
 -- Table structure for orders
@@ -592,9 +661,9 @@ CREATE TABLE `orders`  (
 -- ----------------------------
 -- Records of orders
 -- ----------------------------
-INSERT INTO `orders` VALUES (1, 5, 2, 100, 0, 'COD', 10, '123 Nguyen Hue Street, Ho Chi Minh City', '2023-11-21 23:49:00', '2023-11-21 23:49:00');
-INSERT INTO `orders` VALUES (2, 6, 3, 775, 1, 'Credit card', 15, '456 Le Loi Street, Ho Chi Minh City', '2023-11-21 23:49:00', '2023-11-21 23:49:00');
-INSERT INTO `orders` VALUES (3, 7, 4, 84, 1, 'PayPal', 20, '789 Pham Ngu Lao Street, Ho Chi Minh City', '2023-11-21 23:49:00', '2023-11-21 23:49:00');
+INSERT INTO `orders` VALUES (1, 6, 2, 729000, 0, 'COD', 0, '123 Nguyen Hue Street, Ho Chi Minh City', '2024-07-07 02:49:00', '2024-07-07 23:49:00');
+INSERT INTO `orders` VALUES (2, 6, 3, 266000, 1, 'Credit card', 0, '456 Le Loi Street, Ho Chi Minh City', '2024-07-07 02:49:00', '2024-07-07 23:49:00');
+INSERT INTO `orders` VALUES (3, 6, 4, 39000, 1, 'PayPal', 0, '789 Pham Ngu Lao Street, Ho Chi Minh City', '2024-07-07 02:49:00', '2024-07-07 23:49:00');
 
 -- ----------------------------
 -- Table structure for producthaspromotion
@@ -639,8 +708,8 @@ CREATE TABLE `products`  (
 -- ----------------------------
 -- Records of products
 -- ----------------------------
-INSERT INTO `products` VALUES (1, 2, 'Gạo thơm đặc sản Neptune ST25 túi 5kg', 'images/product-images/gao-thom-dac-san-neptune-st25-tui-5kg-202306191511488893.jpg', 25000, 129000, 1, 8, 10.00, 65, '2023-01-29 00:00:00', '2023-01-30 00:00:00');
-INSERT INTO `products` VALUES (2, 2, 'Gạo giống Nhật Bản Vinh Hiển Taiyo túi 5kg', 'images/product-images/gao-giong-nhat-ban-vinh-hien-taiyo-tui-5kg-202007211001455095.jpg', 23000, 149000, 2, 8, 25.00, 55, '2023-01-20 00:00:00', '2023-01-21 00:00:00');
+INSERT INTO `products` VALUES (1, 2, 'Gạo thơm đặc sản Neptune ST25 túi 5kg', 'images/product-images/gao-thom-dac-san-neptune-st25-tui-5kg-202306191511488893.jpg', 100000, 129000, 1, 8, 10.00, 65, '2023-01-29 00:00:00', '2023-01-30 00:00:00');
+INSERT INTO `products` VALUES (2, 2, 'Gạo giống Nhật Bản Vinh Hiển Taiyo túi 5kg', 'images/product-images/gao-giong-nhat-ban-vinh-hien-taiyo-tui-5kg-202007211001455095.jpg', 100000, 149000, 2, 8, 25.00, 55, '2023-01-20 00:00:00', '2023-01-21 00:00:00');
 INSERT INTO `products` VALUES (3, 2, 'Gạo Hạt Ngọc Trời Tiên Nữ túi 5kg', 'images/product-images/-202210270821594671.jpg', 100000, 120000, 3, 8, 10.00, 256, '2023-01-25 00:00:00', '2023-02-26 00:00:00');
 INSERT INTO `products` VALUES (4, 2, 'Gạo lài sữa Đồng Việt túi 5kg', 'images/product-images/gao-lai-sua-dong-viet-tui-5kg-202212280858091468.jpg', 100000, 115000, 4, 8, 10.00, 34, '2022-12-29 00:00:00', '2023-03-24 00:00:00');
 INSERT INTO `products` VALUES (5, 2, 'Gạo ST25 Đồng Việt túi 5kg', 'images/product-images/gao-st25-thuong-hang-dong-viet-tui-5kg-202212280854102020.jpg', 100000, 134000, 5, 8, 5.00, 24, '2023-01-10 00:00:00', '2023-01-10 00:00:00');
@@ -784,7 +853,7 @@ CREATE TABLE `promotions`  (
   `startDate` datetime NULL DEFAULT NULL,
   `expDate` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of promotions
