@@ -35,7 +35,13 @@
                 data-link="products-data-table.jsp" href="AdminProductController?action=get">
             <i class="fa-solid fa-box"></i> <span class="menu-text">
 						Quản lý sản phẩm</span>
-        </a> <a class="nav-link" id="orders-nav-link"
+        </a>
+            <a class="nav-link pointer-event" id="warehouse-product-nav-link"
+               data-link="warehouse-products-data-table.jsp" href="warehouse-management">
+                <i class="fa-solid fa-box"></i> <span class="menu-text">
+						Quản lý nhập kho</span>
+            </a>
+            <a class="nav-link" id="orders-nav-link"
                 data-link="orders-data-table.jsp" href="OrderController">
             <i class="fa-solid fa-file-invoice-dollar"></i> <span
                 class="menu-text"> Quản lý đơn hàng</span>

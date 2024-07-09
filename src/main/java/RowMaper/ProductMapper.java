@@ -16,8 +16,8 @@ public class ProductMapper implements RowMapper<Product> {
 
 	@Override
 	public Product map(ResultSet r) {
+        Product re = new Product();
 		try {
-			Product re = new Product();
 			re.setId(r.getInt(ProductsColumn.ProductId.name()));
 			re.setName(r.getString(ProductsColumn.ProductName.name()));
 			re.setCostPrice(r.getDouble(ProductsColumn.CostPrice.name()));
@@ -36,16 +36,20 @@ public class ProductMapper implements RowMapper<Product> {
 			Status status = new Status(r.getInt(StatusColumn.StatusId.name()), r.getString(StatusColumn.Description.name()));
 			re.setStatus(status);
 			re.setCategories(categories);
+
 			if(r.getString("sale") != null) {
 				return mapProductSale(re, r);
 			}
 			return re;
 		} catch (SQLException e) {
+            if("Column 'sale' not found.".equalsIgnoreCase(e.getMessage())) {
+                return re;
+            }
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
+
 	// Product Sale
 	public ProductSale mapProductSale(Product product, ResultSet res) throws SQLException {
 		String sale = res.getString("sale");
