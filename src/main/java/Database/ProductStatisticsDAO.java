@@ -127,6 +127,7 @@ public class ProductStatisticsDAO extends AbtractDAO<ProductStatistics> implemen
         StringBuilder queryOrder = getQueryOrder(order, sort);
         StringBuilder sql;
         boolean requiredImport = (boolean) filters.getOrDefault("requiredImport", false);
+
         if (duration != -1) {
             sql = getQueryProductStatistics(requiredImport, duration);
         } else {
@@ -148,7 +149,7 @@ public class ProductStatisticsDAO extends AbtractDAO<ProductStatistics> implemen
 
         sql.append(" products.productId ASC")
                 .append(getQueryFilter("limit", limit, offSet)).append(";");
-        
+
         if (duration != -1) {
             String sqlView = MessageFormat.format("""
                     CREATE VIEW RecentOrderDetails AS\s
@@ -347,17 +348,17 @@ public class ProductStatisticsDAO extends AbtractDAO<ProductStatistics> implemen
 
         Map<String, Object> filters = new HashMap<>();
 //        filters.put("category", 2);
-        filters.put("requiredImport", false);
+        filters.put("requiredImport", true);
 
-        String orderBy = "";
-        String orderDir = "";
+        String orderBy = "totalRevenue";
+        String orderDir = "DESC";
 
         int limit = 5;
         int offset = 0;
 
         int duration = 3;
 
-//        System.out.println(productStatisticsDAO.getCount(filters, duration, "MONTH"));
+ //       System.out.println(productStatisticsDAO.getCount(filters, duration, "MONTH"));
         System.out.println(productStatisticsDAO.findProductStatisticsByFilter(filters, limit, offset, orderBy, orderDir, duration, "MONTH"));
 //        System.out.println(productStatisticsDAO.findProductStatisticsByFilterByDate(filters, 7, "2024"));
 //        System.out.println(productStatisticsDAO.getCountProductRequiredImport(filters, 3, "MONTH"));
