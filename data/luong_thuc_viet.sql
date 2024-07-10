@@ -11,7 +11,7 @@
  Target Server Version : 80030 (8.0.30)
  File Encoding         : 65001
 
- Date: 08/07/2024 21:33:40
+ Date: 09/07/2024 14:41:57
 */
 
 SET NAMES utf8mb4;
@@ -662,7 +662,7 @@ CREATE TABLE `orders`  (
 -- Records of orders
 -- ----------------------------
 INSERT INTO `orders` VALUES (1, 6, 2, 729000, 0, 'COD', 0, '123 Nguyen Hue Street, Ho Chi Minh City', '2024-07-07 02:49:00', '2024-07-07 23:49:00');
-INSERT INTO `orders` VALUES (2, 6, 3, 266000, 1, 'Credit card', 0, '456 Le Loi Street, Ho Chi Minh City', '2024-07-07 02:49:00', '2024-07-07 23:49:00');
+INSERT INTO `orders` VALUES (2, 6, 3, 266000, 1, 'Credit card', 0, '456 Le Loi Street, Ho Chi Minh City', '2024-05-01 02:49:00', '2024-07-07 23:49:00');
 INSERT INTO `orders` VALUES (3, 6, 4, 39000, 1, 'PayPal', 0, '789 Pham Ngu Lao Street, Ho Chi Minh City', '2024-07-07 02:49:00', '2024-07-07 23:49:00');
 
 -- ----------------------------
