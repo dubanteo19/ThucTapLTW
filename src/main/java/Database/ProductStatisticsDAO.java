@@ -143,7 +143,7 @@ public class ProductStatisticsDAO extends AbtractDAO<ProductStatistics> implemen
         if (queryOrder != null && !queryOrder.isEmpty()) {
             sql.append(queryOrder);
         }
-        else {
+        else if(duration != -1){
             sql.append(" (sd.requiredQuantity > products.unitsInStock) DESC,");
         }
 
