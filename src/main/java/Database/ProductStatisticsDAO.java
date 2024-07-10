@@ -42,6 +42,51 @@ public class ProductStatisticsDAO extends AbtractDAO<ProductStatistics> implemen
     }
 
     @Override
+    public int getCountProductRequiredImport(Map<String, Object> filters, int duration, String durationType) {
+        StringBuilder queryFilter = getQueryFilters(filters);
+        StringBuilder sql = new StringBuilder(MessageFormat.format("""
+                SELECT
+                	COUNT(products.productId) AS count
+                FROM products
+                INNER JOIN
+                	(SELECT\s
+                	sd.productId,
+                	ROUND(sd.avg + sd.sd * 1.5, 0) AS requiredQuantity\s
+                FROM\s
+                		(SELECT\s
+                			subod.productId,
+                			SQRT(SUM(POW(orderdetails.quantity - subod.avg, 2)) / {0}) AS sd,
+                			subod.avg
+                		FROM
+                			(SELECT orderdetails.productId, AVG(orderdetails.quantity) AS avg
+                			FROM RecentOrderDetails AS orderdetails GROUP BY orderdetails.productId) AS subod
+                		INNER JOIN RecentOrderDetails AS orderdetails ON orderdetails.productId = subod.productId
+                		GROUP BY subod.productId) AS sd) AS sd ON sd.productId = products.productId AND sd.requiredQuantity > products.unitsInStock
+                INNER JOIN categories ON products.categoryId = categories.categoryId
+                INNER JOIN status ON products.statusId = status.statusId
+                """, duration));
+
+        if (queryFilter != null && !queryFilter.isEmpty()) {
+            sql.append(" WHERE")
+                    .append(queryFilter);
+        }
+        sql.append(";");
+
+        StringBuilder sqlView = new StringBuilder(MessageFormat.format("""
+                CREATE VIEW RecentOrderDetails AS\s
+                SELECT orderdetails.productId, MONTH(orders.dateCreated) AS month, SUM(orderdetails.quantity) AS quantity
+                FROM orderdetails
+                INNER JOIN orders ON orders.orderId = orderdetails.orderId
+                WHERE orders.dateCreated >= DATE_SUB(NOW(), INTERVAL {0} {1}) AND orders.statusId = 6
+                GROUP BY month, orderdetails.productId;
+                """, duration, durationType));
+
+        String sqlDrop = "DROP VIEW IF EXISTS RecentOrderDetails;";
+
+        return countWithView(sqlView.toString(), sqlDrop, sql.toString());
+    }
+
+    @Override
     public List<ProductStatistics> findProductStatisticsByFilterByDate(Map<String, Object> filters, int month, String year) {
         StringBuilder queryFilter = getQueryFilters(filters);
         StringBuilder sql = new StringBuilder(MessageFormat.format("""
@@ -64,7 +109,7 @@ public class ProductStatisticsDAO extends AbtractDAO<ProductStatistics> implemen
                 INNER JOIN status ON products.statusId = status.statusId
                 """, month, year));
 
-        if(month < 1 || month > 12) {
+        if (month < 1 || month > 12) {
             return null;
         }
 
@@ -81,9 +126,10 @@ public class ProductStatisticsDAO extends AbtractDAO<ProductStatistics> implemen
         StringBuilder queryFilter = getQueryFilters(filters);
         StringBuilder queryOrder = getQueryOrder(order, sort);
         StringBuilder sql;
+        boolean requiredImport = (boolean) filters.getOrDefault("requiredImport", false);
 
         if (duration != -1) {
-            sql = getQueryProductStatistics(duration, durationType);
+            sql = getQueryProductStatistics(requiredImport, duration);
         } else {
             sql = getQueryProductStatistics();
         }
@@ -94,13 +140,30 @@ public class ProductStatisticsDAO extends AbtractDAO<ProductStatistics> implemen
         }
         sql.append(" ORDER BY");
 
-        if (queryOrder != null) {
+        if (queryOrder != null && !queryOrder.isEmpty()) {
             sql.append(queryOrder);
+        }
+        else {
+            sql.append(" (sd.requiredQuantity > products.unitsInStock) DESC,");
         }
 
         sql.append(" products.productId ASC")
-                .append(getQueryFilter("limit", limit, offSet));
+                .append(getQueryFilter("limit", limit, offSet)).append(";");
 
+        if (duration != -1) {
+            String sqlView = MessageFormat.format("""
+                    CREATE VIEW RecentOrderDetails AS\s
+                    SELECT orderdetails.productId, MONTH(orders.dateCreated) AS month, SUM(orderdetails.quantity) AS quantity
+                    FROM orderdetails
+                    INNER JOIN orders ON orders.orderId = orderdetails.orderId
+                    WHERE orders.dateCreated >= DATE_SUB(NOW(), INTERVAL {0} {1}) AND orders.statusId = 6
+                    GROUP BY month, orderdetails.productId;
+                    """, duration, durationType);
+
+            String sqlDrop = "DROP VIEW IF EXISTS RecentOrderDetails";
+
+            return querryWithView(sqlView, sqlDrop, sql.toString(), new ProductStatisticsMapper());
+        }
         return querry(sql.toString(), new ProductStatisticsMapper());
     }
 
@@ -181,24 +244,39 @@ public class ProductStatisticsDAO extends AbtractDAO<ProductStatistics> implemen
                 """);
     }
 
-    private StringBuilder getQueryProductStatistics(int duration, String durationType) {
-        return new StringBuilder(MessageFormat.format("""
-                SELECT\s
+    private StringBuilder getQueryProductStatistics(boolean requiredImport, int duration) {
+        String s = " ";
+        if(requiredImport) {
+            s = "AND sd.requiredQuantity > products.unitsInStock ";
+        }
+        return new StringBuilder(MessageFormat.format("""              
+                SELECT
                 	products.*,
                 	categories.*,
-                    status.*,
-                    orderdetails.totalSold,
-                    ((products.unitPrice - products.costPrice) * orderdetails.totalSold) AS totalRevenue
+                	status.*,
+                	sd.totalSold,
+                	((products.unitPrice - products.costPrice) * sd.totalSold) AS totalRevenue,
+                	sd.requiredQuantity
                 FROM products
                 INNER JOIN
-                	(SELECT orderdetails.productId, SUM(orderdetails.quantity) AS totalSold
-                	FROM orderdetails
-                	INNER JOIN orders ON orders.orderId = orderdetails.orderId
-                	WHERE orders.dateCreated >= DATE_SUB(NOW(), INTERVAL {0} {1}) AND orders.statusId = 6
-                	GROUP BY orderdetails.productId) AS orderdetails ON orderdetails.productId = products.productId
+                	(SELECT\s
+                	sd.productId,\s
+                	sd.totalSold,
+                	ROUND(sd.avg + sd.sd * 1.5, 0) AS requiredQuantity\s
+                FROM\s
+                		(SELECT\s
+                			subod.productId,
+                			SQRT(SUM(POW(orderdetails.quantity - subod.avg, 2)) / {0}) AS sd,
+                			subod.totalSold,
+                			subod.avg
+                		FROM\s
+                			(SELECT orderdetails.productId, SUM(orderdetails.quantity) AS totalSold, AVG(orderdetails.quantity) AS avg
+                			FROM RecentOrderDetails AS orderdetails GROUP BY orderdetails.productId) AS subod
+                		INNER JOIN RecentOrderDetails AS orderdetails ON orderdetails.productId = subod.productId
+                		GROUP BY subod.productId) AS sd) AS sd ON sd.productId = products.productId {1}
                 INNER JOIN categories ON products.categoryId = categories.categoryId
                 INNER JOIN status ON products.statusId = status.statusId
-                """, duration, durationType));
+                """, duration, s));
     }
 
     private StringBuilder getQueryFilter(String filter, Object... params) {
@@ -270,6 +348,7 @@ public class ProductStatisticsDAO extends AbtractDAO<ProductStatistics> implemen
 
         Map<String, Object> filters = new HashMap<>();
 //        filters.put("category", 2);
+        filters.put("requiredImport", true);
 
         String orderBy = "totalRevenue";
         String orderDir = "DESC";
@@ -279,8 +358,9 @@ public class ProductStatisticsDAO extends AbtractDAO<ProductStatistics> implemen
 
         int duration = 3;
 
-//        System.out.println(productStatisticsDAO.getCount(filters, duration, "MONTH"));
-//        System.out.println(productStatisticsDAO.findProductStatisticsByFilter(filters, limit, offset, orderBy, orderDir, duration, "MONTH"));
-        System.out.println(productStatisticsDAO.findProductStatisticsByFilterByDate(filters, 7, "2024"));
+ //       System.out.println(productStatisticsDAO.getCount(filters, duration, "MONTH"));
+        System.out.println(productStatisticsDAO.findProductStatisticsByFilter(filters, limit, offset, orderBy, orderDir, duration, "MONTH"));
+//        System.out.println(productStatisticsDAO.findProductStatisticsByFilterByDate(filters, 7, "2024"));
+//        System.out.println(productStatisticsDAO.getCountProductRequiredImport(filters, 3, "MONTH"));
     }
 }

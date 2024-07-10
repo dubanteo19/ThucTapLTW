@@ -38,7 +38,38 @@ public class AbtractDAO<T> implements GenericDAO<T> {
 		} finally {
 			JDBCConnector.closeConnect();
 		}
-		
+	}
+
+	@Override
+	public <T> List<T> querryWithView(String sqlView, String sqlDrop, String sql, RowMapper<T> rowMapper, Object... objects) {
+		List<T> re = new ArrayList<>();
+		try {
+			Connection conn = JDBCConnector.getConnection();
+
+			PreparedStatement statementDrop = conn.prepareStatement(sqlDrop);
+			statementDrop.executeUpdate();
+
+			PreparedStatement statementView = conn.prepareStatement(sqlView);
+			statementView.executeUpdate();
+
+
+			PreparedStatement statement = conn.prepareStatement(sql);
+			setParameters(statement, objects);
+
+			ResultSet r = statement.executeQuery();
+			while (r.next()) {
+				re.add(rowMapper.map(r));
+			}
+
+			statementDrop.executeUpdate();
+			return re;
+		} catch (SQLException | IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		} finally {
+			JDBCConnector.closeConnect();
+		}
 	}
 
 	private void setParameters(PreparedStatement statement, Object[] objects) {
@@ -122,11 +153,39 @@ public class AbtractDAO<T> implements GenericDAO<T> {
 	public int count(String sql, Object... objects) {
 		try {
 			Connection conn = JDBCConnector.getConnection();
-			
+
 			PreparedStatement statement = conn.prepareStatement(sql);
 			setParameters(statement, objects);
 			
 			ResultSet r = statement.executeQuery();
+			return r.next()? r.getInt(1) : 0;
+		} catch (SQLException | IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 0;
+		} finally {
+			JDBCConnector.closeConnect();
+		}
+	}
+
+	@Override
+	public int countWithView(String sqlView, String sqlDrop, String sql, Object... objects) {
+		try {
+			Connection conn = JDBCConnector.getConnection();
+
+			PreparedStatement statementDrop = conn.prepareStatement(sqlDrop);
+			statementDrop.executeUpdate();
+
+			PreparedStatement statementView = conn.prepareStatement(sqlView);
+			statementView.executeUpdate();
+
+			PreparedStatement statement = conn.prepareStatement(sql);
+			setParameters(statement, objects);
+
+			ResultSet r = statement.executeQuery();
+
+			statementDrop.executeUpdate();
+
 			return r.next()? r.getInt(1) : 0;
 		} catch (SQLException | IllegalArgumentException e) {
 			// TODO Auto-generated catch block
