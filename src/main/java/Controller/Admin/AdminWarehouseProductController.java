@@ -55,7 +55,7 @@ public class AdminWarehouseProductController extends HttpServlet {
         int duration = Integer.parseInt(req.getParameter("duration"));
         String durationType = req.getParameter("durationType");
         int categoryId = Integer.parseInt(req.getParameter("categoryId"));
-        String status = req.getParameter("status");
+        String status = req.getParameter("status").toLowerCase();
 
         if (orderBy != null && !orderBy.isEmpty()) {
             orderBy = req.getParameter(MessageFormat.format("columns[{0}][name]", Integer.parseInt(orderBy)));
@@ -66,31 +66,35 @@ public class AdminWarehouseProductController extends HttpServlet {
         if (searchValue != null && !searchValue.isEmpty()) {
             filters.put("search", searchValue);
         }
-        if(categoryId > 0) {
+        if (categoryId > 0) {
             filters.put("category", categoryId);
         }
-        if(status != null && !status.equalsIgnoreCase("-1")) {
+        if (status != null && !status.equalsIgnoreCase("-1")) {
             int statusId = 8;
-
-            switch (status.toLowerCase()) {
+            switch (status) {
                 case "còn hàng":
                     statusId = 8;
                     break;
                 case "hết hàng":
                     statusId = 9;
                     break;
-                case "cần nhập":
-                    break;
             }
-
-            filters.put("status", statusId);
+            if (status.equalsIgnoreCase("cần nhập")) {
+                filters.put("requiredImport", true);
+            } else {
+                filters.put("status", statusId);
+            }
         }
 
         int totalRecordsFiltered;
         if (duration == -1) {
             totalRecordsFiltered = productService.getCount(filters);
         } else {
-            totalRecordsFiltered = productStatisticsService.getCount(filters, duration, durationType);
+            if (status.equalsIgnoreCase("cần nhập")) {
+                totalRecordsFiltered = productStatisticsService.getCountProductRequiredImport(filters, duration, durationType);
+            } else {
+                totalRecordsFiltered = productStatisticsService.getCount(filters, duration, durationType);
+            }
         }
 
         JsonObject jsonObject = new JsonObject();
@@ -103,7 +107,6 @@ public class AdminWarehouseProductController extends HttpServlet {
         }
 
         jsonObject.addProperty("recordsTotal", totalRecords);
-
         JsonUtils.sendJsonResponse(resp, HttpServletResponse.SC_OK, jsonObject.toString());
     }
 }

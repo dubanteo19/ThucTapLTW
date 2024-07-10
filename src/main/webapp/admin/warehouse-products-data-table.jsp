@@ -71,7 +71,7 @@
         <div class="container-fluid">
             <div class="row w-100">
                 <div class="col-12">
-                    <div class=" mt-3 bg-white">
+                    <div class="bg-white">
                         <div class="sub-title">
                             <h4>Quản lý nhập kho</h4>
                         </div>
@@ -80,14 +80,14 @@
                                 <thead>
                                 <tr>
                                     <th class="text-center">Mã sản phẩm</th>
-                                    <th style="padding: 0 5vw" class="text-center">Tên sản phẩm</th>
+                                    <th style="min-width: 10vw">Tên sản phẩm</th>
                                     <th class="text-center">Hình ảnh</th>
-                                    <th class="text-center">Tình trạng</th>
-                                    <th class="text-center">Số lượng tồn kho</th>
-                                    <th class="text-center">Số lượng đã bán</th>
-                                    <th class="text-center">Doanh thu</th>
-                                    <th class="text-center">Danh mục</th>
-                                    <th class="text-center">Ngày nhập kho</th>
+                                    <th>Tình trạng</th>
+                                    <th class="text-right">Tồn kho</th>
+                                    <th class="text-right">Đã bán</th>
+                                    <th>Doanh thu</th>
+                                    <th>Danh mục</th>
+                                    <th>Ngày nhập kho</th>
                                 </tr>
                                 </thead>
                             </table>
@@ -112,10 +112,10 @@
                                     <div class="col">
                                         <select id="durationSelect" class="form-select"
                                                 onchange="handleDurationChange()">
-                                            <option value="3">3</option>
+                                            <option selected value="3">3</option>
                                             <option value="6">6</option>
                                             <option value="12">12</option>
-                                            <option selected value="-1">Tất cả</option>
+                                            <option value="-1">Tất cả</option>
                                             <option value="other">Khác</option>
                                         </select>
                                     </div>
@@ -146,9 +146,9 @@
                                     <label class="col" for="statusList">Tình trạng sản phẩm</label>
                                     <div class="col">
                                         <select id="statusList" class="form-select">
-                                            <option selected value="Còn hàng">Còn hàng</option>
-                                            <option selected value="Hết hàng">Hết hàng</option>
-                                            <option selected value="Cần nhập">Cần nhập</option>
+                                            <option value="Còn hàng">Còn hàng</option>
+                                            <option value="Hết hàng">Hết hàng</option>
+                                            <option value="Cần nhập">Cần nhập</option>
                                             <option selected value="-1">Tất cả</option>
                                         </select>
                                     </div>
@@ -193,6 +193,10 @@
         }
     }
 
+    function formatNumber(number) {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
     $(document)
         .ready(
             function () {
@@ -210,9 +214,9 @@
 
                 let createBar = document.createElement('div');
                 createBar.innerHTML = `
-                        <div style="margin-bottom: 10px">
+                        <div>
                         <button id="newProduct"
-						data-target="AdminProductController?action=forward" class="btn btn-success"><i class="fa-solid fa-plus" style="margin-right: 6px"></i>Nhập sản phẩm</button>
+						data-target="AdminProductController?action=forward" class="btn btn-secondary"><i class="fa-solid fa-plus" style="margin-right: 6px"></i>Nhập sản phẩm</button>
                         </div>
                 `;
 
@@ -221,7 +225,8 @@
                     pageLength: 25,
                     scrollX: true,
                     scrollCollapse: true,
-                    scrollY: '70vh',
+                    scrollY: '55vh',
+                    order: [],
                     ajax: {
                         url: 'warehouse-management',
                         type: 'POST',
@@ -237,8 +242,12 @@
                     },
                     columnDefs: [
                         {
-                            targets: [0, 2, 3, 4, 5, 6, 8],
+                            targets: [0, 2],
                             className: 'dt-center'
+                        },
+                        {
+                            targets: [6, 8, 4, 5],
+                            className: 'dt-right'
                         },
                         {
                             targets: [2, 3, 7],
@@ -261,19 +270,48 @@
                         {
                             data: 'product.thumb',
                             render: function (data, type, row) {
-                                return '<img src="../' + data + '" width="150px" height="150px">';
+                                return '<img src="../' + data + '" width="100px" height="100px">';
                             }
                         },
-                        {data: 'product.status.description'},
-                        {data: 'product.unitsInStock'},
-                        {data: 'totalSold'},
+                        {
+                            data: null,
+                            render: function (data, type, row) {
+                                var status = row.status;
+
+                                if (status.toLowerCase() === 'cần nhập') {
+                                    var formattedRequiredQuantity = formatNumber(data.requiredQuantity);
+                                    return '<span class="product-name">' + status + '<br>' + formattedRequiredQuantity + ' SP</span>';
+                                }
+                                return '<span class="product-name">' + status + '</span>';
+                            }
+                        },
+                        {
+                            data: 'product.unitsInStock',
+                            render: function (data, type, row) {
+                                return '<span>' + formatNumber(data) + '</span>';
+                            }
+                        },
+                        {
+                            data: 'totalSold',
+                            render: function (data, type, row) {
+                                return '<span>' + formatNumber(data) + '</span>';
+                            }
+                        },
                         {
                             data: 'totalRevenue',
                             render: function (data, type, row) {
-                                return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data);
+                                return new Intl.NumberFormat('vi-VN', {
+                                    style: 'currency',
+                                    currency: 'VND'
+                                }).format(data);
                             }
                         },
-                        {data: 'product.categories.name'},
+                        {
+                            data: 'product.categories.name',
+                            render: function (data, type, row) {
+                                return '<span class="product-name">' + data + '</span>';
+                            }
+                        },
                         {
                             data: 'product.lastUpdated',
                             render: function (data, type, row) {
@@ -317,8 +355,7 @@
                             extend: 'collection',
                             text: 'Xuất File',
                             attr: {
-                                class: 'btn btn-warning',
-                                style: 'margin-bottom: 10px'
+                                class: 'btn btn-warning'
                             },
                             buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5']
                         }
