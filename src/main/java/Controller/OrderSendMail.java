@@ -2,7 +2,6 @@ package Controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -16,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import Controller.cart.Cart;
 import Database.IUserDAO;
 import Model.*;
+import Services.IAddressService;
 import Services.ICartService;
 import Services.IDiscountService;
 import Services.IOrderService;
@@ -34,6 +34,8 @@ public class OrderSendMail extends HttpServlet {
 	ICartService cartService;
 	@Inject
 	IDiscountService discountService;
+	@Inject
+	IAddressService addressService;
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -87,21 +89,23 @@ public class OrderSendMail extends HttpServlet {
 				amount = discounts.getAmount();
 			}
 		}
-		System.out.println(amount + "===================");
 		orders.setTotalPrice(Double.parseDouble(totalPrice));
 		orders.setDiscountId(discountId);
 		orders.setPaymentMethod("COD");
 		orders.setShippingFee(shipping);
 		String selectedAddress = request.getParameter("selectedAddress");
+
 		String province = request.getParameter("Province");
 		String district = request.getParameter("District");
 		String ward = request.getParameter("Ward");
 		String note = request.getParameter("note");
+		Address selectedAddr = addressService.findAddressId(Integer.parseInt(selectedAddress));
 		if ("other".equals(selectedAddress)) {
-			String customAddress = province + ", " + district + ", " + ward;
+			String customAddress = province + ", " + district + ", " + ward+ ", Người nhận: " + selectedAddr.getNameUser() + ", Số điện thoại: " + selectedAddr.getPhoneUser();
 			orders.setAddress(customAddress);
 		} else {
-			orders.setAddress(selectedAddress);
+			String existingAddress = selectedAddr.getDescription() + ", " + selectedAddr.getWards() + ", " + selectedAddr.getDistricts() + ", " + selectedAddr.getProvince() + ", Người nhận: " + selectedAddr.getNameUser() + ", Số điện thoại: " + selectedAddr.getPhoneUser();
+			orders.setAddress(existingAddress);
 		}
 		orders.setNote(note);
 		discountService.updateQuantity(dis);

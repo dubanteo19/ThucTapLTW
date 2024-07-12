@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import Model.Status;
 import Model.User;
-import Services.IAddressSerice;
+import Services.IAddressService;
 import Services.IOrderDetailsService;
 import Services.IUserService;
 
@@ -25,7 +25,7 @@ public class UserController extends HttpServlet {
 	@Inject
 	IUserService userService;
 	@Inject
-	IAddressSerice addressService;
+    IAddressService addressService;
 	@Inject
 	IOrderDetailsService orderDetailsService;
 

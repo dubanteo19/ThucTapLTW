@@ -200,6 +200,7 @@
                         <form class="mb-child-10" method="post" id="thanh-toan"
                               action="OrderSendMail">
                             <input type="hidden" id="hidden-total-price" name="totalPrice">
+                            <c:if test="${not item.isDefault()}">
                             <input type="email" id="email"
                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$" name="email"
                                    class="form-control" placeholder="Email" required=""
@@ -210,13 +211,22 @@
                             <input type="text" id="phone-number" name="phone-number"
                                    class="form-control" pattern="\d+" placeholder="Số điện thoại"
                                    required="" value="${user.phone}" disabled>
-                            <c:if test="${not item.isDefault()}">
+
                                <select name="selectedAddress" id="selectedAddress" class="form-control"
                                                                              onchange="toggleCustomForm()">
                                     <c:forEach var="item" items="${user.getAddresses()}">
-                                        <option value="${item.getDescription()} ${item.getWards()} ${item.getDistricts()} ${item.getProvince()}">${item.getDescription()}
-                                                ${item.getWards()} ${item.getDistricts()}
-                                                ${item.getProvince()} </option>
+                                        <option value="${item.getId()}"
+                                                data-description="${item.description}"
+                                                data-wards="${item.wards}"
+                                                data-districts="${item.districts}"
+                                                data-province="${item.province}"
+                                                data-phone="${item.phoneUser}"
+                                                data-fullname="${item.nameUser}">
+                                                ${item.getDescription()}
+                                                ${item.getWards()}
+                                                ${item.getDistricts()}
+                                                ${item.getProvince()}
+                                        </option>
                                     </c:forEach>
                                     <option value="other">Khác</option>
                                 </select>
@@ -461,12 +471,19 @@
     }
 
     function toggleCustomForm() {
-        var select = document.getElementById("selectedAddress");
         var customForm = document.getElementById("customForm");
-        if (select.value === "other") {
-            customForm.style.display = "block";
-        } else {
+        var selectedOption = document.getElementById("selectedAddress").selectedOptions[0];
+        var fullName = selectedOption.getAttribute("data-fullname");
+        var phone = selectedOption.getAttribute("data-phone");
+
+        if (selectedOption.value !== "other") {
             customForm.style.display = "none";
+            document.getElementById("full-name").value = fullName;
+            document.getElementById("phone-number").value = phone;
+        } else {
+            customForm.style.display = "block";
+            document.getElementById("full-name").value = "${user.fullName}";
+            document.getElementById("phone-number").value = "${user.phone}";
         }
     }
 

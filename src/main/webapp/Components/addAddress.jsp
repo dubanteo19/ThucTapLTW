@@ -82,8 +82,8 @@
                         </div>
                         <div class="d-flex justify-content-around align-items-center">
                             <div class="form-checkbox">
-                                <input class="form-check-input" type="checkbox" value="1" name="default">
-                                <label id="form-check-label"> Địa chỉ mặc định </label>
+                                <input class="form-check-input" type="checkbox" value="1" name="default" id="default">
+                                <label id="form-check-label" for="default"> Địa chỉ mặc định </label>
                             </div>
                             <button class="btn-hover btn btn-primary">Xác nhận</button>
                         </div>

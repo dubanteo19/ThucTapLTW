@@ -11,8 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import Model.Address;
 import Model.User;
-import Services.AddressService;
-import Services.IAddressSerice;
+import Services.IAddressService;
 import Services.IUserService;
 import Utils.BHash;
 
@@ -23,7 +22,7 @@ import Utils.BHash;
 public class UserInfo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@Inject
-	IAddressSerice addressService;
+	IAddressService addressService;
 
 	@Inject
 	IUserService userService;
@@ -127,7 +126,6 @@ public class UserInfo extends HttpServlet {
 	private void addAddress(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String name = request.getParameter("fullName");
-		System.out.println(name);
 		boolean isDefault = request.getParameter("default") != null;
 		String phone = request.getParameter("PhoneNumber");
 		String province = request.getParameter("Province");
@@ -136,7 +134,12 @@ public class UserInfo extends HttpServlet {
 		String description = request.getParameter("Description");
 		String menu = request.getParameter("menu");
 		request.setAttribute("menu", menu);
+
 		User user = (User) request.getSession().getAttribute("user");
+		// bỏ địa chỉ mặc định hiện tại
+		if (isDefault) {
+			addressService.updateDefaultAddress(user.getId());
+		}
 		Address address = new Address();
 		address.setUserId(user.getId());
 		address.setDefault(isDefault);
@@ -150,7 +153,6 @@ public class UserInfo extends HttpServlet {
 		System.out.println(addressId + "addressId");
 		address.setId(addressId);
 		user = userService.findUserById(user.getId());
-//		user.getAddresses().add(address);
 		System.out.println(user.getAddresses() + "lisst");
 		request.getSession().setAttribute("user", user);
 		request.setAttribute("success", "Thêm địa chỉ thành công");

@@ -75,18 +75,22 @@
                                     <div class="col-4">
                                         <h2 id="price" class="text-primary-green">
                                             <fmt:formatNumber value="${productDetail.newPrice}"
-                                                              type="currency"></fmt:formatNumber>
+                                                              type="currency">
+
+                                            </fmt:formatNumber>
                                         </h2>
                                         <span class="saving">Tiết kiệm: <span class="text-red">
 													<fmt:formatNumber
                                                             value="${productDetail.unitPrice - productDetail.newPrice}"
-                                                            type="currency"></fmt:formatNumber>
+                                                            type="currency">
+                                                    </fmt:formatNumber>
 											</span></span>
                                     </div>
                                     <div class="col-4">
 											<span class="origin-price"> <fmt:formatNumber
                                                     value="${productDetail.unitPrice}"
-                                                    type="currency"></fmt:formatNumber>
+                                                    type="currency">
+                                            </fmt:formatNumber>
 											</span>
                                     </div>
                                 </c:if>
@@ -94,7 +98,8 @@
                                     <div class="col-4">
                                         <h2 id="unitPrice" class="text-primary-green">
                                             <fmt:formatNumber value="${productDetail.unitPrice}"
-                                                              type="currency"></fmt:formatNumber>
+                                                              type="currency">
+                                            </fmt:formatNumber>
                                         </h2>
                                     </div>
                                 </c:if>
