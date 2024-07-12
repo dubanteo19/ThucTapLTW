@@ -136,7 +136,7 @@
                                     <th class="text-right">Đã bán</th>
                                     <th>Lợi nhuận</th>
                                     <th>Danh mục</th>
-                                    <th>Ngày nhập kho</th>
+                                    <th class="text-right">Ngày nhập kho</th>
                                 </tr>
                                 </thead>
                             </table>
@@ -325,23 +325,24 @@
                     },
                     columnDefs: [
                         {
-                            targets: [0, 2],
+                            targets: [1, 3,9],
                             className: 'dt-center'
                         },
                         {
-                            targets: [6, 8, 4, 5],
+                            targets: [7, 5, 6],
                             className: 'dt-right'
                         },
                         {
-                            targets: [2, 3, 7],
+                            targets: [3, 4, 8],
                             orderable: false
                         },
-                        {targets: 0, name: 'id'},
-                        {targets: 1, name: 'name'},
-                        {targets: 4, name: 'unitsInStock'},
-                        {targets: 5, name: 'totalSold'},
-                        {targets: 6, name: 'totalRevenue'},
-                        {targets: 2, name: 'thumb'}
+                        {targets: 1, name: 'id'},
+                        {targets: 2, name: 'name'},
+                        {targets: 5, name: 'unitsInStock'},
+                        {targets: 6, name: 'totalSold'},
+                        {targets: 7, name: 'totalRevenue'},
+                        {targets: 3, name: 'thumb'},
+                        {targets: 9, name: 'lastUpdated'}
                     ],
                     columns: [
                         {

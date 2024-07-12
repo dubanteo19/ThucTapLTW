@@ -131,9 +131,10 @@
                                 <tr>
                                     <th class="text-center">Mã sản phẩm</th>
                                     <th style="min-width: 10vw">Tên sản phẩm</th>
+                                    <th class="text-right">Trọng lượng</th>
+                                    <th class="text-right">Giá nhập</th>
                                     <th class="text-right">Số lượng nhập</th>
                                     <th class="text-right">Tồn kho</th>
-                                    <th>Giá nhập</th>
                                 </tr>
                                 </thead>
                             </table>
@@ -159,14 +160,14 @@
         .ready(
             function () {
 
-                // $('#datatable').DataTable({
-                //     serverSide: true,
-                //     pageLength: 25,
-                //     scrollX: true,
-                //     scrollCollapse: true,
-                //     scrollY: '55vh',
-                //     order: [],
-                // )};
+                $('#datatable').DataTable({
+                    serverSide: true,
+                    pageLength: 25,
+                    scrollX: true,
+                    scrollCollapse: true,
+                    scrollY: '55vh',
+                    order: []
+                )};
 
                 $(document).on('click', '.product-name', function () {
                     var productId = $(this).closest('tr').data('id');
