@@ -7,6 +7,7 @@ import Model.Review;
 
 public interface IDiscountDAO {
 	List<Discounts> findAll();
+	List<Discounts> findAllActive();
 
 	int save(Discounts discounts);
 

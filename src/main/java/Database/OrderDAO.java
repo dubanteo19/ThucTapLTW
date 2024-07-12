@@ -42,9 +42,9 @@ public class OrderDAO extends AbtractDAO<Orders> implements IOrderDAO {
 
 	@Override
 	public int save(Orders order) {
-		String sql = "INSERT INTO orders(statusId, userId, totalPrice, discountId, paymentMethod, shippingFee, address) VALUES (?,?,?,?,?,?,?)";
+		String sql = "INSERT INTO orders(statusId, userId, totalPrice, discountId, paymentMethod, shippingFee, address, note) VALUES (?,?,?,?,?,?,?,?)";
 		return save(sql, order.getStatus().getId(), order.getUser().getId(), order.getTotalPrice(),
-				order.getDiscountId(), order.getPaymentMethod(), order.getShippingFee(), order.getAddress());
+				order.getDiscountId(), order.getPaymentMethod(), order.getShippingFee(), order.getAddress(), order.getNote());
 	}
 
 	@Override

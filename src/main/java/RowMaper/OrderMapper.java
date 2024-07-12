@@ -33,6 +33,7 @@ public class OrderMapper implements RowMapper<Orders> {
 			orders.setShippingFee(r.getDouble(OrdersColumn.ShippingFee.name()));
 			orders.setAddress(r.getString(OrdersColumn.Address.name()));
 			orders.setDateCreated(r.getTimestamp(OrdersColumn.DateCreated.name()));
+			orders.setNote(r.getString(OrdersColumn.Note.name()));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -11,6 +11,7 @@ public class DiscountService implements IDiscountService {
 	@Inject
 	IDiscountDAO discountDAO;
 
+
 	@Override
 	public List<Discounts> findAll(int limit, int offSet) {
 		return null;
@@ -19,6 +20,11 @@ public class DiscountService implements IDiscountService {
 	@Override
 	public List<Discounts> findAll() {
 		return discountDAO.findAll();
+	}
+
+	@Override
+	public List<Discounts> findAllActive() {
+		return discountDAO.findAllActive();
 	}
 
 	@Override
@@ -39,27 +45,27 @@ public class DiscountService implements IDiscountService {
 
 	@Override
 	public Discounts findById(int id) {
-		return null;
+		return discountDAO.findById(id);
 	}
 
 	@Override
 	public Discounts findByCode(String code) {
-		return null;
+		return discountDAO.findByCode(code);
 	}
 
 	@Override
 	public List<Discounts> findActiveDiscounts() {
-		return null;
+		return discountDAO.findActiveDiscounts();
 	}
 
 	@Override
 	public List<Discounts> findByCategoryId(int categoryId) {
-		return null;
+		return discountDAO.findByCategoryId(categoryId);
 	}
 
 	@Override
 	public boolean isApplicable(Discounts discounts, double condition) {
-		return false;
+		return discountDAO.isApplicable(discounts, condition);
 	}
 
 }

@@ -1,7 +1,8 @@
-	package Controller;
+package Controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -14,11 +15,8 @@ import javax.servlet.http.HttpSession;
 
 import Controller.cart.Cart;
 import Database.IUserDAO;
-import Model.CartItem;
-import Model.Order_details;
-import Model.Orders;
-import Model.Status;
-import Model.User;
+import Model.*;
+import Services.ICartService;
 import Services.IOrderService;
 
 /**
@@ -31,6 +29,8 @@ public class OrderSendMail extends HttpServlet {
 	IOrderService orderService;
 	@Inject
 	IUserDAO userdao;
+	@Inject
+	ICartService cartService;
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -57,18 +57,31 @@ public class OrderSendMail extends HttpServlet {
 		HttpSession session = request.getSession(false);
 		User user = (User) request.getSession().getAttribute("user");
 		Cart cart = (Cart) request.getSession().getAttribute("cart");
+		Discounts discounts = (Discounts) request.getSession().getAttribute("discount");
 		List<CartItem> cartItems = cart.getCartItems();
 		List<Order_details> order_details = new ArrayList<Order_details>();
 		Orders orders = new Orders();
 		orders.setStatus(new Status(4, ""));
 		orders.setUser(user);
 		double shipping = 40000;
-		orders.setTotalPrice(cart.getTotalPrice() + shipping);
-		orders.setDiscountId(0);
+		String totalPrice = request.getParameter("totalPrice");
+		System.out.println(totalPrice + "===================");
+		orders.setTotalPrice(Double.parseDouble(totalPrice));
+		orders.setDiscountId(discounts.getId());
 		orders.setPaymentMethod("COD");
 		orders.setShippingFee(shipping);
-		orders.setAddress(user.getAddresses().get(0).getDescription() + user.getAddresses().get(0).getWards()
-				+ user.getAddresses().get(0).getDistricts() + user.getAddresses().get(0).getProvince());
+		String selectedAddress = request.getParameter("selectedAddress");
+		String province = request.getParameter("Province");
+		String district = request.getParameter("District");
+		String ward = request.getParameter("Ward");
+		String note = request.getParameter("note");
+		if ("other".equals(selectedAddress)) {
+			String customAddress = province + ", " + district + ", " + ward;
+			orders.setAddress(customAddress);
+		} else {
+			orders.setAddress(selectedAddress);
+		}
+		orders.setNote(note);
 		int orderId = orderService.save(orders);
 		orders.setId(orderId);
 		for (CartItem cartItem : cartItems) {
@@ -79,6 +92,7 @@ public class OrderSendMail extends HttpServlet {
 		orders.setDetails(order_details);
 		orderService.save(order_details);
 		session.removeAttribute("cart");
+		cartService.delete(user.getId());
 		user = userdao.findUserById(user.getId());
 		request.getSession().setAttribute("user", user);
 		request.setAttribute("orders", orders);
