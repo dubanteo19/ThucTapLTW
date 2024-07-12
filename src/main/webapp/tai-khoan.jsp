@@ -46,23 +46,23 @@
         <div class="row pt-3">
             <div class="col-lg-3">
                 <div id="page_account">
-                    <h5 class="title-account">TRANG TÀI KHOẢN</h5>
+                    <h4 class="title-account">TRANG TÀI KHOẢN</h4>
                     <p class="title-account">
                         Xin chào! <span class="text-primary-green" id="userName">${user.getFullName()}</span>
                     </p>
                 </div>
                 <ul class=" toc-list m-0 p-0">
                     <li class="info_account" data-target="ACCOUNT_INFORMATION"
-                        style="cursor: pointer">Thông tin tài khoản
+                        style="cursor: pointer; font-size: 20px">Thông tin tài khoản
                     </li>
-                    <li class="order" data-target="YOUR_ORDER" style="cursor: pointer">Đơn
+                    <li class="order" data-target="YOUR_ORDER" style="cursor: pointer ; font-size: 20px">Đơn
                         hàng của bạn
                     </li>
                     <li class="change-pass" data-target="Change_Password"
-                        style="cursor: pointer">Đổi mật khẩu
+                        style="cursor: pointer; font-size: 20px">Đổi mật khẩu
                     </li>
                     <li class="address-number" data-target="address_your"
-                        style="cursor: pointer">Số địa chỉ
+                        style="cursor: pointer; font-size: 20px">Số địa chỉ
                         (${user.getAddresses().size()})
                     </li>
                 </ul>

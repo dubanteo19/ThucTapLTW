@@ -1,6 +1,6 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+		 pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
@@ -147,8 +147,18 @@ aside>*:not(:last-child) {
 	font-size: 20px !important;
 	font-weight: 400;
 }
-</style>
 
+.circular-element {
+	position: absolute;
+	top: -5px;
+	right: -5px;
+	background-color: #2a9dcc;
+	color: #fff;
+	border-radius: 50%;
+	padding: 3px 4px;
+	font-size: 10px;
+}
+</style>
 </head>
 <body>
 	<div id="wrapper">
@@ -270,13 +280,26 @@ aside>*:not(:last-child) {
 									<div class="order-summary">
 										<div class="py-3">
 											<div class="d-flex justify-content-between">
-												<span>Tạm tính</span> <span class="small-price"> <fmt:formatNumber
-														value="${orders.totalPrice}" type="currency" />
+												<span>Tạm tính</span> <span class="small-price">
+												<c:set  value="${requestScope.amount}" var="amount" />
+												<c:choose>
+													<c:when test="${amount == 0}">
+														<fmt:formatNumber value="${orders.totalPrice - 40000}" type="currency" />
+													</c:when>
+													<c:otherwise>
+														<fmt:formatNumber value="${orders.totalPrice - 40000 + amount}" type="currency" />
+													</c:otherwise>
+												</c:choose>
 												</span>
 											</div>
 											<div class="d-flex justify-content-between mt-2">
 												<span>Phí vận chuyển</span> <span class="small-price">
 													<fmt:formatNumber value="${40000}" type="currency" />
+												</span>
+											</div>
+											<div class="justify-content-between mt-2" style="${amount > 0 ? 'display: flex;' : 'display: none;'}">
+												<span>Áp dụng khuyến mãi:</span> <span class="small-price" style="color: red">
+													<fmt:formatNumber value="${-amount}" type="currency" />
 												</span>
 											</div>
 										</div>

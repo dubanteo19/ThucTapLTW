@@ -12,6 +12,8 @@ public interface IDiscountDAO {
 	int save(Discounts discounts);
 
 	boolean update(Discounts discounts);
+
+	boolean updateQuantity(Discounts discounts);
 	
 	boolean delete(Discounts discounts);
 

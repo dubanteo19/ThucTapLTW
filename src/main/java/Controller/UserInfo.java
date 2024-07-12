@@ -103,6 +103,7 @@ public class UserInfo extends HttpServlet {
 		request.setAttribute("menu", menu);
 		User user = (User) request.getSession().getAttribute("user");
 		Address address = new Address();
+		// bỏ địa chỉ mặc địn hiện tại
 		if (isDefault) {
 			addressService.updateDefaultAddress(user.getId());
 		}

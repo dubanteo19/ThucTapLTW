@@ -11,7 +11,6 @@ public class DiscountService implements IDiscountService {
 	@Inject
 	IDiscountDAO discountDAO;
 
-
 	@Override
 	public List<Discounts> findAll(int limit, int offSet) {
 		return null;
@@ -35,6 +34,11 @@ public class DiscountService implements IDiscountService {
 	@Override
 	public boolean update(Discounts discounts) {
 		return discountDAO.update(discounts);
+	}
+
+	@Override
+	public boolean updateQuantity(Discounts discounts) {
+		return discountDAO.updateQuantity(discounts);
 	}
 
 	@Override

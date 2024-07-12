@@ -12,7 +12,7 @@ public interface IDiscountService extends IGenericService<Discounts> {
 	int save(Discounts discounts);
 
 	boolean update(Discounts discounts);
-	
+	boolean updateQuantity(Discounts discounts);
 	boolean delete(Discounts discounts);
 
 	Discounts findById(int id);
