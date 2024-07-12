@@ -50,3 +50,15 @@
 	font-size: 14px;
 	cursor: pointer;
 }
+.slick-slide:not(.slick-track:first-child){
+	margin: 0 6px;
+}
+.slick-prev, .slick-next {
+	/*color: #bc2a2a;*/
+	border: aliceblue!important;
+	border-radius: 100%;
+	background: #828588!important;
+}
+.slick-prev:hover, .slick-prev:focus, .slick-next:hover, .slick-next:focus {
+	background: #5e605f !important;
+}

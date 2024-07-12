@@ -118,7 +118,6 @@ public class CartController extends HttpServlet {
         jsonResp.addProperty("totalItems", cart.getTotalItems());
         jsonResp.addProperty("totalPrice", cart.getTotalPrice());
         jsonResp.addProperty("itemTotalPrice", item != null ? item.calculatePrice() : 0);
-
         jsonResp.add("item", new Gson().toJsonTree(item, CartItem.class));
     }
 }

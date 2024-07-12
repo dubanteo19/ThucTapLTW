@@ -59,6 +59,13 @@
 	z-index: 1;
 	width: 40%;
 }
+.header-nav{
+	height: 60px;
+}
+.header{
+	min-height: 124px;
+}
+
 </style>
 </head>
 <%
@@ -77,8 +84,8 @@ request.setAttribute("wishlist", wishlist.getWishlist());
 request.setAttribute("wishlistId", wishlist.getWishListId());
 %>
 <body>
-	<header class="header" style="min-height: 124px">
-		<nav class="nav navbar-light bg-light" style="height: 60px">
+	<header class="header">
+		<nav class="nav navbar-light bg-light header-nav">
 			<div id="topbar"
 				class="d-flex align-items-center fixed-top bg-light pt-1">
 				<div
@@ -217,7 +224,7 @@ request.setAttribute("wishlistId", wishlist.getWishListId());
 			</div>
 		</nav>
 		<!--    Logo and Thanh điều hướng -->
-		<nav class="navbar navbar-expand-lg navbar-light bg-light p-xl-0">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light p-xl-0 logo-menu">
 			<div class="container">
 				<div class="menubar d-sm-flex">
 					<a class="navbar-brand m-lg-0" href="Home"> <img
