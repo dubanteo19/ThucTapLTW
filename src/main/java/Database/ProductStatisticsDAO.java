@@ -74,11 +74,11 @@ public class ProductStatisticsDAO extends AbtractDAO<ProductStatistics> implemen
 
         StringBuilder sqlView = new StringBuilder(MessageFormat.format("""
                 CREATE VIEW RecentOrderDetails AS\s
-                SELECT orderdetails.productId, MONTH(orders.dateCreated) AS month, SUM(orderdetails.quantity) AS quantity
+                SELECT orderdetails.productId, {1}(orders.dateCreated) AS {1}, SUM(orderdetails.quantity) AS quantity
                 FROM orderdetails
                 INNER JOIN orders ON orders.orderId = orderdetails.orderId
                 WHERE orders.dateCreated >= DATE_SUB(NOW(), INTERVAL {0} {1}) AND orders.statusId = 6
-                GROUP BY month, orderdetails.productId;
+                GROUP BY {1}, orderdetails.productId;
                 """, duration, durationType));
 
         String sqlDrop = "DROP VIEW IF EXISTS RecentOrderDetails;";
@@ -153,14 +153,14 @@ public class ProductStatisticsDAO extends AbtractDAO<ProductStatistics> implemen
         if (duration != -1) {
             String sqlView = MessageFormat.format("""
                     CREATE VIEW RecentOrderDetails AS\s
-                    SELECT orderdetails.productId, MONTH(orders.dateCreated) AS month, SUM(orderdetails.quantity) AS quantity
+                    SELECT orderdetails.productId, {1}(orders.dateCreated) AS {1}, SUM(orderdetails.quantity) AS quantity
                     FROM orderdetails
                     INNER JOIN orders ON orders.orderId = orderdetails.orderId
                     WHERE orders.dateCreated >= DATE_SUB(NOW(), INTERVAL {0} {1}) AND orders.statusId = 6
-                    GROUP BY month, orderdetails.productId;
+                    GROUP BY {1}, orderdetails.productId;
                     """, duration, durationType);
 
-            String sqlDrop = "DROP VIEW IF EXISTS RecentOrderDetails";
+            String sqlDrop = "DROP VIEW IF EXISTS RecentOrderDetails;";
 
             return querryWithView(sqlView, sqlDrop, sql.toString(), new ProductStatisticsMapper());
         }

@@ -36,10 +36,10 @@
             <i class="fa-solid fa-box"></i> <span class="menu-text">
 						Quản lý sản phẩm</span>
         </a>
-            <a class="nav-link pointer-event" id="warehouse-product-nav-link"
-               data-link="warehouse-products-data-table.jsp" href="warehouse-management">
+            <a class="nav-link pointer-event" id="thong-ke-nav-link"
+               href="thong-ke">
                 <i class="fa-solid fa-box"></i> <span class="menu-text">
-						Quản lý nhập kho</span>
+						Thống kê</span>
             </a>
             <a class="nav-link" id="orders-nav-link"
                 data-link="orders-data-table.jsp" href="OrderController">

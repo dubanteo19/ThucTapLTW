@@ -21,8 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet("/admin/warehouse-management")
-public class AdminWarehouseProductController extends HttpServlet {
+@WebServlet("/admin/thong-ke")
+public class StatisticalController extends HttpServlet {
     @Inject
     IProductService productService;
 
@@ -34,15 +34,19 @@ public class AdminWarehouseProductController extends HttpServlet {
 
     private int totalRecords;
     private List<Categories> categoriesList;
+    private List<Integer> idProductList;
+
     private static final long serialVersionUID = 1L;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         totalRecords = productService.getCount();
         categoriesList = categoryService.findAll();
+        idProductList = productService.findAllId();
 
         req.setAttribute("categoriesList", categoriesList);
-        req.getRequestDispatcher("/admin/warehouse-products-data-table.jsp").forward(req, resp);
+        req.setAttribute("idProductList", idProductList);
+        req.getRequestDispatcher("/admin/thong-ke.jsp").forward(req, resp);
     }
 
     @Override

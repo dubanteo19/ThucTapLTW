@@ -15,7 +15,6 @@
 
     <link rel="stylesheet" href="styles/admin.css?dd">
     <link rel="stylesheet" type="text/css" href="../Datatables-V2/datatables.css">
-    <%--    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/3.0.2/css/buttons.dataTables.min.css">--%>
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -25,6 +24,11 @@
         }
 
         .product-name {
+            white-space: normal;
+            word-wrap: break-word;
+        }
+
+        .break-word {
             white-space: normal;
             word-wrap: break-word;
         }
@@ -51,6 +55,7 @@
 
         .btn-control {
             margin-left: 10px;
+            vertical-align: inherit !important;
         }
 
         .btn-control i {
@@ -59,6 +64,49 @@
 
         .form-group {
             margin-bottom: 20px;
+        }
+
+        .select-option {
+            cursor: pointer;
+        }
+
+        .autocomplete {
+            /*the container must be positioned relative:*/
+            position: relative;
+            display: inline-block;
+        }
+
+        .autocomplete-items {
+            position: absolute;
+            border: 1px solid #d4d4d4;
+            border-bottom: none;
+            border-top: none;
+            z-index: 99;
+            /*position the autocomplete items to be the same width as the container:*/
+            top: 100%;
+            left: 0;
+            right: 0;
+        }
+
+        .autocomplete-items div {
+            padding: 10px;
+            cursor: pointer;
+            background-color: #fff;
+            border-bottom: 1px solid #d4d4d4;
+        }
+        .autocomplete-items div:hover {
+            /*when hovering an item:*/
+            background-color: #e9e9e9;
+        }
+        .autocomplete-active {
+            /*when navigating through the items using the arrow keys:*/
+            background-color: DodgerBlue !important;
+            color: #ffffff;
+        }
+
+        .custom-select, .search {
+            width: auto !important;
+            display: inline-block !important;
         }
     </style>
 </head>
@@ -73,7 +121,7 @@
                 <div class="col-12">
                     <div class="bg-white">
                         <div class="sub-title">
-                            <h4>Quản lý nhập kho</h4>
+                            <h4>Thống kê</h4>
                         </div>
                         <div class="table-container mt-3">
                             <table id="datatable" class="row-border hover nowrap">
@@ -85,7 +133,7 @@
                                     <th>Tình trạng</th>
                                     <th class="text-right">Tồn kho</th>
                                     <th class="text-right">Đã bán</th>
-                                    <th>Doanh thu</th>
+                                    <th>Lợi nhuận</th>
                                     <th>Danh mục</th>
                                     <th>Ngày nhập kho</th>
                                 </tr>
@@ -107,28 +155,30 @@
                         </div>
                         <div class="modal-body">
                             <form id="form-filter">
-                                <div class="form-group row align-items-center">
-                                    <label class="col" for="durationSelect">Thời gian thống kê</label>
-                                    <div class="col">
-                                        <select id="durationSelect" class="form-select"
-                                                onchange="handleDurationChange()">
-                                            <option selected value="3">3</option>
-                                            <option value="6">6</option>
-                                            <option value="12">12</option>
-                                            <option value="-1">Tất cả</option>
-                                            <option value="other">Khác</option>
-                                        </select>
+                                <div class="form-group">
+                                    <div class="form-group row align-items-center">
+                                        <label class="col" for="durationSelect">Thời gian thống kê</label>
+                                        <div class="col">
+                                            <select id="durationSelect" class="form-select"
+                                                    onchange="handleDurationChange()">
+                                                <option selected value="3">3</option>
+                                                <option value="6">6</option>
+                                                <option value="12">12</option>
+                                                <option value="-1">Tất cả</option>
+                                                <option value="other">Khác</option>
+                                            </select>
+                                        </div>
+                                        <div class="col">
+                                            <select id="durationType" class="form-select">
+                                                <option value="DAY">DAY</option>
+                                                <option selected value="MONTH">MONTH</option>
+                                                <option value="YEAR">YEAR</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div class="col">
-                                        <select id="durationType" class="form-select">
-                                            <option value="DAY">DAY</option>
-                                            <option selected value="MONTH">MONTH</option>
-                                            <option value="YEAR">YEAR</option>
-                                        </select>
-                                    </div>
+                                    <input class="mt-2 form-control input-number" type="text" inputmode="numeric" pattern="[0-9]*" id="durationInput" style="display: none;"
+                                           placeholder="Khoảng thời gian khác">
                                 </div>
-                                <input class="mt-2 form-control" type="number" id="durationInput" style="display: none;"
-                                       placeholder="Khoảng thời gian khác">
 
                                 <div class="form-group row align-items-center">
                                     <label class="col" for="categoriesList">Danh mục sản phẩm</label>
@@ -166,10 +216,11 @@
     </div>
 </div>
 </body>
+<script type="text/javascript" src="../javascripts/popper.min.js"></script>
 <script type="text/javascript" src="../javascripts/bootstrap.min.js"></script>
 <script type="text/javascript" src="../javascripts/jquery-3.7.1.js"></script>
 <script type="text/javascript" src="../Datatables-V2/datatables.js"></script>
-
+<script type="text/javascript" src="../javascripts/autocomplete.js"></script>
 <script type="text/javascript">
     function handleDurationChange() {
         var select = document.getElementById('durationSelect');
@@ -205,18 +256,21 @@
                 controlBar.innerHTML = `
                             <div class="align-items-center">
                             <label>Tìm kiếm sản phẩm</label>
-                            <input style="padding-left: 5px; margin-left: 10px" id="search" class="search" type="text" name="name" placeholder="Tìm kiếm...">
-                             <button type="button" id="btn-filter" class="btn btn-info btn-control" style="font-size: 14px""
-                                    data-toggle="modal" data-target="#filterModal">
-                                <i class="fa-solid fa-filter"></i>Bộ lọc</button>
+                            <input style="padding-left: 5px; margin-left: 10px" id="search" class="search form-control" type="search" name="name" placeholder="Tìm kiếm...">
                             </div>
                             `;
 
                 let createBar = document.createElement('div');
                 createBar.innerHTML = `
                         <div>
-                        <button id="newProduct"
-						data-target="AdminProductController?action=forward" class="btn btn-secondary"><i class="fa-solid fa-plus" style="margin-right: 6px"></i>Nhập sản phẩm</button>
+                         <select id="typeStatistics" class="form-select custom-select">
+                            <option selected>Dạng bảng</option>
+                            <option>Biểu đồ</option>
+                        </select>
+
+                        <button type="button" id="btn-filter" class="btn btn-info btn-control"
+                                    data-toggle="modal" data-target="#filterModal">
+                                <i class="fa-solid fa-filter"></i>Bộ lọc</button>
                         </div>
                 `;
 
@@ -228,13 +282,15 @@
                     scrollY: '55vh',
                     order: [],
                     ajax: {
-                        url: 'warehouse-management',
+                        url: 'thong-ke',
                         type: 'POST',
                         data: function (d) {
-                            d.duration = getDurationValue()
-                            d.durationType = $('#durationType').val()
-                            d.categoryId = $('#categoriesList').val()
-                            d.status = $('#statusList').val()
+                            NProgress.start();
+                            d.duration = getDurationValue();
+                            d.durationType = $('#durationType').val();
+                            d.categoryId = $('#categoriesList').val();
+                            d.status = $('#statusList').val();
+                            NProgress.done();
                         }
                     },
                     rowCallback: function (row, data) {
@@ -258,6 +314,7 @@
                         {targets: 4, name: 'unitsInStock'},
                         {targets: 5, name: 'totalSold'},
                         {targets: 6, name: 'totalRevenue'},
+                        {targets: 2, name: 'thumb'}
                     ],
                     columns: [
                         {data: 'product.id'},
@@ -280,9 +337,9 @@
 
                                 if (status.toLowerCase() === 'cần nhập') {
                                     var formattedRequiredQuantity = formatNumber(data.requiredQuantity);
-                                    return '<span class="product-name">' + status + '<br>' + formattedRequiredQuantity + ' SP</span>';
+                                    return '<span class="break-word">' + status + ' <br>' + formattedRequiredQuantity + ' SP</span>';
                                 }
-                                return '<span class="product-name">' + status + '</span>';
+                                return '<span class="break-word">' + status + '</span>';
                             }
                         },
                         {
@@ -309,7 +366,7 @@
                         {
                             data: 'product.categories.name',
                             render: function (data, type, row) {
-                                return '<span class="product-name">' + data + '</span>';
+                                return '<span class="break-word">' + data + '</span>';
                             }
                         },
                         {
@@ -357,7 +414,32 @@
                             attr: {
                                 class: 'btn btn-warning'
                             },
-                            buttons: ['copyHtml5', 'excelHtml5', 'csvHtml5', 'pdfHtml5']
+                            buttons: [
+                                {
+                                    extend: 'copyHtml5',
+                                    exportOptions: {
+                                        columns: ':not(:eq(2))' // Loại bỏ cột thứ 2
+                                    }
+                                },
+                                {
+                                    extend: 'excelHtml5',
+                                    exportOptions: {
+                                        columns: ':not(:eq(2))' // Loại bỏ cột thứ 2
+                                    }
+                                },
+                                {
+                                    extend: 'csvHtml5',
+                                    exportOptions: {
+                                        columns: ':not(:eq(2))' // Loại bỏ cột thứ 2
+                                    }
+                                },
+                                {
+                                    extend: 'pdfHtml5',
+                                    exportOptions: {
+                                        columns: ':not(:eq(2))' // Loại bỏ cột thứ 2
+                                    }
+                                }
+                            ]
                         }
                     ],
                     initComplete: function () {
@@ -396,15 +478,16 @@
                     $('#datatable').DataTable().ajax.reload();
                 }
 
-                // commit lộn nên commit lại <3
-                $(document).on('click', '#newProduct', function () {
-                    let href = $(this).data("target");
-                    location.href = href;
+                $('.input-number').on('input', function() {
+                    let value = $(this).val();
+                    value = value.replace(/\D/g, '');
+                    value = value.replace(/^0+/, '');
+                    $(this).val(value);
                 });
             });
 
     $(".nav-link").removeClass("active");
-    $("#warehouse-product-nav-link").addClass("active");
+    $("#thong-ke-nav-link").addClass("active");
     let page = '${page}';
     let totalPage = '${totalPage}';
     $("#pagination").pagination(
