@@ -127,6 +127,7 @@
                             <table id="datatable" class="row-border hover nowrap">
                                 <thead>
                                 <tr>
+                                    <th></th>
                                     <th class="text-center">Mã sản phẩm</th>
                                     <th style="min-width: 10vw">Tên sản phẩm</th>
                                     <th class="text-center">Hình ảnh</th>
@@ -248,6 +249,31 @@
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
+    function formatCurrency(amount) {
+        return new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND'
+        }).format(amount);
+    }
+
+    function formatDetailRow(data) {
+        // `d` is the original data object for the row
+        return (
+            '<dl>' +
+                formatSubDetailOnRow('Giá nhập', formatCurrency(data.product.costPrice)) +
+                formatSubDetailOnRow(' - Trọng lượng', data.product.weight) +
+                '<br>' +
+                formatSubDetailOnRow('Giá bán', formatCurrency(data.product.unitPrice)) +
+                '<br>' +
+                formatSubDetailOnRow('Doanh thu', formatCurrency(data.totalSold * data.product.unitPrice)) +
+            '</dl>'
+        );
+    }
+
+    function formatSubDetailOnRow(label, data) {
+        return '<b>' + label + ': </b>' + data;
+    }
+
     $(document)
         .ready(
             function () {
@@ -274,13 +300,14 @@
                         </div>
                 `;
 
-                $('#datatable').DataTable({
+                let table = $('#datatable').DataTable({
                     serverSide: true,
                     pageLength: 25,
                     scrollX: true,
                     scrollCollapse: true,
                     scrollY: '55vh',
                     order: [],
+                    stateSave: true,
                     ajax: {
                         url: 'thong-ke',
                         type: 'POST',
@@ -317,6 +344,12 @@
                         {targets: 2, name: 'thumb'}
                     ],
                     columns: [
+                        {
+                            className: 'dt-control',
+                            orderable: false,
+                            data: null,
+                            defaultContent: ''
+                        },
                         {data: 'product.id'},
                         {
                             data: 'product.name',
@@ -357,10 +390,7 @@
                         {
                             data: 'totalRevenue',
                             render: function (data, type, row) {
-                                return new Intl.NumberFormat('vi-VN', {
-                                    style: 'currency',
-                                    currency: 'VND'
-                                }).format(data);
+                                return formatCurrency(data)
                             }
                         },
                         {
@@ -484,34 +514,28 @@
                     value = value.replace(/^0+/, '');
                     $(this).val(value);
                 });
+
+                table.on('requestChild.dt', function (e, row) {
+                    row.child(format(row.data())).show();
+                });
+
+                table.on('click', 'td.dt-control', function (e) {
+                    let tr = e.target.closest('tr');
+                    let row = table.row(tr);
+
+                    if (row.child.isShown()) {
+                        // This row is already open - close it
+                        row.child.hide();
+                    }
+                    else {
+                        // Open this row
+                        row.child(formatDetailRow(row.data())).show();
+                    }
+                });
             });
 
     $(".nav-link").removeClass("active");
     $("#thong-ke-nav-link").addClass("active");
-    let page = '${page}';
-    let totalPage = '${totalPage}';
-    $("#pagination").pagination(
-        {
-            dataSource: function (done) {
-                var result = [];
-                for (var i = 1; i < totalPage; i++) {
-                    result.push(i);
-                }
-                done(result);
-            },
-            pageNumber: page,
-            pageSize: 10,
-            callback: function (data, pagination) {
-                let pageNumber = pagination.pageNumber;
-                if (pageNumber != page) {
-                    let href = "AdminProductController?action=get&page="
-                        + pageNumber;
-                    location.href = href;
-                }
-            }
-        })
-
-
 </script>
 
 </html>

@@ -36,6 +36,11 @@
             <i class="fa-solid fa-box"></i> <span class="menu-text">
 						Quản lý sản phẩm</span>
         </a>
+            <a class="nav-link pointer-event" id="nhap-kho-nav-link"
+               href="nhap-kho">
+                <i class="fa-solid fa-box"></i> <span class="menu-text">
+						Quản lý nhập kho</span>
+            </a>
             <a class="nav-link pointer-event" id="thong-ke-nav-link"
                href="thong-ke">
                 <i class="fa-solid fa-box"></i> <span class="menu-text">
