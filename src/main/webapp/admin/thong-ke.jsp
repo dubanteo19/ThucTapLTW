@@ -307,7 +307,6 @@
                     scrollCollapse: true,
                     scrollY: '55vh',
                     order: [],
-                    stateSave: true,
                     ajax: {
                         url: 'thong-ke',
                         type: 'POST',
@@ -430,7 +429,8 @@
                         "oAria": {
                             "sSortAscending": ": kích hoạt để sắp xếp cột tăng dần",
                             "sSortDescending": ": kích hoạt để sắp xếp cột giảm dần"
-                        }
+                        },
+                        "emptyTable": "Không tìm thấy dữ liệu",
                     },
                     layout: {
                         top2Start: createBar,
@@ -449,25 +449,33 @@
                                 {
                                     extend: 'copyHtml5',
                                     exportOptions: {
-                                        columns: ':not(:eq(2))' // Loại bỏ cột thứ 2
+                                        columns: function (idx, data, node) {
+                                            return idx !== 0 && idx !== 3; // Loại bỏ cột thứ 0 và 3
+                                        }
                                     }
                                 },
                                 {
                                     extend: 'excelHtml5',
                                     exportOptions: {
-                                        columns: ':not(:eq(2))' // Loại bỏ cột thứ 2
+                                        columns: function (idx, data, node) {
+                                            return idx !== 0 && idx !== 3;
+                                        }
                                     }
                                 },
                                 {
                                     extend: 'csvHtml5',
                                     exportOptions: {
-                                        columns: ':not(:eq(2))' // Loại bỏ cột thứ 2
+                                        columns: function (idx, data, node) {
+                                            return idx !== 0 && idx !== 3;
+                                        }
                                     }
                                 },
                                 {
                                     extend: 'pdfHtml5',
                                     exportOptions: {
-                                        columns: ':not(:eq(2))' // Loại bỏ cột thứ 2
+                                        columns: function (idx, data, node) {
+                                            return idx !== 0 && idx !== 3;
+                                        }
                                     }
                                 }
                             ]

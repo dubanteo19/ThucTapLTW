@@ -126,7 +126,17 @@
                             <h4>Quản lý nhập kho</h4>
                         </div>
                         <div class="table-container mt-3">
-                            <table id="datatable" class="row-border hover nowrap">
+                            <div>
+                                <div class="table-control">
+                                    <button class="btn btn-secondary">Nhập từ File</button>
+                                </div>
+
+                                <div class="mt-2">
+                                    <label>Tìm kiếm sản phẩm</label>
+                                    <input style="padding-left: 5px; margin-left: 10px" id="search" class="search form-control" type="search" name="name" placeholder="Tìm kiếm...">
+                                </div>
+                            </div>
+                            <table id="datatable" class="row-border hover nowrap w-100 mt-1">
                                 <thead>
                                 <tr>
                                     <th class="text-center">Mã sản phẩm</th>
@@ -160,14 +170,51 @@
         .ready(
             function () {
 
-                $('#datatable').DataTable({
-                    serverSide: true,
+                let table = $('#datatable').DataTable({
                     pageLength: 25,
                     scrollX: true,
                     scrollCollapse: true,
                     scrollY: '55vh',
-                    order: []
-                )};
+                    order: [],
+                    columnDefs: [
+                        {
+                            targets: [2, 3, 4, 5],
+                            className: 'dt-right'
+                        },
+                        {targets: 0, name: 'id'},
+                        {targets: 1, name: 'name'},
+                        {targets: 2, name: 'weight'},
+                        {targets: 3, name: 'costPrice'},
+                        {targets: 4, name: 'importQuantity'},
+                        {targets: 5, name: 'unitsInStock'},
+                    ],
+                    layout: {
+                        topStart: null,
+                        topEnd: null
+                    },
+                    language: {
+                        "sProcessing": "Đang xử lý...",
+                        "sLengthMenu": "Hiển thị _MENU_ mục",
+                        "sZeroRecords": "Không tìm thấy dữ liệu",
+                        "sInfo": "Hiển thị _START_ đến _END_ của _TOTAL_ mục",
+                        "sInfoEmpty": "Hiển thị 0 đến 0 của 0 mục",
+                        "sInfoFiltered": "(được lọc từ _MAX_ mục)",
+                        "emptyTable": "Vui lòng thêm sản phẩm",
+                        "sInfoPostFix": "",
+                        "sSearch": "Tìm kiếm:",
+                        "sUrl": "",
+                        "oPaginate": {
+                            "sFirst": "Đầu",
+                            "sPrevious": "Trước",
+                            "sNext": "Tiếp",
+                            "sLast": "Cuối"
+                        },
+                        "oAria": {
+                            "sSortAscending": ": kích hoạt để sắp xếp cột tăng dần",
+                            "sSortDescending": ": kích hoạt để sắp xếp cột giảm dần"
+                        }
+                    },
+                });
 
                 $(document).on('click', '.product-name', function () {
                     var productId = $(this).closest('tr').data('id');
