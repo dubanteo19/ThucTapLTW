@@ -9,6 +9,8 @@ public class ProductDetail extends Product {
 	String sale;
 	double newPrice;
 
+	int unitsInStock = getUnitsInStock();
+
 	public ProductDetail(Product product) {
 		super(product.getDateCreated(), product.getLastUpdated(), product.getId(), product.getName(),
 				product.getCategories(), product.getCostPrice(), product.getUnitPrice(), product.getWeight(),
@@ -17,7 +19,6 @@ public class ProductDetail extends Product {
 
 	public ProductDetail() {
 	}
-
 	public Blog getBlog() {
 		return blog;
 	}

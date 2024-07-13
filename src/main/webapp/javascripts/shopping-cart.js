@@ -117,15 +117,16 @@ function addToCartByProductId(idProduct) {
     });
 }
 
-function addToCart(idProduct, quanlity) {
+function addToCart(idProduct, quantity) {
+    console.log("Adding to cart - Quantity: " + quantity);
     $.ajax({
         type: "POST",
         url: "/CartController",
-        dataTpe: "json",
+        dataType: "json",
         data: {
             action: "ADD",
             idProduct: idProduct,
-            "quanlity": quanlity,
+            quantity: quantity,
         },
         success: function (response) {
             $('#btn-card .badge').text(response.totalItems);

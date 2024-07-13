@@ -23,7 +23,7 @@ import java.io.IOException;
 public class CartController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-
+    @Inject
     private Cart cart;
 
     private final String PRODUCT_NOT_FOUND = "Lỗi, không tìm thấy sản phẩm";
@@ -34,7 +34,7 @@ public class CartController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        doPost(req,resp);
     }
 
     @Override
@@ -90,12 +90,22 @@ public class CartController extends HttpServlet {
         }
 
         int quantity = 1;
-        quantity = req.getParameter("quantity") == null ? quantity : Integer.valueOf(req.getParameter("quantity"));
+        try {
+            quantity = Integer.parseInt(req.getParameter("quantity"));
+        } catch (NumberFormatException e) {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            resp.getWriter().write("Invalid quantity");
+            return;
+        }
+        System.out.println(quantity);
         int idProduct = Integer.parseInt(req.getParameter("idProduct"));
+        System.out.println(idProduct + "idProduct");
         JsonObject jsonResp = new JsonObject();
         int status;
+
         User user = (User) session.getAttribute("user");
         int userId = -1;
+
         if(user != null) userId = user.getId();
 
         if (cart.add(userId, idProduct, quantity)) {
