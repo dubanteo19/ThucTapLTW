@@ -144,6 +144,7 @@
                                         <jsp:include page="/templates/cart-item-horizontal-template.jsp">
                                             <jsp:param name="productId" value="${item.product.id}"/>
                                             <jsp:param name="productName" value="${item.product.name}"/>
+                                            <jsp:param name="productWeight" value="${item.product.weight}"/>
                                             <jsp:param name="productThumb" value="${item.product.thumb}"/>
                                             <jsp:param name="quantity" value="${item.quantity}"/>
                                             <jsp:param name="price" value="${item.product.unitPrice}"/>

@@ -15,6 +15,7 @@ public interface IProductService extends IGenericService<Product> {
 
 	int save(Blog blog);
 	boolean update(Blog blog);
+	boolean updateStatus(Product product);
 	int save(List<Image> images);
 	int save(Image image);
 

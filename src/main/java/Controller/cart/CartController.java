@@ -89,11 +89,9 @@ public class CartController extends HttpServlet {
             session.setAttribute("cart", cart);
         }
 
-        int quantity = 1;
-        quantity = req.getParameter("quanlity") == null ? quantity : Integer.valueOf(req.getParameter("quanlity"));
-        System.out.println(quantity);
+
+        int quantity = req.getParameter("quantity") == null ? 1 : Integer.parseInt(req.getParameter("quantity"));
         int idProduct = Integer.parseInt(req.getParameter("idProduct"));
-        System.out.println(idProduct + "idProduct");
         JsonObject jsonResp = new JsonObject();
         int status;
 

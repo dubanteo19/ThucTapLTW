@@ -182,7 +182,7 @@ request.setAttribute("wishlistId", wishlist.getWishListId());
 												</jsp:include>
 											</c:forEach>
 											<div class="empty-message"
-												 style="${cart.getTotalItems()  > 0? 'display: none;' : ''}">
+												 style="${cart.getCartItems()  > 0? 'display: none;' : ''}">
 												<i class="fa-solid fa-cart-shopping"></i> <span
 													style="display: block;">Bạn chưa có sản phẩm nào
 													trong giỏ hàng</span>

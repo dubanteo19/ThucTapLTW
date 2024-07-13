@@ -107,7 +107,7 @@ function addToCartByProductId(idProduct) {
             if (itemDisplay.length === 0) {
                 renderCartItem(item, response.itemTotalPrice);
             } else {
-                itemDisplay.find('.cart_quantity').val(item.quantity);
+                itemDisplay.find('#cart_quantity').val(item.quantity);
                 itemDisplay.find('.cart_price').text(formatPrice(response.itemTotalPrice));
             }
         },
@@ -118,7 +118,6 @@ function addToCartByProductId(idProduct) {
 }
 
 function addToCart(idProduct, quantity) {
-    console.log("Adding to cart - Quantity: " + quantity);
     $.ajax({
         type: "POST",
         url: "/CartController",
@@ -139,7 +138,11 @@ function addToCart(idProduct, quantity) {
             if (itemDisplay.length === 0) {
                 renderCartItem(item, response.itemTotalPrice);
             } else {
+                console.log("Finding .cart_quantity: ", itemDisplay.find('.cart_quantity'));
+                console.log("Finding .input-quantity: ", itemDisplay.find('.input-quantity'));
+
                 itemDisplay.find('.cart_quantity').val(item.quantity);
+                itemDisplay.find('.input-quantity').val(item.quantity);
                 itemDisplay.find('.cart_price').text(formatPrice(response.itemTotalPrice));
             }
         },
