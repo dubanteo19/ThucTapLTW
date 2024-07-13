@@ -90,13 +90,7 @@ public class CartController extends HttpServlet {
         }
 
         int quantity = 1;
-        try {
-            quantity = Integer.parseInt(req.getParameter("quantity"));
-        } catch (NumberFormatException e) {
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            resp.getWriter().write("Invalid quantity");
-            return;
-        }
+        quantity = req.getParameter("quanlity") == null ? quantity : Integer.valueOf(req.getParameter("quanlity"));
         System.out.println(quantity);
         int idProduct = Integer.parseInt(req.getParameter("idProduct"));
         System.out.println(idProduct + "idProduct");
