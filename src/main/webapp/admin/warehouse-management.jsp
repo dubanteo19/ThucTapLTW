@@ -115,7 +115,7 @@
                                     <button class="btn btn-secondary btn-control">Nhập từ File</button>
                                 </div>
                             </div>
-                            <table id="datatable-products" class="row-border hover nowrap w-100">
+                            <table id="datatable-products" class="cell-border hover nowrap w-100">
                                 <thead>
                                 <tr>
                                     <th class="text-center">Mã sản phẩm</th>
@@ -271,32 +271,35 @@
 
                 productIdInput.change(function (change) {
                     var id = $(this).val();
+                    if(id !== '') {
+                        $.ajax({
+                            url: 'nhap-kho',
+                            type: 'POST',
+                            data: {
+                                action: 'search',
+                                request: 'find-product',
+                                id: id
+                            },
+                            success: function (resp) {
+                                var product = resp.data;
 
-                    $.ajax({
-                        url: 'nhap-kho',
-                        type: 'POST',
-                        data: {
-                            action: 'search',
-                            request: 'find-product',
-                            id: id
-                        },
-                        success: function (resp) {
-                            var product = resp.data;
+                                if (product !== null) {
+                                    $('#productNameInput').val(product.name);
+                                    $('#productCostPriceInput').val(product.costPrice);
+                                    $('#productWeightInput').val(formatNumber(product.weight));
+                                    $('#productUnitInStock').val(formatNumber(product.unitsInStock));
 
-                            if (product !== null) {
-                                $('#productNameInput').val(product.name);
-                                $('#productCostPriceInput').val(product.costPrice);
-                                $('#productWeightInput').val(formatNumber(product.weight));
-                                $('#productUnitInStock').val(formatNumber(product.unitsInStock));
-
-                                $('#productCostPriceInput').trigger('input');
-                                $('#productWeightInput').trigger('input');
+                                    $('#productCostPriceInput').trigger('input');
+                                    $('#productWeightInput').trigger('input');
+                                }
+                                else {
+                                    $('#formImport')[0].reset();
+                                }
                             }
-                            else {
-                                $('#formImport')[0].reset();
-                            }
-                        }
-                    });
+                        });
+                    } else {
+                        $('#formImport')[0].reset();
+                    }
                 });
 
                 let controlBar = document.createElement('div');
@@ -323,7 +326,7 @@
                         {targets: 2, name: 'weight'},
                         {targets: 3, name: 'costPrice'},
                         {targets: 4, name: 'quantity'},
-                        {targets: 5, name: 'dateCreate'},
+                        {targets: 5, name: 'dateCreated'},
                         {
                             targets: [2, 3, 4],
                             className: 'dt-right'
@@ -337,13 +340,18 @@
                         {
                             data: 'id',
                             render: function (data, type, row) {
-                                if (data == null || data === '') {
+                                if (data == -1) {
                                     return 'Mới';
                                 }
                                 return data;
                             }
                         },
-                        { data: 'name' },
+                        {
+                            data: 'name',
+                            render: function (data, type, row) {
+                                return '<span class="product-name">' + data + '</span>';
+                            }
+                        },
                         {
                             data: 'weight',
                             render: function (data, type, row) {
@@ -357,7 +365,7 @@
                             }
                         },
                         { data: 'quantity' },
-                        { data: 'dateCreate' }
+                        { data: 'dateCreated' }
                     ],
                     layout: {
                         topStart: controlBar,
@@ -408,7 +416,10 @@
                     let value = $(this).val();
                     value = value.replace(/\D/g, '');
 
-                    if (value == "") return;
+                    if (value == "") {
+                        $(this).val(value);
+                        return;
+                    }
 
                     $(this).val(parseInt(value).toLocaleString("vi-VN"));
                 });
@@ -437,10 +448,12 @@
                     e.preventDefault();
 
                     let id = $('#productIdInput').val();
+                    if(id === '') id = -1;
+
                     let name = $('#productNameInput').val();
                     let weight = $('#productWeightInput').val();
                     let costPrice = $('#productCostPriceInput').val().replace(/\D/g, '');
-                    let quantity = $('#productImportQuantityInput').val();
+                    let quantity = $('#productImportQuantityInput').val().replace(/\D/g, '');
                     let dateCreate = $('#productDateImportInput').val();
 
                     let product = {
@@ -449,7 +462,7 @@
                         weight: weight,
                         costPrice: costPrice,
                         quantity: quantity,
-                        dateCreate: dateCreate
+                        dateCreated: dateCreate
                     };
 
                     var rowNode = table.row.add(product).draw()
@@ -466,19 +479,19 @@
                 });
 
                 $(document).on('click', '#btnSave', function () {
-                    var data = table.rows(0).data().toArray();
-                    // console.log(data);
-                    // $.ajax({
-                    //     url: "nhap-kho",
-                    //     type: 'POST',
-                    //     data: {
-                    //         action: 'import',
-                    //         data: data
-                    //     },
-                    //     success: function (resp) {
-                    //         console.log('success');
-                    //     }
-                    // });
+                    var data = table.rows().data().toArray();
+
+                    $.ajax({
+                        url: "nhap-kho",
+                        type: 'POST',
+                        data: {
+                            action: 'import',
+                            data: JSON.stringify(data)
+                        },
+                        success: function (resp) {
+
+                        }
+                    });
                 });
             });
 

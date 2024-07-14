@@ -1,10 +1,14 @@
 package Controller.Admin;
 
 import Model.Product;
+import Model.ProductImport;
 import Services.IProductService;
 import Utils.JsonUtils;
+import adapter.ProductImportTypeAdapter;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import javax.inject.Inject;
@@ -14,7 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.lang.reflect.Type;
 import java.util.List;
 
 @WebServlet("/admin/nhap-kho")
@@ -47,9 +51,25 @@ public class WarehouseController extends HttpServlet {
 
     private void importProducts(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String jsonData = req.getParameter("data");
-        System.out.println(jsonData);
-//        Gson gson = new Gson();
-//        List<Product> productList = gson.fromJson(jsonData, new TypeToken<List<Product>>(){}.getType());
+
+        JsonObject jsonObject = new JsonObject();
+
+        try {
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(ProductImport.class, new ProductImportTypeAdapter())
+                    .create();
+            Type productListType = new TypeToken<List<ProductImport>>() {
+            }.getType();
+
+            List<ProductImport> productImports = gson.fromJson(jsonData, productListType);
+            productImports.forEach(System.out::println);
+        } catch (JsonSyntaxException e) {
+            jsonObject.addProperty("msg", "Invalid JSON format");
+            JsonUtils.sendJsonResponse(resp, HttpServletResponse.SC_BAD_REQUEST, jsonObject.toString());
+        } catch (Exception e) {
+            jsonObject.addProperty("msg", "Internal server error");
+            JsonUtils.sendJsonResponse(resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, jsonObject.toString());
+        }
     }
 
     private void search(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
