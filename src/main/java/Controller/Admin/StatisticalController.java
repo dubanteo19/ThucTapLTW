@@ -34,7 +34,6 @@ public class StatisticalController extends HttpServlet {
 
     private int totalRecords;
     private List<Categories> categoriesList;
-    private List<Integer> idProductList;
 
     private static final long serialVersionUID = 1L;
 
@@ -42,10 +41,8 @@ public class StatisticalController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         totalRecords = productService.getCount();
         categoriesList = categoryService.findAll();
-        idProductList = productService.findAllId();
 
         req.setAttribute("categoriesList", categoriesList);
-        req.setAttribute("idProductList", idProductList);
         req.getRequestDispatcher("/admin/thong-ke.jsp").forward(req, resp);
     }
 

@@ -17,6 +17,7 @@
     <link rel="stylesheet" type="text/css" href="../Datatables-V2/datatables.css">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
     <style>
         .product-name:hover {
             color: var(--primary-green);
@@ -37,10 +38,6 @@
             cursor: pointer;
         }
 
-        .modal-body label:not(.col) {
-            margin-bottom: 10px;
-        }
-
         .btn-info {
             color: #fff !important;
             background-color: #17a2b8 !important;
@@ -54,8 +51,7 @@
         }
 
         .btn-control {
-            margin-left: 10px;
-            vertical-align: inherit !important;
+            margin-left: 16px;
         }
 
         .btn-control i {
@@ -70,45 +66,30 @@
             cursor: pointer;
         }
 
-        .autocomplete {
-            /*the container must be positioned relative:*/
-            position: relative;
-            display: inline-block;
-        }
-
-        .autocomplete-items {
-            position: absolute;
-            border: 1px solid #d4d4d4;
-            border-bottom: none;
-            border-top: none;
-            z-index: 99;
-            /*position the autocomplete items to be the same width as the container:*/
-            top: 100%;
-            left: 0;
-            right: 0;
-        }
-
-        .autocomplete-items div {
-            padding: 10px;
-            cursor: pointer;
-            background-color: #fff;
-            border-bottom: 1px solid #d4d4d4;
-        }
-
-        .autocomplete-items div:hover {
-            /*when hovering an item:*/
-            background-color: #e9e9e9;
-        }
-
-        .autocomplete-active {
-            /*when navigating through the items using the arrow keys:*/
-            background-color: DodgerBlue !important;
-            color: #ffffff;
-        }
-
         .custom-select, .search {
             width: auto !important;
             display: inline-block !important;
+        }
+
+        .ui-autocomplete {
+            z-index: 9999999 !important;
+            max-height: 200px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .ui-autocomplete li {
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .dt-center {
+            text-align: center !important;
+        }
+
+        .highlight {
+            background: var(--primary-green) !important;
+            color: white;
         }
     </style>
 </head>
@@ -126,17 +107,15 @@
                             <h4>Quản lý nhập kho</h4>
                         </div>
                         <div class="table-container mt-3">
-                            <div>
-                                <div class="table-control">
-                                    <button class="btn btn-secondary">Nhập từ File</button>
-                                </div>
-
-                                <div class="mt-2">
-                                    <label>Tìm kiếm sản phẩm</label>
-                                    <input style="padding-left: 5px; margin-left: 10px" id="search" class="search form-control" type="search" name="name" placeholder="Tìm kiếm...">
+                            <div class="mb-3">
+                                <div class="table-control d-flex align-items-center">
+                                    <button id="btnImport" class="btn btn-secondary"
+                                            data-toggle="modal" data-target="#importModal">Thêm sản phẩm
+                                    </button>
+                                    <button class="btn btn-secondary btn-control">Nhập từ File</button>
                                 </div>
                             </div>
-                            <table id="datatable" class="row-border hover nowrap w-100 mt-1">
+                            <table id="datatable-products" class="row-border hover nowrap w-100">
                                 <thead>
                                 <tr>
                                     <th class="text-center">Mã sản phẩm</th>
@@ -144,12 +123,98 @@
                                     <th class="text-right">Trọng lượng</th>
                                     <th class="text-right">Giá nhập</th>
                                     <th class="text-right">Số lượng nhập</th>
-                                    <th class="text-right">Tồn kho</th>
+                                    <th class="text-center">Ngày nhập</th>
                                 </tr>
                                 </thead>
                             </table>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="modal fade" id="importModal" tabindex="-1" role="dialog"
+                 aria-labelledby="importModalCenterTitle"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <form autocomplete="off" id="formImport">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="filterModalLongTitle">Nhập kho sản phẩm</h5>
+                                <i data-dismiss="modal" class="close fa-solid fa-xmark"></i>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <div class="form-group row align-items-center ui-widget">
+                                        <label class="col-4">Mã sản phẩm</label>
+                                        <div class="col-8">
+                                            <input class="form-control input-number" id="productIdInput" type="text"
+                                                   inputmode="numeric" pattern="[0-9]*"
+                                                   placeholder="Để trống nếu tạo mới">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row align-items-center">
+                                        <label class="col-4">Tên sản phẩm</label>
+                                        <div class="col-8">
+                                            <input class="form-control" id="productNameInput" type="text"
+                                                   required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row align-items-center">
+                                        <div class="col">
+                                            <label class="mb-2" for="productCostPriceInput">Giá nhập</label>
+                                            <div class="input-group">
+                                                <input class="form-control input-price" id="productCostPriceInput"
+                                                       type="text" inputmode="numeric" pattern="[0-9,\.]*" required>
+
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">đ</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col">
+                                            <label class="mb-2" for="productWeightInput">Trọng lượng</label>
+                                            <div class="input-group">
+                                                <input class="form-control input-weight" id="productWeightInput"
+                                                       type="text" inputmode="numeric" pattern="[0-9,.]*" required>
+
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">kg</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row align-items-center">
+                                        <div class="col">
+                                            <label class="mb-2" for="productImportQuantityInput">Số lượng nhập</label>
+                                            <input class="form-control input-price" id="productImportQuantityInput"
+                                                   type="text" inputmode="numeric" pattern="[0-9,\.]*" required>
+                                        </div>
+
+                                        <div class="col">
+                                            <label class="mb-2" for="productUnitInStock">Tồn kho</label>
+                                            <input class="form-control input-number" id="productUnitInStock"
+                                                   type="text" inputmode="numeric" pattern="[0-9]*" required disabled>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row align-items-center">
+                                        <label class="col" for="productDateImportInput">Ngày nhập</label>
+                                        <div class="col">
+                                            <input class="form-control" id="productDateImportInput"
+                                                   type="date" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                <button id="btnAdd" class="btn btn-success" type="submit">Thêm</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -160,37 +225,147 @@
 <script type="text/javascript" src="../javascripts/bootstrap.min.js"></script>
 <script type="text/javascript" src="../javascripts/jquery-3.7.1.js"></script>
 <script type="text/javascript" src="../Datatables-V2/datatables.js"></script>
-<script type="text/javascript" src="../javascripts/autocomplete.js"></script>
+<script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
 <script type="text/javascript">
     function formatNumber(number) {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
+    function formatCurrency(amount) {
+        return new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND'
+        }).format(amount);
+    }
+
     $(document)
         .ready(
             function () {
+                var productIdInput = $('#productIdInput');
 
-                let table = $('#datatable').DataTable({
+                productIdInput.autocomplete({
+                    source: function (request, response) {
+                        $.ajax({
+                            url: "nhap-kho",
+                            type: 'POST',
+                            data: {
+                                action: 'search',
+                                request: 'find-id-list',
+                                id: request.term
+                            },
+                            success: function (resp) {
+                                var data = resp.data;
+                                if(data != null) {
+                                    response(data.map(num => String(num)));
+                                }
+                            }
+                        });
+                    },
+                    minLength: 1,
+                    select: function (event, ui) {
+                        $(this).val(ui.item.value);
+                        $(this).blur();
+                        return false;
+                    }
+                });
+
+                productIdInput.change(function (change) {
+                    var id = $(this).val();
+
+                    $.ajax({
+                        url: 'nhap-kho',
+                        type: 'POST',
+                        data: {
+                            action: 'search',
+                            request: 'find-product',
+                            id: id
+                        },
+                        success: function (resp) {
+                            var product = resp.data;
+
+                            if (product !== null) {
+                                $('#productNameInput').val(product.name);
+                                $('#productCostPriceInput').val(product.costPrice);
+                                $('#productWeightInput').val(formatNumber(product.weight));
+                                $('#productUnitInStock').val(formatNumber(product.unitsInStock));
+
+                                $('#productCostPriceInput').trigger('input');
+                                $('#productWeightInput').trigger('input');
+                            }
+                            else {
+                                $('#formImport')[0].reset();
+                            }
+                        }
+                    });
+                });
+
+                let controlBar = document.createElement('div');
+
+                controlBar.innerHTML = `
+                            <div class="align-items-center">
+                            <label>Tìm kiếm sản phẩm</label>
+                            <input style="padding-left: 5px; margin-left: 10px" id="search" class="search form-control" type="search" name="name" placeholder="Tìm kiếm...">
+                            </div>
+                            `;
+
+                let btnSave = document.createElement('div');
+                btnSave.innerHTML = '<button id="btnSave" class="btn btn-success my-2">Nhập kho' + '</button>';
+
+                let table = $('#datatable-products').DataTable({
                     pageLength: 25,
                     scrollX: true,
                     scrollCollapse: true,
                     scrollY: '55vh',
                     order: [],
                     columnDefs: [
-                        {
-                            targets: [2, 3, 4, 5],
-                            className: 'dt-right'
-                        },
                         {targets: 0, name: 'id'},
                         {targets: 1, name: 'name'},
                         {targets: 2, name: 'weight'},
                         {targets: 3, name: 'costPrice'},
-                        {targets: 4, name: 'importQuantity'},
-                        {targets: 5, name: 'unitsInStock'},
+                        {targets: 4, name: 'quantity'},
+                        {targets: 5, name: 'dateCreate'},
+                        {
+                            targets: [2, 3, 4],
+                            className: 'dt-right'
+                        },
+                        {
+                            targets: [0, 5],
+                            className: 'dt-center'
+                        },
+                    ],
+                    columns: [
+                        {
+                            data: 'id',
+                            render: function (data, type, row) {
+                                if (data == null || data === '') {
+                                    return 'Mới';
+                                }
+                                return data;
+                            }
+                        },
+                        { data: 'name' },
+                        {
+                            data: 'weight',
+                            render: function (data, type, row) {
+                                return data + ' kg';
+                            }
+                        },
+                        {
+                            data: 'costPrice',
+                            render: function (data, type, row) {
+                                return formatCurrency(data)
+                            }
+                        },
+                        { data: 'quantity' },
+                        { data: 'dateCreate' }
                     ],
                     layout: {
-                        topStart: null,
-                        topEnd: null
+                        topStart: controlBar,
+                        topEnd: 'pageLength',
+                        bottomStart: null,
+                        bottomEnd: btnSave,
+                        bottom2Start: 'info',
+                        bottom2End: 'paging'
                     },
                     language: {
                         "sProcessing": "Đang xử lý...",
@@ -199,7 +374,7 @@
                         "sInfo": "Hiển thị _START_ đến _END_ của _TOTAL_ mục",
                         "sInfoEmpty": "Hiển thị 0 đến 0 của 0 mục",
                         "sInfoFiltered": "(được lọc từ _MAX_ mục)",
-                        "emptyTable": "Vui lòng thêm sản phẩm",
+                        "emptyTable": "Vui lòng thêm dữ liệu",
                         "sInfoPostFix": "",
                         "sSearch": "Tìm kiếm:",
                         "sUrl": "",
@@ -228,10 +403,86 @@
                     value = value.replace(/^0+/, '');
                     $(this).val(value);
                 });
+
+                $('.input-price').on('input', function () {
+                    let value = $(this).val();
+                    value = value.replace(/\D/g, '');
+
+                    if (value == "") return;
+
+                    $(this).val(parseInt(value).toLocaleString("vi-VN"));
+                });
+
+                $('.input-weight').on('input', function () {
+                    let value = $(this).val();
+
+                    value = value.replace(/[^0-9.]/g, '');
+
+                    let decimalParts = value.split('.');
+                    if (decimalParts.length > 2) {
+                        value = decimalParts[0] + '.' + decimalParts.slice(1).join('');
+                    }
+
+                    let integerPart = decimalParts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                    let formattedValue = integerPart;
+
+                    if (decimalParts.length > 1) {
+                        formattedValue += '.' + decimalParts[1];
+                    }
+
+                    $(this).val(formattedValue);
+                });
+
+                $('#formImport').submit(function (e) {
+                    e.preventDefault();
+
+                    let id = $('#productIdInput').val();
+                    let name = $('#productNameInput').val();
+                    let weight = $('#productWeightInput').val();
+                    let costPrice = $('#productCostPriceInput').val().replace(/\D/g, '');
+                    let quantity = $('#productImportQuantityInput').val();
+                    let dateCreate = $('#productDateImportInput').val();
+
+                    let product = {
+                        id: id,
+                        name: name,
+                        weight: weight,
+                        costPrice: costPrice,
+                        quantity: quantity,
+                        dateCreate: dateCreate
+                    };
+
+                    var rowNode = table.row.add(product).draw()
+                        .node();
+
+                    $(rowNode).addClass('highlight');
+
+                    setTimeout(function() {
+                        $(rowNode).removeClass('highlight');
+                    }, 2000);
+
+                    $('#formImport .close').click();
+                    $('#formImport')[0].reset();
+                });
+
+                $(document).on('click', '#btnSave', function () {
+                    var data = table.rows(0).data().toArray();
+                    // console.log(data);
+                    // $.ajax({
+                    //     url: "nhap-kho",
+                    //     type: 'POST',
+                    //     data: {
+                    //         action: 'import',
+                    //         data: data
+                    //     },
+                    //     success: function (resp) {
+                    //         console.log('success');
+                    //     }
+                    // });
+                });
             });
 
     $(".nav-link").removeClass("active");
     $("#nhap-kho-nav-link").addClass("active");
 </script>
-
 </html>

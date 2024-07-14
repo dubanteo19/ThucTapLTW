@@ -52,5 +52,5 @@ public interface IProductDAO extends GenericDAO<Product> {
 	int save(List<Image> images);
 
 	boolean update(Blog blog);
-	List<Integer> findAllId();
+	List<Integer> findId(String id);
 }

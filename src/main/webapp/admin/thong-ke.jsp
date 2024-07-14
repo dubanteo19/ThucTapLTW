@@ -37,10 +37,6 @@
             cursor: pointer;
         }
 
-        .modal-body label:not(.col) {
-            margin-bottom: 10px;
-        }
-
         .btn-info {
             color: #fff !important;
             background-color: #17a2b8 !important;
@@ -70,43 +66,21 @@
             cursor: pointer;
         }
 
-        .autocomplete {
-            /*the container must be positioned relative:*/
-            position: relative;
-            display: inline-block;
-        }
-
-        .autocomplete-items {
-            position: absolute;
-            border: 1px solid #d4d4d4;
-            border-bottom: none;
-            border-top: none;
-            z-index: 99;
-            /*position the autocomplete items to be the same width as the container:*/
-            top: 100%;
-            left: 0;
-            right: 0;
-        }
-
-        .autocomplete-items div {
-            padding: 10px;
-            cursor: pointer;
-            background-color: #fff;
-            border-bottom: 1px solid #d4d4d4;
-        }
-        .autocomplete-items div:hover {
-            /*when hovering an item:*/
-            background-color: #e9e9e9;
-        }
-        .autocomplete-active {
-            /*when navigating through the items using the arrow keys:*/
-            background-color: DodgerBlue !important;
-            color: #ffffff;
-        }
-
         .custom-select, .search {
             width: auto !important;
             display: inline-block !important;
+        }
+
+        .dropdown-item {
+            cursor: pointer;
+        }
+
+        .btn-container-dropdown {
+            position: relative;
+        }
+
+        .btn-container-dropdown .dropdown-menu {
+            min-width: 100% !important;
         }
     </style>
 </head>
@@ -124,6 +98,32 @@
                             <h4>Thống kê</h4>
                         </div>
                         <div class="table-container mt-3">
+                            <div class="mb-3">
+                                <div class="table-control d-flex">
+                                    <div>
+                                        <select id="typeStatistics" class="form-select custom-select">
+                                            <option selected>Dạng bảng</option>
+                                            <option>Biểu đồ</option>
+                                        </select>
+
+                                        <button type="button" id="btn-filter" class="btn btn-info btn-control"
+                                                data-toggle="modal" data-target="#filterModal">
+                                            <i class="fa-solid fa-filter"></i>Bộ lọc
+                                        </button>
+                                    </div>
+                                    <div class="ms-auto text-end btn-container-dropdown">
+                                        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Xuất File
+                                        </button>
+                                        <div class="dropdown-menu export-menu">
+                                            <span class="dropdown-item">Copy</span>
+                                            <span class="dropdown-item">CSV</span>
+                                            <span class="dropdown-item">Excel</span>
+                                            <span class="dropdown-item">PDF</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <table id="datatable" class="row-border hover nowrap">
                                 <thead>
                                 <tr>
@@ -136,7 +136,7 @@
                                     <th class="text-right">Đã bán</th>
                                     <th>Lợi nhuận</th>
                                     <th>Danh mục</th>
-                                    <th class="text-right">Ngày nhập kho</th>
+                                    <th class="text-center">Ngày nhập kho</th>
                                 </tr>
                                 </thead>
                             </table>
@@ -177,7 +177,8 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <input class="mt-2 form-control input-number" type="text" inputmode="numeric" pattern="[0-9]*" id="durationInput" style="display: none;"
+                                    <input class="mt-2 form-control input-number" type="text" inputmode="numeric"
+                                           pattern="[0-9]*" id="durationInput" style="display: none;"
                                            placeholder="Khoảng thời gian khác">
                                 </div>
 
@@ -221,7 +222,6 @@
 <script type="text/javascript" src="../javascripts/bootstrap.min.js"></script>
 <script type="text/javascript" src="../javascripts/jquery-3.7.1.js"></script>
 <script type="text/javascript" src="../Datatables-V2/datatables.js"></script>
-<script type="text/javascript" src="../javascripts/autocomplete.js"></script>
 <script type="text/javascript">
     function handleDurationChange() {
         var select = document.getElementById('durationSelect');
@@ -260,12 +260,12 @@
         // `d` is the original data object for the row
         return (
             '<dl>' +
-                formatSubDetailOnRow('Giá nhập', formatCurrency(data.product.costPrice)) +
-                formatSubDetailOnRow(' - Trọng lượng', data.product.weight) +
-                '<br>' +
-                formatSubDetailOnRow('Giá bán', formatCurrency(data.product.unitPrice)) +
-                '<br>' +
-                formatSubDetailOnRow('Doanh thu', formatCurrency(data.totalSold * data.product.unitPrice)) +
+            formatSubDetailOnRow('Giá nhập', formatCurrency(data.product.costPrice)) +
+            formatSubDetailOnRow(' - Trọng lượng', data.product.weight) +
+            '<br>' +
+            formatSubDetailOnRow('Giá bán', formatCurrency(data.product.unitPrice)) +
+            '<br>' +
+            formatSubDetailOnRow('Doanh thu', formatCurrency(data.totalSold * data.product.unitPrice)) +
             '</dl>'
         );
     }
@@ -285,20 +285,6 @@
                             <input style="padding-left: 5px; margin-left: 10px" id="search" class="search form-control" type="search" name="name" placeholder="Tìm kiếm...">
                             </div>
                             `;
-
-                let createBar = document.createElement('div');
-                createBar.innerHTML = `
-                        <div>
-                         <select id="typeStatistics" class="form-select custom-select">
-                            <option selected>Dạng bảng</option>
-                            <option>Biểu đồ</option>
-                        </select>
-
-                        <button type="button" id="btn-filter" class="btn btn-info btn-control"
-                                    data-toggle="modal" data-target="#filterModal">
-                                <i class="fa-solid fa-filter"></i>Bộ lọc</button>
-                        </div>
-                `;
 
                 let table = $('#datatable').DataTable({
                     serverSide: true,
@@ -324,7 +310,7 @@
                     },
                     columnDefs: [
                         {
-                            targets: [1, 3,9],
+                            targets: [1, 3, 9],
                             className: 'dt-center'
                         },
                         {
@@ -433,52 +419,45 @@
                         "emptyTable": "Không tìm thấy dữ liệu",
                     },
                     layout: {
-                        top2Start: createBar,
-                        top2End: 'buttons',
                         topStart: controlBar,
                         topEnd: 'pageLength'
                     },
                     buttons: [
                         {
-                            extend: 'collection',
-                            text: 'Xuất File',
-                            attr: {
-                                class: 'btn btn-warning'
-                            },
-                            buttons: [
-                                {
-                                    extend: 'copyHtml5',
-                                    exportOptions: {
-                                        columns: function (idx, data, node) {
-                                            return idx !== 0 && idx !== 3; // Loại bỏ cột thứ 0 và 3
-                                        }
-                                    }
-                                },
-                                {
-                                    extend: 'excelHtml5',
-                                    exportOptions: {
-                                        columns: function (idx, data, node) {
-                                            return idx !== 0 && idx !== 3;
-                                        }
-                                    }
-                                },
-                                {
-                                    extend: 'csvHtml5',
-                                    exportOptions: {
-                                        columns: function (idx, data, node) {
-                                            return idx !== 0 && idx !== 3;
-                                        }
-                                    }
-                                },
-                                {
-                                    extend: 'pdfHtml5',
-                                    exportOptions: {
-                                        columns: function (idx, data, node) {
-                                            return idx !== 0 && idx !== 3;
-                                        }
-                                    }
+                            extend: 'copyHtml5',
+                            title: 'Thống kê ' + new Date().toISOString().slice(0, 10),
+                            exportOptions: {
+                                columns: function (idx, data, node) {
+                                    return idx !== 0 && idx !== 3; // Loại bỏ cột thứ 0 và 3
                                 }
-                            ]
+                            },
+                        },
+                        {
+                            extend: 'excelHtml5',
+                            title: 'Thống kê ' + new Date().toISOString().slice(0, 10),
+                            exportOptions: {
+                                columns: function (idx, data, node) {
+                                    return idx !== 0 && idx !== 3;
+                                }
+                            }
+                        },
+                        {
+                            extend: 'csvHtml5',
+                            title: 'Thống kê ' + new Date().toISOString().slice(0, 10),
+                            exportOptions: {
+                                columns: function (idx, data, node) {
+                                    return idx !== 0 && idx !== 3;
+                                }
+                            }
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            title: 'Thống kê ' + new Date().toISOString().slice(0, 10),
+                            exportOptions: {
+                                columns: function (idx, data, node) {
+                                    return idx !== 0 && idx !== 3;
+                                }
+                            }
                         }
                     ],
                     initComplete: function () {
@@ -517,7 +496,7 @@
                     $('#datatable').DataTable().ajax.reload();
                 }
 
-                $('.input-number').on('input', function() {
+                $('.input-number').on('input', function () {
                     let value = $(this).val();
                     value = value.replace(/\D/g, '');
                     value = value.replace(/^0+/, '');
@@ -535,11 +514,15 @@
                     if (row.child.isShown()) {
                         // This row is already open - close it
                         row.child.hide();
-                    }
-                    else {
+                    } else {
                         // Open this row
                         row.child(formatDetailRow(row.data())).show();
                     }
+                });
+
+                $('.export-menu .dropdown-item').on('click', function () {
+                   var exportType = $(this).text().toLowerCase();
+                    table.button('.buttons-' + exportType).trigger();
                 });
             });
 
