@@ -14,4 +14,7 @@ public interface GenericDAO<T> {
 	int count(String sql, Object... objects);
 	
 	int query(String sql, Object... objects);
+
+	<T> List<T> querryWithView(String sqlView, String sqlDrop, String sql, RowMapper<T> rowMapper, Object... objects);
+	int countWithView(String sqlView, String sqlDrop, String sql, Object... objects);
 }

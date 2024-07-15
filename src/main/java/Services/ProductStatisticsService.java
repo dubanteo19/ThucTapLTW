@@ -46,6 +46,11 @@ public class ProductStatisticsService implements IProductStatisticsService {
     }
 
     @Override
+    public int getCountProductRequiredImport(Map<String, Object> filters, int duration, String durationType) {
+        return productStatisticsDAO.getCountProductRequiredImport(filters, duration, durationType);
+    }
+
+    @Override
     public List<ProductStatistics> findProductStatisticsByFilterByDate(Map<String, Object> filters, int month, String year) {
         return productStatisticsDAO.findProductStatisticsByFilterByDate(filters, month, year);
     }

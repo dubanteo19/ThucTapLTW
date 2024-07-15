@@ -5,16 +5,18 @@ public class ProductStatistics {
     private Product product;
     private int totalSold;
     private double totalRevenue;
-    private int status;
+    private int requiredQuantity;
+    private String status;
 
     public ProductStatistics() {
 
     }
 
-    public ProductStatistics(Product product, int totalSold, double totalRevenue, int status) {
+    public ProductStatistics(Product product, int totalSold, double totalRevenue, int requiredQuantity, String status) {
         this.product = product;
         this.totalSold = totalSold;
         this.totalRevenue = totalRevenue;
+        this.requiredQuantity = requiredQuantity;
         this.status = status;
     }
 
@@ -42,21 +44,30 @@ public class ProductStatistics {
         this.totalRevenue = totalRevenue;
     }
 
-    public int getStatus() {
+    public int getRequiredQuantity() {
+        return requiredQuantity;
+    }
+
+    public void setRequiredQuantity(int requiredQuantity) {
+        this.requiredQuantity = requiredQuantity;
+    }
+
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
     @Override
     public String toString() {
         return "ProductStatistics{" +
-                "product=" + product +
+                "product=" + product.getId() +
                 ", totalSold=" + totalSold +
                 ", totalRevenue=" + totalRevenue +
-                ", status=" + status +
+                ", requiredQuantity=" + requiredQuantity +
+                ", status='" + status + '\'' +
                 '}';
     }
 }
