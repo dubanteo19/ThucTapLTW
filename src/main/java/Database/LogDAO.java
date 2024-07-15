@@ -14,6 +14,16 @@ public class LogDAO extends AbtractDAO<Log> implements ILogDAO {
     }
 
     @Override
+    public Log findById(int id) {
+        String sql = "SELECT * FROM logs WHERE logId = ?";
+        List<Log> re = querry(sql, new LogMapper(), id);
+        if (!re.isEmpty()) {
+            return re.get(0);
+        }
+        return null;
+    }
+
+    @Override
     public int save(Log log) {
         String sql = """
                 INSERT INTO logs(ipAddress,url,nation,currentValue,afterValue,description,level)
@@ -28,7 +38,9 @@ public class LogDAO extends AbtractDAO<Log> implements ILogDAO {
     }
 
     @Override
-    public boolean delete(Log log) {
-        return false;
+    public boolean delete(int logId) {
+        String sql = "DELETE FROM logs WHERE logId = ?";
+        return update(sql, logId);
     }
+
 }

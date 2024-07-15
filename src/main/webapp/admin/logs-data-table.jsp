@@ -16,7 +16,6 @@
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles/admin.css?aa">
-    <script src="javascripts/chart.js"></script>
 </head>
 <style>
     .btn-order-detail i {
@@ -79,7 +78,6 @@
                                 <th scope="col">LEVEL</th>
                                 <th scope="col">Giá trị trước</th>
                                 <th scope="col">Giá trị sau</th>
-                                <th scope="col">Miêu tả</th>
                                 <th scope="col">Thời gian</th>
                                 <th scope="col">Chức năng</th>
                             </tr>
@@ -105,9 +103,25 @@
                                     </td>
                                     <td>${item.currentValue}</td>
                                     <td>${item.afterValue}</td>
-                                    <td>${item.description}</td>
                                     <td>${item.dateCreated}</td>
-                                    <td>${level}</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button class="btn btn-success btn-sm detail-btn me-1"
+                                                    type="button"
+                                                    data-toggle="modal"
+                                                    data-target="#log-detail-modal-lg"
+                                                    data-log='{"id": "${item.id}", "description":"${item.description}", "ipAddress": "${item.ipAddress}", "nation": "${item.nation}", "url": "${item.url}", "level": "${item.level}", "currentValue": "${item.currentValue}", "afterValue": "${item.afterValue}", "dateCreated": "${item.dateCreated}"}'>
+
+                                                <i class="fa-solid fa-circle-info"></i>
+                                            </button>
+                                            <button
+                                                    type="button"
+                                                    class="btn btn-warning btn-sm remove-btn"
+                                                    data-target=${item.id}>
+                                                <i class='fa-solid fa-trash'></i>
+                                            </button>
+                                        </div>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </c:forEach>
@@ -118,12 +132,69 @@
         </div>
     </div>
 </div>
+<div class="modal fade " id="log-detail-modal-lg" tabindex="-1" role="dialog" aria-labelledby="logDetailModal"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="container p-3">
+                <h2 class="text-center">Chi tiết log </h2>
+                <h4>Địa chỉ IP: <span id="modal-ipAddress"></span></h4>
+                <h4>Quốc gia : <span id="modal-nation"></span></h4>
+                <h4>URL=: <span id="modal-url"></span></h4>
+                <h4>LEVEL: <span id="modal-level"></span></h4>
+                <h4>Giá trị trước : <span id="modal-currentValue"> </span></h4>
+                <h4>Giá trị sau: <span id="modal-afterValue"></span></h4>
+                <h4>Thời gian : <span id="modal-dateCreated"></span></h4>
+                <h4>Mô tả chi tiết: <span id="modal-description"></span></h4>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
+<script src="../javascripts/jquery-3.7.1.js"></script>
+<script src="../javascripts/bootstrap.min.js"></script>
 <script type="text/javascript" src="javascripts/Utils.js"></script>
-<script type="text/javascript" src="../javascripts/jquery-3.7.1.js"></script>
 <script type="text/javascript">
     $(".nav-link").removeClass("active");
-    $("#orders-nav-link").addClass("active");
+    $("#logs-nav-link").addClass("active");
+    function renderModal(log) {
+        $("#modal-ipAddress").text(log.ipAddress);
+        $("#modal-nation").text(log.nation);
+        $("#modal-url").text(log.url);
+        $("#modal-level").text(log.level);
+        $("#modal-currentValue").text(log.currentValue);
+        $("#modal-afterValue").text(log.afterValue);
+        $("#modal-dateCreated").text(log.dateCreated);
+        $("#modal-description").text(log.description);
+
+    }
+
+    $(".detail-btn").click(function () {
+        let log = $(this).data("log");
+        renderModal(log);
+    })
+
+    $(".remove-btn").click(function () {
+        let logId = $(this).data("target");
+        removeLog(logId);
+    })
+
+    function removeLog(logId) {
+        $.ajax({
+            type: "post",
+            url: "/admin/LogController",
+            data: {
+                logId: logId,
+                action: "remove"
+            },
+            success: function (response) {
+            },
+            error: function (xhr, status, error) {
+                console.log("loi")
+            }
+        });
+    }
 </script>
 
 </html>

@@ -19,4 +19,14 @@ public class LogService implements ILogService {
     public void saveLog(Log log) {
         logDAO.save(log);
     }
+
+    @Override
+    public Log findLogById(int id) {
+        return logDAO.findById(id);
+    }
+
+    @Override
+    public boolean deleteLogById(int id) {
+        return logDAO.delete(id);
+    }
 }
