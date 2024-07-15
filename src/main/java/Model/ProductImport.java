@@ -77,11 +77,11 @@ public class ProductImport implements Serializable {
     public String toString() {
         return "ProductImport{" +
                 "id=" + id +
-                ", product=" + product +
                 ", weight=" + weight +
                 ", costPrice=" + costPrice +
                 ", quantity=" + quantity +
                 ", dateCreated=" + dateCreated +
+                ", product=" + product +
                 '}';
     }
 }

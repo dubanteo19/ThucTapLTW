@@ -115,7 +115,7 @@
                                         <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             Xuất File
                                         </button>
-                                        <div class="dropdown-menu export-menu">
+                                        <div id="optionExport" class="dropdown-menu export-menu">
                                             <span class="dropdown-item">Copy</span>
                                             <span class="dropdown-item">CSV</span>
                                             <span class="dropdown-item">Excel</span>
@@ -387,12 +387,8 @@
                         },
                         {
                             data: 'product.lastUpdated',
-                            render: function (data, type, row) {
-                                return new Date(data).toLocaleDateString('vi-VN', {
-                                    day: '2-digit',
-                                    month: '2-digit',
-                                    year: 'numeric'
-                                });
+                            render: function(data, type, row) {
+                                return moment(data).format('DD/MM/YYYY');
                             }
                         }
                     ],
@@ -434,7 +430,9 @@
                         },
                         {
                             extend: 'excelHtml5',
-                            title: 'Thống kê ' + new Date().toISOString().slice(0, 10),
+                            extend: 'excelHtml5',
+                            filename: 'Thống kê ' + new Date().toISOString().slice(0, 10),
+                            title: '',
                             exportOptions: {
                                 columns: function (idx, data, node) {
                                     return idx !== 0 && idx !== 3;
@@ -520,7 +518,7 @@
                     }
                 });
 
-                $('.export-menu .dropdown-item').on('click', function () {
+                $('#optionExport .dropdown-item').on('click', function () {
                    var exportType = $(this).text().toLowerCase();
                     table.button('.buttons-' + exportType).trigger();
                 });

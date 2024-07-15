@@ -18,6 +18,7 @@
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+
     <style>
         .product-name:hover {
             color: var(--primary-green);
@@ -91,6 +92,14 @@
             background: var(--primary-green) !important;
             color: white;
         }
+
+        .step-hide {
+            display: none;
+        }
+
+        .dropdown-item {
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -112,7 +121,29 @@
                                     <button id="btnImport" class="btn btn-secondary"
                                             data-toggle="modal" data-target="#importModal">Thêm sản phẩm
                                     </button>
-                                    <button class="btn btn-secondary btn-control">Nhập từ File</button>
+                                    <div class="btn-control btn-container-dropdown">
+                                        <button type="button" class="btn btn-secondary dropdown-toggle"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Nhập từ File
+                                        </button>
+                                        <div class="dropdown-menu export-menu">
+                                            <span class="dropdown-item">CSV</span>
+                                            <span class="dropdown-item"
+                                                  data-toggle="modal" data-target="#importFileModal">Excel</span>
+                                        </div>
+                                    </div>
+                                    <div class="ms-auto text-end btn-container-dropdown">
+                                        <button type="button" class="btn btn-warning dropdown-toggle"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Xuất File
+                                        </button>
+                                        <div id="optionExport" class="dropdown-menu export-menu">
+                                            <span class="dropdown-item">Copy</span>
+                                            <span class="dropdown-item">CSV</span>
+                                            <span class="dropdown-item">Excel</span>
+                                            <span class="dropdown-item">PDF</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <table id="datatable-products" class="cell-border hover nowrap w-100">
@@ -217,15 +248,106 @@
                     </form>
                 </div>
             </div>
+
+            <div class="modal fade" id="importFileModal" tabindex="-1" role="dialog"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <form id="formImportFile">
+                            <div class="step js-steps-content" id="step1">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Chọn File</h5>
+                                    <i data-dismiss="modal" class="close fa-solid fa-xmark"></i>
+                                </div>
+
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <input id="fileImport" type="file" class="form-control" data-show="step2">
+                                        <div class="invalid-feedback">
+                                            Tệp không hợp lệ. Vui lòng chọn tệp Excel có định dạng .xls hoặc .xlsx.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                </div>
+                            </div>
+
+                            <div class="step js-steps-content step-hide" id="step2">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Chọn cột dữ liệu tương ứng</h5>
+                                    <i data-dismiss="modal" class="close fa-solid fa-xmark"></i>
+                                </div>
+
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <h5 class="mb-4" style="font-size: 16px; text-align: center; font-weight: normal;
+                                        color: var(--primary-green)"
+                                        >Chọn cột Excel mà bạn muốn sử dụng dữ liệu cho từng trường.</h5>
+                                        <div id="selectCol">
+                                            <div class="form-group row">
+                                                <label class="col">Mã sản phẩm</label>
+                                                <div class="col">
+                                                    <select class="form-select"></select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col">Tên sản phẩm</label>
+                                                <div class="col">
+                                                    <select class="form-select"></select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col">Trọng lượng</label>
+                                                <div class="col">
+                                                    <select class="form-select"></select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col">Giá nhập</label>
+                                                <div class="col">
+                                                    <select class="form-select"></select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col">Số lượng nhập</label>
+                                                <div class="col">
+                                                    <select class="form-select"></select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col">Ngày nhập</label>
+                                                <div class="col">
+                                                    <select class="form-select"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                    <button id="btnImportFile" type="button" class="btn btn-success">Nhập</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 </body>
 <script type="text/javascript" src="../javascripts/popper.min.js"></script>
-<script type="text/javascript" src="../javascripts/bootstrap.min.js"></script>
 <script type="text/javascript" src="../javascripts/jquery-3.7.1.js"></script>
+<script type="text/javascript" src="../javascripts/bootstrap.min.js"></script>
 <script type="text/javascript" src="../Datatables-V2/datatables.js"></script>
 <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script type="text/javascript">
     function formatNumber(number) {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -237,6 +359,56 @@
             currency: 'VND'
         }).format(amount);
     }
+
+    function getHeaders(sheet) {
+        var headers = [];
+        var range = XLSX.utils.decode_range(sheet['!ref']);
+        var firstRow = range.s.r; // Lấy hàng đầu tiên
+
+        for (var col = range.s.c; col <= range.e.c; ++col) {
+            var cell = sheet[XLSX.utils.encode_cell({r: firstRow, c: col})];
+            var hdr = "UNKNOWN " + col; // Nếu không có tiêu đề, đặt tên là UNKNOWN
+            if (cell && cell.t) hdr = XLSX.utils.format_cell(cell);
+            headers.push(hdr);
+        }
+        return headers;
+    }
+
+    function populateSelect(headers) {
+        var $selectColDiv = $('#selectCol');
+
+        $selectColDiv.find('.form-group').each(function (index) {
+            var $formGroup = $(this);
+            var $label = $formGroup.find('label');
+            var columnName = $label.text().trim();
+
+            var $select = $formGroup.find('select');
+            var colIndex = index + 1;
+
+            $select.empty();
+
+            var foundHeader = headers.find(function (header) {
+                return header.toLowerCase() === columnName.toLowerCase();
+            });
+
+            headers.forEach(function (header, headerIndex) {
+                var option = $('<option>', {
+                    value: header,
+                    text: header,
+                    'data-header-index': headerIndex
+                });
+
+                if (foundHeader && header === foundHeader) {
+                    option.prop('selected', true);
+                } else if (!foundHeader && headers.indexOf(header) === colIndex - 1) {
+                    option.prop('selected', true);
+                }
+
+                $select.append(option);
+            });
+        });
+    }
+
 
     $(document)
         .ready(
@@ -255,7 +427,7 @@
                             },
                             success: function (resp) {
                                 var data = resp.data;
-                                if(data != null) {
+                                if (data != null) {
                                     response(data.map(num => String(num)));
                                 }
                             }
@@ -271,7 +443,7 @@
 
                 productIdInput.change(function (change) {
                     var id = $(this).val();
-                    if(id !== '') {
+                    if (id !== '') {
                         $.ajax({
                             url: 'nhap-kho',
                             type: 'POST',
@@ -291,8 +463,7 @@
 
                                     $('#productCostPriceInput').trigger('input');
                                     $('#productWeightInput').trigger('input');
-                                }
-                                else {
+                                } else {
                                     $('#formImport')[0].reset();
                                 }
                             }
@@ -364,8 +535,18 @@
                                 return formatCurrency(data)
                             }
                         },
-                        { data: 'quantity' },
-                        { data: 'dateCreated' }
+                        {
+                            data: 'quantity',
+                            render: function (data, type, row) {
+                                return formatNumber(data);
+                            }
+                        },
+                        {
+                            data: 'dateCreated',
+                            render: function (data, type, row) {
+                                return moment(data).format('DD/MM/YYYY');
+                            }
+                        }
                     ],
                     layout: {
                         topStart: controlBar,
@@ -375,6 +556,25 @@
                         bottom2Start: 'info',
                         bottom2End: 'paging'
                     },
+                    buttons: [
+                        {
+                            extend: 'copyHtml5',
+                            title: 'Nhập kho ' + new Date().toISOString().slice(0, 10),
+                        },
+                        {
+                            extend: 'excelHtml5',
+                            filename: 'Nhập kho ' + new Date().toISOString().slice(0, 10),
+                            title: ''
+                        },
+                        {
+                            extend: 'csvHtml5',
+                            title: 'Nhập kho ' + new Date().toISOString().slice(0, 10),
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            title: 'Nhập kho ' + new Date().toISOString().slice(0, 10),
+                        }
+                    ],
                     language: {
                         "sProcessing": "Đang xử lý...",
                         "sLengthMenu": "Hiển thị _MENU_ mục",
@@ -448,7 +648,7 @@
                     e.preventDefault();
 
                     let id = $('#productIdInput').val();
-                    if(id === '') id = -1;
+                    if (id === '') id = -1;
 
                     let name = $('#productNameInput').val();
                     let weight = $('#productWeightInput').val();
@@ -470,17 +670,17 @@
 
                     $(rowNode).addClass('highlight');
 
-                    setTimeout(function() {
+                    setTimeout(function () {
                         $(rowNode).removeClass('highlight');
                     }, 2000);
 
-                    $('#formImport .close').click();
+                    $('#importModal').modal('hide');
                     $('#formImport')[0].reset();
                 });
 
                 $(document).on('click', '#btnSave', function () {
                     var data = table.rows().data().toArray();
-
+                    console.log(data);
                     $.ajax({
                         url: "nhap-kho",
                         type: 'POST',
@@ -492,6 +692,104 @@
 
                         }
                     });
+                });
+
+                $('#fileImport').on('change', function () {
+                    var fileInput = $(this);
+                    var filePath = fileInput.val();
+                    var allowedExtensions = /(\.xls|\.xlsx)$/i;
+
+                    if (allowedExtensions.exec(filePath)) {
+                        var file = fileInput[0].files[0];
+                        var reader = new FileReader();
+
+                        reader.onload = function (e) {
+                            var data = new Uint8Array(e.target.result);
+                            var workbook = XLSX.read(data, {type: 'array'});
+                            var firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                            var headers = getHeaders(firstSheet);
+
+                            var range = XLSX.utils.decode_range(firstSheet['!ref']);
+                            var numRecords = range.e.r;
+
+                            $('#btnImportFile').text('Nhập ' + numRecords + ' records');
+
+                            populateSelect(headers);
+
+                            $('#step1').addClass('step-hide');
+                            $('#step2').removeClass('step-hide');
+                        };
+
+                        reader.readAsArrayBuffer(file);
+                    } else {
+                        fileInput.addClass('is-invalid');
+                        fileInput.val('');
+                    }
+                });
+
+                $('#btnImportFile').on('click', function () {
+                    NProgress.start();
+
+                    var selectedColumns = [];
+                    $('#selectCol select').each(function () {
+                        var columnIndex = $(this).find('option:selected').data('header-index');
+                        selectedColumns.push(columnIndex);
+                    });
+
+                    var fileInput = $('#fileImport')[0].files[0];
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        var data = new Uint8Array(e.target.result);
+                        var workbook = XLSX.read(data, {type: 'array'});
+                        var firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                        var excelData = XLSX.utils.sheet_to_json(firstSheet, {header: 1});
+
+                        excelData.shift();
+
+                        var importedData = excelData.map(function (row) {
+                            var dateString = row[selectedColumns[5]];
+                            var parsedDate = moment(dateString, ["DD/MM/YYYY", "MM/DD/YYYY", "YYYY-MM-DD"]).toDate();
+                            var id = String(row[selectedColumns[0]]).replace(/\D/g, '');
+
+                            return {
+                                id: id !== '' ? id : -1,
+                                name: row[selectedColumns[1]],
+                                weight: String(row[selectedColumns[2]]).replace(/\D/g, ''),
+                                costPrice: String(row[selectedColumns[3]]).replace(/\D/g, ''),
+                                quantity: String(row[selectedColumns[4]]).replace(/\D/g, ''),
+                                dateCreated: moment(parsedDate).format('YYYY-MM-DD')
+                            };
+                        });
+
+                        table.clear().rows.add(importedData).draw();
+                        $('#importFileModal').modal('hide');
+                        NProgress.done();
+                    };
+
+                    reader.readAsArrayBuffer(fileInput);
+                });
+
+
+                $('#selectCol select').on('change', function () {
+                    var selectedOption = $(this).find('option:selected');
+                    var headerIndex = selectedOption.data('header-index');
+                });
+
+                $('#importFileModal').on('hidden.bs.modal', function () {
+                    $('.js-steps-content').each(function () {
+                        if ($(this).attr('id') === 'step1') {
+                            $(this).removeClass('step-hide');
+                        } else {
+                            $(this).addClass('step-hide');
+                        }
+                    });
+                    $('#formImportFile')[0].reset();
+                });
+
+                $('#optionExport .dropdown-item').on('click', function () {
+                    var exportType = $(this).text().toLowerCase();
+                    table.button('.buttons-' + exportType).trigger();
                 });
             });
 
