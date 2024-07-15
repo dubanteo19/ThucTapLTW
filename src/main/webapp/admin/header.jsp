@@ -5,6 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+	<link rel="stylesheet"
+		  href="https://unpkg.com/nprogress@0.2.0/nprogress.css">
 </head>
 <body>
 	<div class="d-flex justify-content-between bg-primary-green">
@@ -13,6 +15,7 @@
 	</div>
 </body>
 <script type="text/javascript" src="../javascripts/jquery-3.7.1.js"></script>
+<script type="text/javascript" src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
 <script>
 	$(document).ready(function() {
 		function toggleMenu() {

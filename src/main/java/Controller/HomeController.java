@@ -2,10 +2,8 @@ package Controller;
 
 import Model.Log;
 import Model.LogLevel;
-import Services.ICarouselServices;
-import Services.ICategoryService;
-import Services.ILogService;
-import Services.IProductService;
+import Services.*;
+import com.mysql.cj.log.LogFactory;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -42,28 +40,17 @@ public class HomeController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // TODO Auto-generated method stub
-        Log log = new Log();
-        log.setUrl("Home");
-        log.setDescription("View home page");
-        log.setIpAddress(request.getRemoteAddr());
-        log.setAfterValue("");
-        log.setNation("");
-        log.setCurrentValue("");
-        log.setLevel(LogLevel.INFO);
+        Log log = MLogFactory.getLog(request, this,1);
         logService.saveLog(log);
         request.setAttribute("productsSale", productService.findProductSales(30, 0));
-
         request.setAttribute("dsCuQua", productService.findProductByCategoryId(7, 16, 0));
         request.setAttribute("dsGao", productService.findProductByCategoryId(1, 16, 0));
         request.setAttribute("dsHat", productService.findProductByCategoryId(9, 16, 0));
-
         request.setAttribute("dsDau", productService.findProductByCategoryId(11, 16, 0));
         request.setAttribute("dsNguCoc", productService.findProductByCategoryId(8, 16, 0));
         request.setAttribute("dsSanPhamKhac", productService.findProductByCategoryId(10, 16, 0));
         request.setAttribute("categories", categoryService.findAll());
-
         request.setAttribute("carousels", carouselServices.findAll());
-
         request.getRequestDispatcher("/index.jsp").forward(request, response);
     }
 

@@ -1,3 +1,5 @@
+let emptyCartMessDiv = $(".empty-message");
+let cartTotalInfoDiv = $(".cart-total-info");
 $(document).on('click', '.add_cart', function () {
     var id = $(this).closest('.product').data('product-id');
     addToCartByProductId(id);
@@ -75,7 +77,12 @@ function updateCartItem(idProduct, quantity) {
             var itemDisplay = $('[data-cart-id="' + idProduct + '"]');
 
             if (item === null || item === undefined) {
+                if (totalItems <= 0) {
+                    emptyCartMessDiv.css("display", "block");
+                    cartTotalInfoDiv.css("display", "none");
+                }
                 itemDisplay.remove();
+
             } else {
                 itemDisplay.find('.cart_quantity').val(item.quantity);
                 itemDisplay.find('.cart_price').text(formatPrice(response.itemTotalPrice));
@@ -153,6 +160,13 @@ function addToCart(idProduct, quantity) {
 }
 
 function renderCartItem(item, itemTotalPrice) {
+    if (itemTotalPrice > 0) {
+        emptyCartMessDiv.css("display", "none");
+        cartTotalInfoDiv.css("display", "block");
+    } else {
+        emptyCartMessDiv.css("display", "block");
+        cartTotalInfoDiv.css("display", "none");
+    }
     $.get('/templates/cart-item-template.jsp', function (template) {
         var $cartItem = $(template);
 

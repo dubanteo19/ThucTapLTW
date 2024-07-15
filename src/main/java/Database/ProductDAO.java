@@ -1,10 +1,7 @@
 package Database;
 
 import Model.*;
-import RowMaper.ImageMapper;
-import RowMaper.ProductDetailMapper;
-import RowMaper.ProductMapper;
-import RowMaper.ReviewMapper;
+import RowMaper.*;
 import RowMaper.column.CategoriesColumn;
 import RowMaper.column.ProductsColumn;
 import RowMaper.column.StatusColumn;
@@ -442,4 +439,9 @@ public class ProductDAO extends AbtractDAO<Product> implements IProductDAO {
         return update(sql, blog.getContent(), blog.getId());
     }
 
+    @Override
+    public List<Integer> findAllId() {
+        String sql = "SELECT productId AS num FROM products ORDER BY num ASC";
+        return querry(sql, new IntegerMapper());
+    }
 }

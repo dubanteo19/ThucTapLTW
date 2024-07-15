@@ -158,4 +158,9 @@ public class ProductService implements IProductService {
 		product.setUnitsInStock(amount);
 		update(product);
 	}
+
+	@Override
+	public List<Integer> findAllId() {
+		return productDAO.findAllId();
+	}
 }
