@@ -13,12 +13,12 @@ public class Orders extends Model {
 	private double shippingFee;
 	private String address;
 	private List<Order_details> details;
-
+	private String note;
 	public Orders() {
 	}
 
 	public Orders(Timestamp dateCreated, Timestamp lastUpdated, int id, User user, double totalPrice, int discountId,
-			Status status, String paymentMethod, double shippingFee, String address, List<Order_details> details) {
+			Status status, String paymentMethod, double shippingFee, String address, List<Order_details> details, String note) {
 		super(dateCreated, lastUpdated);
 		this.id = id;
 		this.user = user;
@@ -29,6 +29,7 @@ public class Orders extends Model {
 		this.shippingFee = shippingFee;
 		this.address = address;
 		this.details = details;
+		this.note = note;
 	}
 
 	public String getAddress() {
@@ -120,10 +121,27 @@ public class Orders extends Model {
 		this.details = details;
 	}
 
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
 	@Override
 	public String toString() {
-		return "Orders [id=" + id + ", user=" + user + ", totalPrice=" + totalPrice + ", discountId=" + discountId
-				+ ", status=" + status + ", paymentMethod=" + paymentMethod + ", shippingFee=" + shippingFee
-				+ ", address=" + address + ", details=" + details + "]";
+		return "Orders{" +
+				"id=" + id +
+				", user=" + user +
+				", totalPrice=" + totalPrice +
+				", discountId=" + discountId +
+				", status=" + status +
+				", paymentMethod='" + paymentMethod + '\'' +
+				", shippingFee=" + shippingFee +
+				", address='" + address + '\'' +
+				", details=" + details +
+				", note='" + note + '\'' +
+				'}';
 	}
 }

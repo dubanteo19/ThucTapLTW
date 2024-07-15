@@ -7,6 +7,8 @@ import Model.Discounts;
 public interface IDiscountService extends IGenericService<Discounts> {
 	List<Discounts> findAll();
 
+	List<Discounts> findAllActive();
+
 	int save(Discounts discounts);
 
 	boolean update(Discounts discounts);

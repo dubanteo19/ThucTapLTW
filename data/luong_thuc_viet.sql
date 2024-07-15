@@ -11,7 +11,11 @@
  Target Server Version : 80030 (8.0.30)
  File Encoding         : 65001
 
+<<<<<<< HEAD
  Date: 10/07/2024 01:48:57
+=======
+ Date: 09/07/2024 14:41:57
+>>>>>>> e437f077eafc08869f25ac924537e15cc231064e
 */
 
 SET NAMES utf8mb4;
@@ -98,8 +102,11 @@ CREATE TABLE `carts`  (
 -- ----------------------------
 -- Records of carts
 -- ----------------------------
+<<<<<<< HEAD
 INSERT INTO `carts` VALUES (2, '[{\"quantity\": 10, \"productId\": 2}, {\"quantity\": 12, \"productId\": 3}, {\"quantity\": 8, \"productId\": 5}, {\"quantity\": 8, \"productId\": 6}, {\"quantity\": 1, \"productId\": 7}, {\"quantity\": 1, \"productId\": 10}, {\"quantity\": 7, \"productId\": 11}]');
 INSERT INTO `carts` VALUES (4, '[{\"quantity\": 7, \"productId\": 32}, {\"quantity\": 8, \"productId\": 33}, {\"quantity\": 4, \"productId\": 2}, {\"quantity\": 2, \"productId\": 34}, {\"quantity\": 4, \"productId\": 3}, {\"quantity\": 1, \"productId\": 13}, {\"quantity\": 7, \"productId\": 14}, {\"quantity\": 4, \"productId\": 15}, {\"quantity\": 1, \"productId\": 16}, {\"quantity\": 1, \"productId\": 145}, {\"quantity\": 1, \"productId\": 81}, {\"quantity\": 1, \"productId\": 50}, {\"quantity\": 1, \"productId\": 19}, {\"quantity\": 1, \"productId\": 51}, {\"quantity\": 1, \"productId\": 52}, {\"quantity\": 1, \"productId\": 25}]');
+=======
+>>>>>>> e437f077eafc08869f25ac924537e15cc231064e
 
 -- ----------------------------
 -- Table structure for categories
@@ -461,7 +468,11 @@ CREATE TABLE `logs`  (
   `level` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   `dateCreated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`logId`) USING BTREE
+<<<<<<< HEAD
 ) ENGINE = InnoDB AUTO_INCREMENT = 149 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+=======
+) ENGINE = InnoDB AUTO_INCREMENT = 138 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+>>>>>>> e437f077eafc08869f25ac924537e15cc231064e
 
 -- ----------------------------
 -- Records of logs
@@ -601,6 +612,7 @@ INSERT INTO `logs` VALUES (134, '127.0.0.1', 'Home', '', '', '', 'View home page
 INSERT INTO `logs` VALUES (135, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-06 22:56:04');
 INSERT INTO `logs` VALUES (136, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-07 11:46:48');
 INSERT INTO `logs` VALUES (137, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-08 09:41:52');
+<<<<<<< HEAD
 INSERT INTO `logs` VALUES (138, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-10 01:34:56');
 INSERT INTO `logs` VALUES (139, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-10 01:35:32');
 INSERT INTO `logs` VALUES (140, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-10 01:37:59');
@@ -612,6 +624,8 @@ INSERT INTO `logs` VALUES (145, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View hom
 INSERT INTO `logs` VALUES (146, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-10 01:43:33');
 INSERT INTO `logs` VALUES (147, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-10 01:45:58');
 INSERT INTO `logs` VALUES (148, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-10 01:46:44');
+=======
+>>>>>>> e437f077eafc08869f25ac924537e15cc231064e
 
 -- ----------------------------
 -- Table structure for news
@@ -651,6 +665,7 @@ INSERT INTO `orderdetails` VALUES (1, 2, 149000, 4);
 INSERT INTO `orderdetails` VALUES (2, 6, 133000, 2);
 INSERT INTO `orderdetails` VALUES (3, 16, 23000, 3);
 INSERT INTO `orderdetails` VALUES (1, 6, 133000, 1);
+<<<<<<< HEAD
 INSERT INTO `orderdetails` VALUES (4, 1, 119000, 4);
 INSERT INTO `orderdetails` VALUES (4, 5, 108540, 5);
 INSERT INTO `orderdetails` VALUES (4, 6, 113000, 3);
@@ -695,6 +710,8 @@ INSERT INTO `orderdetails` VALUES (8, 19, 31500, 1);
 INSERT INTO `orderdetails` VALUES (8, 51, 33150, 1);
 INSERT INTO `orderdetails` VALUES (8, 52, 73830, 1);
 INSERT INTO `orderdetails` VALUES (8, 25, 280000, 1);
+=======
+>>>>>>> e437f077eafc08869f25ac924537e15cc231064e
 
 -- ----------------------------
 -- Table structure for orders
@@ -724,11 +741,14 @@ CREATE TABLE `orders`  (
 INSERT INTO `orders` VALUES (1, 6, 2, 729000, 0, 'COD', 0, '123 Nguyen Hue Street, Ho Chi Minh City', '2024-07-07 02:49:00', '2024-07-07 23:49:00');
 INSERT INTO `orders` VALUES (2, 6, 3, 266000, 1, 'Credit card', 0, '456 Le Loi Street, Ho Chi Minh City', '2024-05-01 02:49:00', '2024-07-07 23:49:00');
 INSERT INTO `orders` VALUES (3, 6, 4, 39000, 1, 'PayPal', 0, '789 Pham Ngu Lao Street, Ho Chi Minh City', '2024-07-07 02:49:00', '2024-07-07 23:49:00');
+<<<<<<< HEAD
 INSERT INTO `orders` VALUES (4, 4, 4, 1978700, 0, 'COD', 40000, 'Khu dân cư quận Gò Vấp13Go VapHo Chi Minh City', '2024-01-26 01:41:36', '2024-01-26 01:41:36');
 INSERT INTO `orders` VALUES (5, 4, 4, 1992820, 0, 'COD', 40000, 'Khu dân cư quận Gò Vấp13Go VapHo Chi Minh City', '2024-07-10 01:37:56', '2024-07-10 01:37:56');
 INSERT INTO `orders` VALUES (6, 4, 2, 3195400, 0, 'COD', 40000, '123Thị trấn Nà PhặcHuyện Ngân SơnTỉnh Bắc Kạn', '2024-06-10 01:39:41', '2024-06-10 01:39:41');
 INSERT INTO `orders` VALUES (7, 4, 2, 5311320, 0, 'COD', 40000, '123Thị trấn Nà PhặcHuyện Ngân SơnTỉnh Bắc Kạn', '2024-07-10 01:40:29', '2024-07-10 01:40:29');
 INSERT INTO `orders` VALUES (8, 4, 4, 2761990, 0, 'COD', 40000, 'Khu dân cư quận Gò Vấp13Go VapHo Chi Minh City', '2024-05-10 01:46:42', '2024-05-10 01:46:42');
+=======
+>>>>>>> e437f077eafc08869f25ac924537e15cc231064e
 
 -- ----------------------------
 -- Table structure for producthaspromotion
@@ -773,9 +793,15 @@ CREATE TABLE `products`  (
 -- ----------------------------
 -- Records of products
 -- ----------------------------
+<<<<<<< HEAD
 INSERT INTO `products` VALUES (1, 2, 'Gạo thơm đặc sản Neptune ST25 túi 5kg', 'images/product-images/gao-thom-dac-san-neptune-st25-tui-5kg-202306191511488893.jpg', 100000, 129000, 1, 8, 10.00, 54, '2023-01-29 00:00:00', '2023-01-30 00:00:00');
 INSERT INTO `products` VALUES (2, 2, 'Gạo giống Nhật Bản Vinh Hiển Taiyo túi 5kg', 'images/product-images/gao-giong-nhat-ban-vinh-hien-taiyo-tui-5kg-202007211001455095.jpg', 100000, 149000, 2, 8, 25.00, 37, '2023-01-20 00:00:00', '2023-01-21 00:00:00');
 INSERT INTO `products` VALUES (3, 2, 'Gạo Hạt Ngọc Trời Tiên Nữ túi 5kg', 'images/product-images/-202210270821594671.jpg', 100000, 120000, 3, 8, 10.00, 229, '2023-01-25 00:00:00', '2023-02-26 00:00:00');
+=======
+INSERT INTO `products` VALUES (1, 2, 'Gạo thơm đặc sản Neptune ST25 túi 5kg', 'images/product-images/gao-thom-dac-san-neptune-st25-tui-5kg-202306191511488893.jpg', 100000, 129000, 1, 8, 10.00, 65, '2023-01-29 00:00:00', '2023-01-30 00:00:00');
+INSERT INTO `products` VALUES (2, 2, 'Gạo giống Nhật Bản Vinh Hiển Taiyo túi 5kg', 'images/product-images/gao-giong-nhat-ban-vinh-hien-taiyo-tui-5kg-202007211001455095.jpg', 100000, 149000, 2, 8, 25.00, 55, '2023-01-20 00:00:00', '2023-01-21 00:00:00');
+INSERT INTO `products` VALUES (3, 2, 'Gạo Hạt Ngọc Trời Tiên Nữ túi 5kg', 'images/product-images/-202210270821594671.jpg', 100000, 120000, 3, 8, 10.00, 256, '2023-01-25 00:00:00', '2023-02-26 00:00:00');
+>>>>>>> e437f077eafc08869f25ac924537e15cc231064e
 INSERT INTO `products` VALUES (4, 2, 'Gạo lài sữa Đồng Việt túi 5kg', 'images/product-images/gao-lai-sua-dong-viet-tui-5kg-202212280858091468.jpg', 100000, 115000, 4, 8, 10.00, 34, '2022-12-29 00:00:00', '2023-03-24 00:00:00');
 INSERT INTO `products` VALUES (5, 2, 'Gạo ST25 Đồng Việt túi 5kg', 'images/product-images/gao-st25-thuong-hang-dong-viet-tui-5kg-202212280854102020.jpg', 100000, 134000, 5, 8, 5.00, 1, '2023-01-10 00:00:00', '2023-01-10 00:00:00');
 INSERT INTO `products` VALUES (6, 2, 'Gạo thơm A An ST21 túi 5kg', 'images/product-images/gao-thom-a-an-st21-tui-5kg-202006061602569575.jpg', 123000, 133000, 1, 8, 5.00, 66, '2023-01-16 00:00:00', '2023-01-17 00:00:00');

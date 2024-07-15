@@ -109,6 +109,9 @@ request.setAttribute("wishlistId", wishlist.getWishListId());
 									class="button btn btn-default bg-primary-green text-primary-white cart_submit search-see-more"
 									style="width: 60%;" title="Xem thêm"></button>
 							</div>
+							<div class="empty-message">
+								<span style="display: block;">Không tìm thấy sản phẩm phù hợp</span>
+							</div>
 						</div>
 					</div>
 					<div class="header-control d-none d-md-flex"
@@ -171,23 +174,33 @@ request.setAttribute("wishlistId", wishlist.getWishListId());
 														value="${item.calculatePrice()}" />
 												</jsp:include>
 											</c:forEach>
-										</div>
-										<div class="d-flex justify-content-between aligh-items-center"
-											style="padding: 10px 20px;">
-											<h3 style="font-size: 16px; font-weight: 500; color: #000;">Tổng
-												tiền:</h3>
-											<div class="price-box cart_total_price" style="">
-												<fmt:setLocale value='vi-VN' />
-												<fmt:formatNumber value="<%=cart.getTotalPrice()%>"
-													type="currency" />
+											<div class="empty-message"
+												 style="${cart.getTotalItems()  > 0? 'display: none;' : ''}">
+												<i class="fa-solid fa-cart-shopping"></i> <span
+													style="display: block;">Bạn chưa có sản phẩm nào
+													trong giỏ hàng</span>
 											</div>
 										</div>
-										<div class="cart__btn-proceed-checkout-dt"
-											style="margin: 0px 10px 10px 10px">
-											<button type="button"
-												class="button btn btn-default bg-primary-green text-primary-white w-100 cart_submit"
-												id="btn-proceed-checkout pay_btn_proceed_checkout"
-												title="Thanh toán">Thanh toán</button>
+										<div class="cart-total-info"
+											 style="${cart.getTotalItems() > 0? '' : 'display: none;'}">
+											<div
+													class="d-flex justify-content-between aligh-items-center"
+													style="padding: 10px 20px;">
+												<h3 style="font-size: 16px; font-weight: 500; color: #000;">Tổng
+													tiền:</h3>
+												<div class="price-box cart_total_price" style="">
+													<fmt:setLocale value='vi-VN' />
+													<fmt:formatNumber value="<%=cart.getTotalPrice()%>"
+																	  type="currency" />
+												</div>
+											</div>
+											<div class="cart__btn-proceed-checkout-dt"
+												 style="margin: 0px 10px 10px 10px">
+												<button type="button"
+														class="button btn btn-default bg-primary-green text-primary-white w-100 cart_submit"
+														id="btn-proceed-checkout pay_btn_proceed_checkout"
+														title="Thanh toán">Thanh toán</button>
+											</div>
 										</div>
 									</div>
 								</form>

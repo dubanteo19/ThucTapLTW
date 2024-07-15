@@ -28,7 +28,7 @@ public class CartDispatcher extends HttpServlet {
     IDiscountService discountService;
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("discounts",discountService.findAll());
+        req.setAttribute("discounts",discountService.findAllActive());
         req.getRequestDispatcher("gio-hang.jsp").forward(req,resp);
     }
 

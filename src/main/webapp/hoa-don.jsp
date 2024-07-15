@@ -155,8 +155,8 @@ aside>*:not(:last-child) {
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
-					<div>
-						<a href=""><img src="./images/logo/logo_large.png" alt=""></a>
+					<div style="display: flex; justify-content: center;">
+						<a href="/Home"><img src="./images/logo/logo_large.png" alt=""></a>
 					</div>
 					<form action="" id="form-order">
 						<div class="row">
@@ -183,12 +183,8 @@ aside>*:not(:last-child) {
 										</div>
 										<div class="col-md-6">
 											<h4 class="title-head">Địa chỉ nhận hàng</h4>
-											<p>${user.getAddresses().get(0).getDescription()}</p>
-											<p>12312</p>
-											<p>${user.getAddresses().get(0).getWards()}
-												${user.getAddresses().get(0).getDistricts()}
-												${user.getAddresses().get(0).getProvince() }</p>
-											<p>${user.phone}</p>
+											<p>Ghi chú: ${orders.note}</p>
+											<p>${orders.address}</p>
 										</div>
 										<div class="col-md-6">
 											<h4 class="title-head">Phương thức thanh toán</h4>
@@ -288,7 +284,7 @@ aside>*:not(:last-child) {
 									<div class="total_cost d-flex justify-content-between">
 										<span class="title-head">Tổng cộng</span> <span
 											class="large-price"> <fmt:formatNumber
-												value="${orders.totalPrice + 40000}" type="currency" />
+												value="${orders.totalPrice}" type="currency" />
 										</span>
 									</div>
 								</aside>

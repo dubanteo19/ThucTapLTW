@@ -48,6 +48,7 @@ public class GoogleLogin extends HttpServlet {
             user.setStatus(new Status(1, ""));
             session.setAttribute("wishlist", new Wishlist());
             userServices.save(user);
+            user = userServices.findUserByEmail(acc.getEmail());
         } else {
             List<CartItem> cartItems = cartService.findByUserId(user.getId());
 

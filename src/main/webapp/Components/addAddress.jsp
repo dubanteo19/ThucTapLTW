@@ -74,7 +74,7 @@
                         </div>
                         <div class="d-flex">
                             <div class="form-check">
-                                <input class="" type="checkbox" value=1 name="default"> <label class="" for=""> Địa chỉ
+                                <input class="" type="checkbox" value=1 name="default"> <label class="" > Địa chỉ
                                 mặc định </label>
 
                             </div>

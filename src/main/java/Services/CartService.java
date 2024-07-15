@@ -27,6 +27,11 @@ public class CartService implements ICartService {
     }
 
     @Override
+    public boolean delete(int userId) {
+        return cartItemDAO.delete(userId);
+    }
+
+    @Override
     public List<CartItem> findAll() {
         return List.of();
     }

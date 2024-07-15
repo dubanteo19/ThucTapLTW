@@ -96,7 +96,7 @@ public class UserInfo extends HttpServlet {
 		String districts = request.getParameter("District");
 		String wards = request.getParameter("Ward");
 		String description = request.getParameter("Description");
-		boolean isDefault = request.getParameter("default") != null ? true : false;
+		boolean isDefault = request.getParameter("default") != null;
 		System.out.println(isDefault);
 		int index = Integer.valueOf(request.getParameter("pos")) - 1;
 		String menu = request.getParameter("menu");
@@ -127,7 +127,7 @@ public class UserInfo extends HttpServlet {
 			throws ServletException, IOException {
 		String name = request.getParameter("fullName");
 		System.out.println(name);
-		boolean isDefault = request.getParameter("default") != null ? true : false;
+		boolean isDefault = request.getParameter("default") != null;
 		String phone = request.getParameter("PhoneNumber");
 		String province = request.getParameter("Province");
 		String districts = request.getParameter("District");
@@ -146,8 +146,11 @@ public class UserInfo extends HttpServlet {
 		address.setWards(wards);
 		address.setDescription(description);
 		int addressId = addressService.save(address);
+		System.out.println(addressId + "addressId");
 		address.setId(addressId);
 		user = userService.findUserById(user.getId());
+//		user.getAddresses().add(address);
+		System.out.println(user.getAddresses() + "lisst");
 		request.getSession().setAttribute("user", user);
 		request.setAttribute("success", "Thêm địa chỉ thành công");
 		request.getRequestDispatcher("tai-khoan.jsp").forward(request, response);
