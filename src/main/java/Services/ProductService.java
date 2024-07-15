@@ -147,4 +147,9 @@ public class ProductService implements IProductService {
 		product.setUnitsInStock(product.getUnitsInStock()-quantity);
 		update(product);
 	}
+
+	@Override
+	public List<Integer> findAllId() {
+		return productDAO.findAllId();
+	}
 }
