@@ -299,7 +299,7 @@
 <script type="text/javascript" src="javascripts/jquery-3.7.1.js"></script>
 <script type="text/javascript" src="javascripts/bootstrap.bundle.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script type="text/javascript" src="javascripts/shopping-cart.js?k"></script>
+<script type="text/javascript" src="javascripts/shopping-cart.js?"></script>
 <script type="text/javascript" src="javascripts/main.js?j"></script>
 <script>
     

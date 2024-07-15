@@ -62,6 +62,11 @@ public class Discounts {
 		this.expDate = expDate;
 	}
 
+	public Discounts(int id, int quantity ) {
+		this.id = id;
+		this.quantity = quantity;
+	}
+
 	public Discounts() {
 	}
 

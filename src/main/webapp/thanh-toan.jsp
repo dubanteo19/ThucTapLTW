@@ -29,7 +29,6 @@
     <meta property="og:url" content="">
     <meta property="og:image" content="">
 
-    <link rel="stylesheet" type="text/css" href="styles/main.css">
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -201,6 +200,7 @@
                         <form class="mb-child-10" method="post" id="thanh-toan"
                               action="OrderSendMail">
                             <input type="hidden" id="hidden-total-price" name="totalPrice">
+                            <c:if test="${not item.isDefault()}">
                             <input type="email" id="email"
                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$" name="email"
                                    class="form-control" placeholder="Email" required=""
@@ -211,13 +211,22 @@
                             <input type="text" id="phone-number" name="phone-number"
                                    class="form-control" pattern="\d+" placeholder="Số điện thoại"
                                    required="" value="${user.phone}" disabled>
-                            <c:if test="${not item.isDefault()}">
+
                                <select name="selectedAddress" id="selectedAddress" class="form-control"
                                                                              onchange="toggleCustomForm()">
                                     <c:forEach var="item" items="${user.getAddresses()}">
-                                        <option value="${item.getDescription()} ${item.getWards()} ${item.getDistricts()} ${item.getProvince()}">${item.getDescription()}
-                                                ${item.getWards()} ${item.getDistricts()}
-                                                ${item.getProvince()} </option>
+                                        <option value="${item.getId()}"
+                                                data-description="${item.description}"
+                                                data-wards="${item.wards}"
+                                                data-districts="${item.districts}"
+                                                data-province="${item.province}"
+                                                data-phone="${item.phoneUser}"
+                                                data-fullname="${item.nameUser}">
+                                                ${item.getDescription()}
+                                                ${item.getWards()}
+                                                ${item.getDistricts()}
+                                                ${item.getProvince()}
+                                        </option>
                                     </c:forEach>
                                     <option value="other">Khác</option>
                                 </select>
@@ -361,7 +370,7 @@
                     <div class="d-flex align-items-center justify-content-between py-3">
                         <input type="text" name="discount" id="discount"
                                class="form-control" placeholder="Nhập mã giảm giá">
-                        <button  id="applyDiscountBtn" class="btn-blue disabled">Áp dụng</button>
+                        <button  id="applyDiscountBtn" class="btn-blue disabled" disabled>Áp dụng</button>
                     </div>
                     <div id="error-message" class="text-danger"></div>
                 </div>
@@ -388,7 +397,7 @@
                     <div class="d-flex justify-content-between">
                         <span class="title-head">Tổng cộng</span> <span
                             class="large-price" id="total-price"><fmt:setLocale value='vi-VN'/> <fmt:formatNumber
-                            value="${cart.getTotalPrice()}" type="currency"/></span>
+                            value="${cart.getTotalPrice() + 40000}" type="currency"/></span>
                     </div>
                     <div
                             class="d-flex align-items-center justify-content-between mt-3">
@@ -415,7 +424,6 @@
 <script type="text/javascript" src="javascripts/bootstrap.min.js"></script>
 <script type="text/javascript" src="javascripts/main.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="javascripts/vn-provinces.js"></script>
 <link
         href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
         rel="stylesheet"/>
@@ -463,17 +471,53 @@
     }
 
     function toggleCustomForm() {
-        var select = document.getElementById("selectedAddress");
         var customForm = document.getElementById("customForm");
-        if (select.value === "other") {
-            customForm.style.display = "block";
-        } else {
+        var selectedOption = document.getElementById("selectedAddress").selectedOptions[0];
+        var fullName = selectedOption.getAttribute("data-fullname");
+        var phone = selectedOption.getAttribute("data-phone");
+
+        if (selectedOption.value !== "other") {
             customForm.style.display = "none";
+            document.getElementById("full-name").value = fullName;
+            document.getElementById("phone-number").value = phone;
+        } else {
+            customForm.style.display = "block";
+            document.getElementById("full-name").value = "${user.fullName}";
+            document.getElementById("phone-number").value = "${user.phone}";
         }
     }
 
 </script>
 <script>
+    $(document).ready(function() {
+        // Khởi tạo trạng thái nút
+        toggleApplyButton();
+
+        // Sự kiện khi gõ vào ô nhập mã giảm giá
+        $("#discount").on('keyup', function () {
+            toggleApplyButton();
+        });
+
+        // Sự kiện khi bấm nút áp dụng
+        $("#applyDiscountBtn").click(function () {
+            var discountCode = $("#discount").val().trim();
+            if (discountCode) {
+                sendDiscountCodeToServlet(discountCode);
+            }
+        });
+
+        // Hàm bật/tắt nút áp dụng
+        function toggleApplyButton() {
+            var discountCode = $("#discount").val().trim();
+            if (discountCode === "") {
+                $("#applyDiscountBtn").prop('disabled', true).addClass('disabled');
+            } else {
+                $("#applyDiscountBtn").prop('disabled', false).removeClass('disabled');
+            }
+        }
+    });
+
+
     let newTotal;
     function validateAndSubmit() {
         var payOnDeliveryRadio = document.getElementById("pay-on-delivery");
@@ -481,23 +525,23 @@
             $("#error-delivery").text("Vui lòng chọn phương thức thanh toán khi nhận hàng.");
             return;
         }
-        var errorMessage = $("#error-message").text(); // Lấy nội dung trong thẻ #error-message
-        if (errorMessage !== "") { // Kiểm tra nếu có thông báo lỗi
-            return;
-        }
+
         var totalPrice = $("#total-price").text();
         alert(totalPrice)
-        $("#hidden-total-price").val(Number(newTotal));
-
+        var discountCode = $("#discount").val().trim();
+        if (discountCode) {
+            $("#hidden-total-price").val(Number(newTotal));
+        }
         $("#thanh-toan").submit();
-        // location.href = "OrderSendMail";
     }
+
     var apply = document.getElementById('apply');
     $(document).ready(function() {
         $("#applyDiscountBtn").click(function() {
-            var discountCode = $("#discount").val().trim();
-
-            sendDiscountCodeToServlet(discountCode);
+            var  discountCode = $("#discount").val().trim();
+            if(discountCode){
+                sendDiscountCodeToServlet(discountCode);
+            }
         });
     });
 

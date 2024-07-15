@@ -77,7 +77,8 @@
 <script type="text/javascript">
     $(document).ready(function () {
         function ajaxReview() {
-            if (<%= isLogin %> false) {
+            if (<%= isLogin %>)
+            {
                 let contents = $(".textarea textarea").val();
                 let rating = $(".star-rating input[type='radio']:checked").val();
                 let action = $("#action").val();
@@ -104,7 +105,9 @@
                         notify("Thông báo", xhr.responseText, "error");
                     }
                 });
-            } else {
+            }
+        else
+            {
                 notify("Thông báo?", "Bạn phải đăng nhập để để lại nhận xét", "warning");
             }
         }

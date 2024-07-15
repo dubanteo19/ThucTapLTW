@@ -51,18 +51,15 @@ public class GoogleLogin extends HttpServlet {
             user = userServices.findUserByEmail(acc.getEmail());
         } else {
             List<CartItem> cartItems = cartService.findByUserId(user.getId());
-
             Map<Integer, CartItem> map = new HashMap<>();
             cartItems.forEach(ci -> {
                 map.put(ci.getProduct().getId(), ci);
             });
-
             Cart cart = (Cart) session.getAttribute("cart");
             if(cart == null) {
                 cart = new Cart();
             }
             cart.addAll(user.getId(), map);
-
             session.setAttribute("cart", cart);
             session.setAttribute("wishlist", new Wishlist(userServices.getWishlist(user.getId())));
         }

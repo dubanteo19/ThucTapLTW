@@ -24,28 +24,28 @@ public class VoucherController extends HttpServlet {
     @Inject
     IDiscountService discountService;
 
-    @Inject
-    private ICartService cartService;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         doPost(request, response);
     }
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         String discountCode = request.getParameter("discountCode");
+//        System.out.println(discountCode);
         String orderTotal = request.getParameter("totalPrice");
-        System.out.println(orderTotal);
+//        System.out.println(orderTotal);
         Cart cart = (Cart) session.getAttribute("cart");
         Discounts discount = discountService.findByCode(discountCode);
 
         if (discount != null) {
-            boolean isDiscountValidated = validateDiscount(cart, discount);
-            if (!isDiscountValidated) {
-                response.getWriter().write("Discount code not supported for this category");
-                return;
+            if(discount.getCategoryId() > 0){
+                boolean isDiscountValidated = validateDiscount(cart, discount);
+                if (!isDiscountValidated) {
+                    response.getWriter().write("Discount code not supported for this category");
+                    return;
+                }
             }
 
             if (!discount.getExpDate().after(new Date())) {

@@ -15,6 +15,7 @@
     <link rel="stylesheet" type="text/css" href="styles/base.css?version">
     <link rel="stylesheet" type="text/css" href="styles/main.css?version">
     <link rel="stylesheet" type="text/css" href="styles/nav.css">
+
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css?versio">
     <style>
@@ -23,6 +24,13 @@
         }
     </style>
 </head>
+<script src="javascripts/jquery-3.7.1.js"></script>
+<script src="javascripts/tinh.js" charset="UTF-8"></script>
+<link
+        href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+        rel="stylesheet"/>
+<script defer src="javascripts/select2.min.js"></script>
+<script type="text/javascript" src="javascripts/bootstrap.min.js"></script>
 <script type="text/javascript" src="javascripts/main.js"></script>
 
 <%
@@ -46,23 +54,23 @@
         <div class="row pt-3">
             <div class="col-lg-3">
                 <div id="page_account">
-                    <h5 class="title-account">TRANG TÀI KHOẢN</h5>
+                    <h4 class="title-account">TRANG TÀI KHOẢN</h4>
                     <p class="title-account">
                         Xin chào! <span class="text-primary-green" id="userName">${user.getFullName()}</span>
                     </p>
                 </div>
                 <ul class=" toc-list m-0 p-0">
                     <li class="info_account" data-target="ACCOUNT_INFORMATION"
-                        style="cursor: pointer">Thông tin tài khoản
+                        style="cursor: pointer; font-size: 20px">Thông tin tài khoản
                     </li>
-                    <li class="order" data-target="YOUR_ORDER" style="cursor: pointer">Đơn
+                    <li class="order" data-target="YOUR_ORDER" style="cursor: pointer ; font-size: 20px">Đơn
                         hàng của bạn
                     </li>
                     <li class="change-pass" data-target="Change_Password"
-                        style="cursor: pointer">Đổi mật khẩu
+                        style="cursor: pointer; font-size: 20px">Đổi mật khẩu
                     </li>
                     <li class="address-number" data-target="address_your"
-                        style="cursor: pointer">Số địa chỉ
+                        style="cursor: pointer; font-size: 20px">Số địa chỉ
                         (${user.getAddresses().size()})
                     </li>
                 </ul>
@@ -177,7 +185,7 @@
                                 <div class="address-group col-9">
                                     <div class="address form-signup">
                                         <p class="">
-                                            Họ tên: <strong id="fullname">${item.getNameUser()}</strong>
+                                            Họ tên: <strong id="fullname${status.count}">${item.getNameUser()}</strong>
                                             <c:if test="${item.isDefault()}">
 													<span class="address-default"> <i
                                                             class="far fa-check-circle"></i>Địa chỉ mặc định
@@ -265,18 +273,7 @@
 <footer>
     <jsp:include page="Components/footer.jsp"/>
 </footer>
-<script src="https://code.jquery.com/jquery-3.7.1.js"
-        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-        crossOrigin="anonymous"></script>
-<script src="javascripts/tinh.js" charset="UTF-8"></script>
-<link
-        href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
-        rel="stylesheet"/>
-<script
-        src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script type="text/javascript" src="javascripts/bootstrap.min.js"></script>
-<script type="text/javascript" src="javascripts/main.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     $("#change_customer_password").on("submit", function () {
         event.preventDefault();
@@ -321,7 +318,7 @@
         var optionE = $("<option>").html(province.name);
         provincesElement.append(optionE);
     }
-    provincesElement.select2();
+
 
     function getDistricts() {
 
@@ -355,20 +352,20 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
+        provincesElement.select2();
         showMenu('<%=menuId%>');
         $("#add-adress").click(function () {
             showAddressForm();
         });
         $(".btn-edit-address").click(function () {
             let addressId = $(this).data("target");
-            let fullName = $("#" + addressId).find("#user_fullname").text();
+            let fullName = $("#" + addressId).find("#fullname"+addressId).text();
             let phone = $("#" + addressId).find("#phone").text();
             let index = $("#pos").val(addressId);
             let form = $("#address-form");
             form.find("#fullName").val(fullName);
             form.find("#PhoneNumber").val(phone);
             $("#address-form > input[name='action']").val("changeAddress");
-            console.log(index);
             showAddressForm();
         })
         let addressForm = $(".adress-form");
@@ -442,9 +439,7 @@
             showMenu(id);
         })
     });
-
 </script>
-
 </body>
 <style>
     .form-check {

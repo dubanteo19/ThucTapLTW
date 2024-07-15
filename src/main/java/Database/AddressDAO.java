@@ -15,6 +15,16 @@ public class AddressDAO extends AbtractDAO<Address> implements IAddressDAO{
 	}
 
 	@Override
+	public Address findAddressId(int addressId) {
+		String sql = "SELECT * FROM addresses WHERE addressId = ?";
+		List<Address> addresses = querry(sql, new AddressMapper(), addressId);
+		if (!addresses.isEmpty()) {
+			return addresses.get(0);
+		}
+		return null;
+	}
+
+	@Override
 	public List<Address> findAll() {
 		String sql = "SELECT * FROM addresses";
 		return querry(sql,new AddressMapper());

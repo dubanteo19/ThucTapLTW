@@ -5,10 +5,9 @@
       <map>
         <entry key="file://$PROJECT_DIR$/src/main/webapp/Components/header.jsp" value="file://$PROJECT_DIR$/src/main/webapp/Components" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/Components/myOrder.jsp" value="file://$PROJECT_DIR$/src/main/webapp/Components" />
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/admin/warehouse-products-data-table.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/san-pham-hot.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/tai-khoan.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
-        <entry key="file://$PROJECT_DIR$/src/main/webapp/thanh-toan.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/templates/cart-item-horizontal-template.jsp" value="file://$PROJECT_DIR$/src/main/webapp/templates" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/top-title.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
       </map>
     </option>

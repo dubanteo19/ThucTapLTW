@@ -2,7 +2,6 @@ package Controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -16,7 +15,9 @@ import javax.servlet.http.HttpSession;
 import Controller.cart.Cart;
 import Database.IUserDAO;
 import Model.*;
+import Services.IAddressService;
 import Services.ICartService;
+import Services.IDiscountService;
 import Services.IOrderService;
 
 /**
@@ -31,6 +32,10 @@ public class OrderSendMail extends HttpServlet {
 	IUserDAO userdao;
 	@Inject
 	ICartService cartService;
+	@Inject
+	IDiscountService discountService;
+	@Inject
+	IAddressService addressService;
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -63,25 +68,47 @@ public class OrderSendMail extends HttpServlet {
 		Orders orders = new Orders();
 		orders.setStatus(new Status(4, ""));
 		orders.setUser(user);
+		double amount;
 		double shipping = 40000;
-		String totalPrice = request.getParameter("totalPrice");
-		System.out.println(totalPrice + "===================");
+		int discountId;
+		String totalPrice;
+		Discounts dis = new Discounts();
+		if(discounts == null){
+			amount = 0;
+			totalPrice = String.valueOf(cart.getTotalPrice() + shipping);
+			discountId = 0;
+		}else{
+			discountId = discounts.getId();
+			dis.setId(discountId);
+			dis.setQuantity(discounts.getQuantity()-1);
+			totalPrice = request.getParameter("totalPrice");
+			if(discounts.getType().equals("percentage")){
+				amount = Integer.parseInt(totalPrice) * discounts.getAmount();
+			}
+			else{
+				amount = discounts.getAmount();
+			}
+		}
 		orders.setTotalPrice(Double.parseDouble(totalPrice));
-		orders.setDiscountId(discounts.getId());
+		orders.setDiscountId(discountId);
 		orders.setPaymentMethod("COD");
 		orders.setShippingFee(shipping);
 		String selectedAddress = request.getParameter("selectedAddress");
+
 		String province = request.getParameter("Province");
 		String district = request.getParameter("District");
 		String ward = request.getParameter("Ward");
 		String note = request.getParameter("note");
+		Address selectedAddr = addressService.findAddressId(Integer.parseInt(selectedAddress));
 		if ("other".equals(selectedAddress)) {
-			String customAddress = province + ", " + district + ", " + ward;
+			String customAddress = province + ", " + district + ", " + ward+ ", Người nhận: " + selectedAddr.getNameUser() + ", Số điện thoại: " + selectedAddr.getPhoneUser();
 			orders.setAddress(customAddress);
 		} else {
-			orders.setAddress(selectedAddress);
+			String existingAddress = selectedAddr.getDescription() + ", " + selectedAddr.getWards() + ", " + selectedAddr.getDistricts() + ", " + selectedAddr.getProvince() + ", Người nhận: " + selectedAddr.getNameUser() + ", Số điện thoại: " + selectedAddr.getPhoneUser();
+			orders.setAddress(existingAddress);
 		}
 		orders.setNote(note);
+		discountService.updateQuantity(dis);
 		int orderId = orderService.save(orders);
 		orders.setId(orderId);
 		for (CartItem cartItem : cartItems) {
@@ -96,6 +123,7 @@ public class OrderSendMail extends HttpServlet {
 		user = userdao.findUserById(user.getId());
 		request.getSession().setAttribute("user", user);
 		request.setAttribute("orders", orders);
+		request.setAttribute("amount", amount);
 		request.getRequestDispatcher("hoa-don.jsp").forward(request, response);
 	}
 

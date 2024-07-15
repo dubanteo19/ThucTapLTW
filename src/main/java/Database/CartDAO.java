@@ -59,6 +59,7 @@ public class CartDAO extends AbtractDAO<CartItem> implements ICartItemDAO {
         return count(sql, userId);
     }
 
+
     private String toJson(List<CartItem> cartItems) {
         Gson gson = new GsonBuilder().registerTypeAdapter(CartItem.class, new CartItemTypeAdapter()).create();
         return gson.toJson(cartItems);
