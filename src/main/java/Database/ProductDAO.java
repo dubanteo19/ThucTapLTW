@@ -332,15 +332,13 @@ public class ProductDAO extends AbtractDAO<Product> implements IProductDAO {
                     new StringBuilder(MessageFormat.format(" (COALESCE(products_sale.newPrice, products.unitPrice) < {0,number,#})", params));
 
             case "category" ->
-                    new StringBuilder(MessageFormat.format(" (categories.categoryId = {0} OR categories.parentCategoryId = {0})", params));
+                    new StringBuilder(MessageFormat.format(" (categories.categoryId = {0,number,#} OR categories.parentCategoryId = {0,number,#})", params));
 
-            case "id" -> new StringBuilder(MessageFormat.format(" (products.productId = {0})", params));
+            case "id" -> new StringBuilder(MessageFormat.format(" (products.productId = {0,number,#})", params));
 
-            case "limit" -> new StringBuilder(MessageFormat.format(" LIMIT {0} OFFSET {1}", params[0], params[1]));
+            case "limit" -> new StringBuilder(MessageFormat.format(" LIMIT {0,number,#} OFFSET {1,number,#}", params[0], params[1]));
 
-            case "name" ->
-                    new StringBuilder(MessageFormat.format(" ((products.productName LIKE ''%{0}%'') OR (categories.categoryName LIKE ''%{0}%''))", params));
-            case "search" -> {
+            case "name", "search" -> {
                 StringBuilder columnsStr = new StringBuilder();
                 for (ProductsColumn c : ProductsColumn.values()) {
                     if (c != ProductsColumn.CategoryId
@@ -440,8 +438,11 @@ public class ProductDAO extends AbtractDAO<Product> implements IProductDAO {
     }
 
     @Override
-    public List<Integer> findAllId() {
-        String sql = "SELECT productId AS num FROM products ORDER BY num ASC";
+    public List<Integer> findId(String id) {
+        String sql = MessageFormat
+                .format("SELECT productId AS num FROM products WHERE productId LIKE ''{0}%'' ORDER BY num ASC",
+                        id);
+
         return querry(sql, new IntegerMapper());
     }
 }

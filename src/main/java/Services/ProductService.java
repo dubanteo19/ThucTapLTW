@@ -160,7 +160,7 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
-	public List<Integer> findAllId() {
-		return productDAO.findAllId();
+	public List<Integer> findId(String id) {
+		return productDAO.findId(id);
 	}
 }
