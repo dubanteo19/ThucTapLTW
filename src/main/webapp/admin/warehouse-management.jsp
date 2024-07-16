@@ -338,15 +338,29 @@
                     </div>
                 </div>
             </div>
+
+            <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+                <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
+                    <div class="toast-header" style="background-color: var(--primary-green); color: white">
+                        <i class="fa-solid fa-bell me-2"></i>
+                        <strong class="me-auto">Thông báo</strong>
+                        <small>1s ago</small>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">
+                        <span class="toast-content"></span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 </body>
 <script type="text/javascript" src="../javascripts/popper.min.js"></script>
 <script type="text/javascript" src="../javascripts/jquery-3.7.1.js"></script>
-<script type="text/javascript" src="../javascripts/bootstrap.min.js"></script>
-<script type="text/javascript" src="../Datatables-V2/datatables.js"></script>
 <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+<script type="text/javascript" src="../Datatables-V2/bootstrap.min.js"></script>
+<script type="text/javascript" src="../Datatables-V2/datatables.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script type="text/javascript">
     function formatNumber(number) {
@@ -492,11 +506,11 @@
                     scrollY: '55vh',
                     order: [],
                     columnDefs: [
-                        {targets: 0, name: 'id'},
+                        {targets: 0, name: 'id', type: 'num'},
                         {targets: 1, name: 'name'},
-                        {targets: 2, name: 'weight'},
-                        {targets: 3, name: 'costPrice'},
-                        {targets: 4, name: 'quantity'},
+                        {targets: 2, name: 'weight', type: 'num'},
+                        {targets: 3, name: 'costPrice', type: 'num'},
+                        {targets: 4, name: 'quantity', type: 'num'},
                         {targets: 5, name: 'dateCreated'},
                         {
                             targets: [2, 3, 4],
@@ -647,7 +661,7 @@
                 $('#formImport').submit(function (e) {
                     e.preventDefault();
 
-                    let id = $('#productIdInput').val();
+                    let id = $('#productIdInput').val().trim();
                     if (id === '') id = -1;
 
                     let name = $('#productNameInput').val();
@@ -680,18 +694,26 @@
 
                 $(document).on('click', '#btnSave', function () {
                     var data = table.rows().data().toArray();
-                    console.log(data);
-                    $.ajax({
-                        url: "nhap-kho",
-                        type: 'POST',
-                        data: {
-                            action: 'import',
-                            data: JSON.stringify(data)
-                        },
-                        success: function (resp) {
 
-                        }
-                    });
+                    if(data.length > 0) {
+                        $.ajax({
+                            url: "nhap-kho",
+                            type: 'POST',
+                            data: {
+                                action: 'import',
+                                data: JSON.stringify(data)
+                            },
+                            success: function (resp) {
+                                var numAffected = resp.affected;
+                                $('.toast-content').text('Đã nhập thành công ' + numAffected + ' sản phẩm');
+                                $('.toast').toast('show');
+                                table.clear().draw();
+                            },
+                            error: function (error) {
+
+                            }
+                        });
+                    }
                 });
 
                 $('#fileImport').on('change', function () {
@@ -762,18 +784,18 @@
                             };
                         });
 
-                        table.clear().rows.add(importedData).draw();
+                        var rowNodes = table.clear().rows().rows.add(importedData).draw().nodes();
+
+                        $(rowNodes).addClass('highlight');
+                        setTimeout(function () {
+                            $(rowNodes).removeClass('highlight');
+                        }, 2000);
+
                         $('#importFileModal').modal('hide');
                         NProgress.done();
                     };
 
                     reader.readAsArrayBuffer(fileInput);
-                });
-
-
-                $('#selectCol select').on('change', function () {
-                    var selectedOption = $(this).find('option:selected');
-                    var headerIndex = selectedOption.data('header-index');
                 });
 
                 $('#importFileModal').on('hidden.bs.modal', function () {

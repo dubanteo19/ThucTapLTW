@@ -2,6 +2,7 @@ package Controller.Admin;
 
 import Model.Product;
 import Model.ProductImport;
+import Services.IProductImportService;
 import Services.IProductService;
 import Utils.JsonUtils;
 import adapter.ProductImportTypeAdapter;
@@ -28,6 +29,9 @@ public class WarehouseController extends HttpServlet {
 
     @Inject
     IProductService productService;
+
+    @Inject
+    IProductImportService productImportService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -62,7 +66,10 @@ public class WarehouseController extends HttpServlet {
             }.getType();
 
             List<ProductImport> productImports = gson.fromJson(jsonData, productListType);
-            productImports.forEach(System.out::println);
+            int rowAffected = productImportService.save(productImports);
+
+            jsonObject.addProperty("affected", rowAffected);
+            JsonUtils.sendJsonResponse(resp, HttpServletResponse.SC_OK, jsonObject.toString());
         } catch (JsonSyntaxException e) {
             jsonObject.addProperty("msg", "Invalid JSON format");
             JsonUtils.sendJsonResponse(resp, HttpServletResponse.SC_BAD_REQUEST, jsonObject.toString());

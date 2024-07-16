@@ -197,5 +197,31 @@ public class AbtractDAO<T> implements GenericDAO<T> {
             e.printStackTrace();
             return 0;
         }
+        finally {
+            JDBCConnector.closeConnect();
+        }
+    }
+
+    public <T> int save(String sql, List<T> objects, SQLParameterSetter<T> parameterSetter) {
+        try {
+            Connection conn = JDBCConnector.getConnection();
+            PreparedStatement statement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            conn.setAutoCommit(false);
+
+            for (T object : objects) {
+                parameterSetter.setParameters(statement, object);
+                statement.addBatch();
+            }
+
+            int[] result = statement.executeBatch();
+            conn.commit();
+
+            return result.length;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        } finally {
+            JDBCConnector.closeConnect();
+        }
     }
 }
