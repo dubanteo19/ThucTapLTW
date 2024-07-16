@@ -1,3 +1,5 @@
+let emptyCartMessDiv = $(".empty-message");
+let cartTotalInfoDiv = $(".cart-total-info");
 $(document).on('click', '.add_cart', function () {
     var id = $(this).closest('.product').data('product-id');
     addToCartByProductId(id);
@@ -75,7 +77,12 @@ function updateCartItem(idProduct, quantity) {
             var itemDisplay = $('[data-cart-id="' + idProduct + '"]');
 
             if (item === null || item === undefined) {
+                if (totalItems <= 0) {
+                    emptyCartMessDiv.css("display", "block");
+                    cartTotalInfoDiv.css("display", "none");
+                }
                 itemDisplay.remove();
+
             } else {
                 itemDisplay.find('.cart_quantity').val(item.quantity);
                 itemDisplay.find('.cart_price').text(formatPrice(response.itemTotalPrice));
@@ -107,7 +114,7 @@ function addToCartByProductId(idProduct) {
             if (itemDisplay.length === 0) {
                 renderCartItem(item, response.itemTotalPrice);
             } else {
-                itemDisplay.find('.cart_quantity').val(item.quantity);
+                itemDisplay.find('#cart_quantity').val(item.quantity);
                 itemDisplay.find('.cart_price').text(formatPrice(response.itemTotalPrice));
             }
         },
@@ -117,15 +124,15 @@ function addToCartByProductId(idProduct) {
     });
 }
 
-function addToCart(idProduct, quanlity) {
+function addToCart(idProduct, quantity) {
     $.ajax({
         type: "POST",
         url: "/CartController",
-        dataTpe: "json",
+        dataType: "json",
         data: {
             action: "ADD",
             idProduct: idProduct,
-            "quanlity": quanlity,
+            quantity: quantity,
         },
         success: function (response) {
             $('#btn-card .badge').text(response.totalItems);
@@ -138,7 +145,11 @@ function addToCart(idProduct, quanlity) {
             if (itemDisplay.length === 0) {
                 renderCartItem(item, response.itemTotalPrice);
             } else {
+                console.log("Finding .cart_quantity: ", itemDisplay.find('.cart_quantity'));
+                console.log("Finding .input-quantity: ", itemDisplay.find('.input-quantity'));
+
                 itemDisplay.find('.cart_quantity').val(item.quantity);
+                itemDisplay.find('.input-quantity').val(item.quantity);
                 itemDisplay.find('.cart_price').text(formatPrice(response.itemTotalPrice));
             }
         },
@@ -149,6 +160,13 @@ function addToCart(idProduct, quanlity) {
 }
 
 function renderCartItem(item, itemTotalPrice) {
+    if (itemTotalPrice > 0) {
+        emptyCartMessDiv.css("display", "none");
+        cartTotalInfoDiv.css("display", "block");
+    } else {
+        emptyCartMessDiv.css("display", "block");
+        cartTotalInfoDiv.css("display", "none");
+    }
     $.get('/templates/cart-item-template.jsp', function (template) {
         var $cartItem = $(template);
 

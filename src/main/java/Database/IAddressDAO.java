@@ -7,7 +7,7 @@ import Model.Address;
 
 public interface IAddressDAO {
 	List<Address> findAddressesById(int id);
-
+	Address findAddressId(int addressId);
 	List<Address> findAll();
 
 	boolean update(Address Addresses);

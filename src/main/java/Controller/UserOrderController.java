@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import Model.Discounts;
 import Model.Order_details;
 import Model.Orders;
+import Services.IDiscountService;
 import Services.IOrderDetailsService;
 import Services.IOrderService;
 
@@ -24,7 +26,8 @@ public class UserOrderController extends HttpServlet {
 	IOrderService orderService;
 	@Inject
 	IOrderDetailsService orderDetailsService;
-
+	@Inject
+	IDiscountService discountService;
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -61,9 +64,11 @@ public class UserOrderController extends HttpServlet {
 			throws ServletException, IOException {
 		int orderId = request.getParameter("orderId") != null ? Integer.valueOf(request.getParameter("orderId")) : 0;
 		Orders order = orderService.findById(orderId);
+		Discounts discounts = discountService.findById(order.getDiscountId());
 		List<Order_details> order_details = orderDetailsService.findAllOrderId(orderId);
 		order.setDetails(order_details);
 		request.setAttribute("order", order);
+		request.setAttribute("discounts", discounts);
 		System.out.println(order);
 		request.getRequestDispatcher("/order-detail.jsp").forward(request, response);
 

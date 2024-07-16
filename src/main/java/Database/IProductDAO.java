@@ -19,6 +19,7 @@ public interface IProductDAO extends GenericDAO<Product> {
 	int save(Product p);
 
 	boolean update(Product p);
+	boolean updateStatus(Product product);
 
 	ProductDetail findProductDetailById(int id);
 

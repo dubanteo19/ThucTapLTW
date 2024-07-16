@@ -6,7 +6,7 @@ import Database.AddressDAO;
 import Database.IAddressDAO;
 import Model.Address;
 
-public class AddressService implements IAddressSerice{
+public class AddressService implements IAddressService {
 
 	private IAddressDAO addressDAO = new AddressDAO();
 
@@ -40,6 +40,11 @@ public class AddressService implements IAddressSerice{
 			return address.get(0);
 		}
 		return null;
+	}
+
+	@Override
+	public Address findAddressId(int addressId) {
+		return addressDAO.findAddressId(addressId);
 	}
 
 	@Override

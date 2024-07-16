@@ -22,6 +22,11 @@ public class DiscountService implements IDiscountService {
 	}
 
 	@Override
+	public List<Discounts> findAllActive() {
+		return discountDAO.findAllActive();
+	}
+
+	@Override
 	public int save(Discounts discounts) {
 		return discountDAO.save(discounts);
 	}
@@ -32,6 +37,11 @@ public class DiscountService implements IDiscountService {
 	}
 
 	@Override
+	public boolean updateQuantity(Discounts discounts) {
+		return discountDAO.updateQuantity(discounts);
+	}
+
+	@Override
 	public boolean delete(Discounts discounts) {
 		// TODO Auto-generated method stub
 		return discountDAO.delete(discounts);
@@ -39,27 +49,27 @@ public class DiscountService implements IDiscountService {
 
 	@Override
 	public Discounts findById(int id) {
-		return null;
+		return discountDAO.findById(id);
 	}
 
 	@Override
 	public Discounts findByCode(String code) {
-		return null;
+		return discountDAO.findByCode(code);
 	}
 
 	@Override
 	public List<Discounts> findActiveDiscounts() {
-		return null;
+		return discountDAO.findActiveDiscounts();
 	}
 
 	@Override
 	public List<Discounts> findByCategoryId(int categoryId) {
-		return null;
+		return discountDAO.findByCategoryId(categoryId);
 	}
 
 	@Override
 	public boolean isApplicable(Discounts discounts, double condition) {
-		return false;
+		return discountDAO.isApplicable(discounts, condition);
 	}
 
 }

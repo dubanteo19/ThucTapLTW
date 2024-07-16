@@ -6,10 +6,6 @@
 <%@page import="Model.User"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-<%@page import="java.text.NumberFormat"%>
-<%@page import="java.util.Formatter"%>
-<%@page import="java.util.logging.SimpleFormatter"%>
-<%@ page import="org.checkerframework.checker.units.qual.C" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
@@ -59,6 +55,13 @@
 	z-index: 1;
 	width: 40%;
 }
+.header-nav{
+	height: 60px;
+}
+.header{
+	min-height: 124px;
+}
+
 </style>
 </head>
 <%
@@ -77,8 +80,8 @@ request.setAttribute("wishlist", wishlist.getWishlist());
 request.setAttribute("wishlistId", wishlist.getWishListId());
 %>
 <body>
-	<header class="header" style="min-height: 124px">
-		<nav class="nav navbar-light bg-light" style="height: 60px">
+	<header class="header">
+		<nav class="nav navbar-light bg-light header-nav">
 			<div id="topbar"
 				class="d-flex align-items-center fixed-top bg-light pt-1">
 				<div
@@ -108,6 +111,9 @@ request.setAttribute("wishlistId", wishlist.getWishListId());
 								<button type="button"
 									class="button btn btn-default bg-primary-green text-primary-white cart_submit search-see-more"
 									style="width: 60%;" title="Xem thêm"></button>
+							</div>
+							<div class="empty-message">
+								<span style="display: block;">Không tìm thấy sản phẩm phù hợp</span>
 							</div>
 						</div>
 					</div>
@@ -171,23 +177,33 @@ request.setAttribute("wishlistId", wishlist.getWishListId());
 														value="${item.calculatePrice()}" />
 												</jsp:include>
 											</c:forEach>
-										</div>
-										<div class="d-flex justify-content-between aligh-items-center"
-											style="padding: 10px 20px;">
-											<h3 style="font-size: 16px; font-weight: 500; color: #000;">Tổng
-												tiền:</h3>
-											<div class="price-box cart_total_price" style="">
-												<fmt:setLocale value='vi-VN' />
-												<fmt:formatNumber value="<%=cart.getTotalPrice()%>"
-													type="currency" />
+											<div class="empty-message"
+												 style="${cart.cartItems.size() > 0? 'display: none;' : ''}">
+												<i class="fa-solid fa-cart-shopping"></i> <span
+													style="display: block;">Bạn chưa có sản phẩm nào
+													trong giỏ hàng</span>
 											</div>
 										</div>
-										<div class="cart__btn-proceed-checkout-dt"
-											style="margin: 0px 10px 10px 10px">
-											<button type="button"
-												class="button btn btn-default bg-primary-green text-primary-white w-100 cart_submit"
-												id="btn-proceed-checkout pay_btn_proceed_checkout"
-												title="Thanh toán">Thanh toán</button>
+										<div class="cart-total-info"
+											 style="${cart.cartItems.size() > 0? '' : 'display: none;'}">
+											<div
+													class="d-flex justify-content-between aligh-items-center"
+													style="padding: 10px 20px;">
+												<h3 style="font-size: 16px; font-weight: 500; color: #000;">Tổng
+													tiền:</h3>
+												<div class="price-box cart_total_price" style="">
+													<fmt:setLocale value='vi-VN' />
+													<fmt:formatNumber value="<%=cart.getTotalPrice()%>"
+																	  type="currency" />
+												</div>
+											</div>
+											<div class="cart__btn-proceed-checkout-dt"
+												 style="margin: 0px 10px 10px 10px">
+												<button type="button"
+														class="button btn btn-default bg-primary-green text-primary-white w-100 cart_submit"
+														id="btn-proceed-checkout pay_btn_proceed_checkout"
+														title="Thanh toán">Thanh toán</button>
+											</div>
 										</div>
 									</div>
 								</form>
@@ -204,7 +220,7 @@ request.setAttribute("wishlistId", wishlist.getWishListId());
 			</div>
 		</nav>
 		<!--    Logo and Thanh điều hướng -->
-		<nav class="navbar navbar-expand-lg navbar-light bg-light p-xl-0">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light p-xl-0 logo-menu">
 			<div class="container">
 				<div class="menubar d-sm-flex">
 					<a class="navbar-brand m-lg-0" href="Home"> <img

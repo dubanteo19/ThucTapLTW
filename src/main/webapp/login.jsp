@@ -100,8 +100,9 @@ String email = request.getAttribute("email") == null ? "" : (String) request.get
 												</fieldset>
 												<fieldset class="form-group">
 													<input type="password" class=" form-input" value=""
-														name="password" id="customer_password"
-														placeholder="Mật khẩu" required="">
+														   name="password" id="customer_password"
+														   required
+														placeholder="Mật khẩu">
 													<div id="eye">
 														<i class="far fa-eye"></i>
 													</div>
@@ -203,11 +204,13 @@ String email = request.getAttribute("email") == null ? "" : (String) request.get
 	document.addEventListener("DOMContentLoaded", function () {
 	    var forgotPasswordLink = document.querySelector('.quenmk');
 	    var recoverForm = document.querySelector('.h_recover');
-
 	    forgotPasswordLink.addEventListener('click', function (event) {
 	      event.preventDefault();
-
-	      recoverForm.style.display = 'block';
+			if (recoverForm.style.display === 'block') {
+				recoverForm.style.display = 'none';
+			} else {
+				recoverForm.style.display = 'block';
+			}
 	    });
 	  });
 	

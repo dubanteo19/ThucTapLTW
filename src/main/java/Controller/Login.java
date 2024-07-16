@@ -78,12 +78,13 @@ public class Login extends HttpServlet {
 					session.setAttribute("user", user);
 
 					List<CartItem> cartItems = cartService.findByUserId(user.getId());
-
 					Map<Integer, CartItem> map = new HashMap<>();
-					cartItems.forEach(ci -> {
-						map.put(ci.getProduct().getId(), ci);
-					});
+					if(cartItems!=null){
 
+						cartItems.forEach(ci -> {
+							map.put(ci.getProduct().getId(), ci);
+						});
+					}
 					Cart cart = (Cart) session.getAttribute("cart");
 					if(cart == null) {
 						cart = new Cart();

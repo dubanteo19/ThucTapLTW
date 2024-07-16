@@ -6,12 +6,9 @@ import java.util.Random;
 
 import javax.inject.Inject;
 
-import Model.ProductDetail;
+import Model.*;
 import Database.IProductDAO;
 import Database.ProductDAO;
-import Model.Blog;
-import Model.Image;
-import Model.Product;
 
 public class ProductService implements IProductService {
 	@Inject
@@ -142,9 +139,23 @@ public class ProductService implements IProductService {
 	}
 
 	@Override
+	public boolean updateStatus(Product product) {
+		return productDAO.updateStatus(product);
+	}
+
+	@Override
 	public void sell(int id, int quantity) {
 		Product product = findProductById(id);
-		product.setUnitsInStock(product.getUnitsInStock()-quantity);
+		if(product.getUnitsInStock() < quantity)
+			//Không đủ hàng
+			return;
+		int amount = product.getUnitsInStock()-quantity;
+		if(amount == 0){
+			product.setStatus(new Status(9, "hết hàng"));
+			updateStatus(product);
+		}
+		// Cập nhật lại số lượng tồn kho của sản phẩm
+		product.setUnitsInStock(amount);
 		update(product);
 	}
 

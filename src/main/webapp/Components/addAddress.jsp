@@ -11,8 +11,16 @@
     <title>Title</title>
 </head>
 <style>
-    .adress-form-content form input, select {
+    .adress-form-content form .form-input, select {
         width: 100%!important;
+    }
+    .form-checkbox{
+        display: flex;
+        justify-content: space-between;
+    }
+    #form-check-input {
+        width: 5px!important;
+        height: 20px;
     }
 </style>
 <body>
@@ -28,10 +36,10 @@
                         <input type="hidden" name="pos" id="pos" value=""> <input
                             type="hidden" name="action" value="addAddress"> <input
                             type="hidden" name="menu" value="address_your">
-                        <p>Chọn đầy đủ địa chỉ nhận hàng để biết chính xác thời
+                        <p style="padding: 0">Chọn đầy đủ địa chỉ nhận hàng để biết chính xác thời
                             gian giao</p>
                         <div class=" col-lg-12 col-sm-12 col-xs-12">
-                            <fieldset class="form-group" style="margin: 0">
+                            <fieldset class="form-group">
                                 <input type="text" class="form-input select-field"
                                        value="" name="fullName" id="fullName"
                                        placeholder="Họ tên" required="">
@@ -67,18 +75,17 @@
                         </div>
                         <div class=" col-lg-12 col-sm-12 col-xs-12">
                             <fieldset class="form-group">
-                                <input class="description" type="text" name="Description"
+                                <input class="description form-input" type="text" name="Description"
                                        placeholder="Số nhà tên đường (không bắt buộc)"
                                        style="margin: 0">
                             </fieldset>
                         </div>
-                        <div class="d-flex">
-                            <div class="form-check">
-                                <input class="" type="checkbox" value=1 name="default"> <label class="" for=""> Địa chỉ
-                                mặc định </label>
-
+                        <div class="d-flex justify-content-around align-items-center">
+                            <div class="form-checkbox">
+                                <input class="form-check-input" type="checkbox" value="1" name="default" id="default">
+                                <label id="form-check-label" for="default"> Địa chỉ mặc định </label>
                             </div>
-                            <button class="btn-hover">Xác nhận</button>
+                            <button class="btn-hover btn btn-primary">Xác nhận</button>
                         </div>
 
                     </form>

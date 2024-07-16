@@ -6,7 +6,7 @@
 	<div class="row g-0">
 		<div class="col-md-4 d-flex align-items-center p-2 position-relative">
 			<c:if test="${not empty param.sale}">
-				<span class="span-sale product_sale position-absolute top-0 start-0""
+				<span class="span-sale product_sale position-absolute top-0 start-0"
 					>Giảm
 					${param.sale}</span>
 			</c:if>

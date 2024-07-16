@@ -20,6 +20,7 @@
 <link rel="stylesheet" type="text/css" href="styles/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="styles/base.css">
 <link rel="stylesheet" type="text/css" href="styles/main.css">
+	<link rel="stylesheet" href="styles/nav.css">
 <link rel="stylesheet" type="text/css" href="styles/lightslider.css">
 <link rel="stylesheet" type="text/css"
 	href="styles/san-pham-khuyen-mai.css">
@@ -43,7 +44,8 @@
 						<div class="row mb-child-20 product-container wishlist-container">
 							<c:forEach items="${wishlist}" var="item">
 								<c:set var="isSale"
-									value="${item.getClass().getSimpleName() eq 'ProductSale'}"></c:set>
+									value="${item.getClass().getSimpleName() eq 'ProductSale'}">
+								</c:set>
 
 								<div class="col-6 col col-xl-3" style="max-width: 20%;">
 									<jsp:include page="/templates/product-template.jsp">

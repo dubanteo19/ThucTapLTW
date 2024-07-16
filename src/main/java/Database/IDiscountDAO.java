@@ -7,10 +7,13 @@ import Model.Review;
 
 public interface IDiscountDAO {
 	List<Discounts> findAll();
+	List<Discounts> findAllActive();
 
 	int save(Discounts discounts);
 
 	boolean update(Discounts discounts);
+
+	boolean updateQuantity(Discounts discounts);
 	
 	boolean delete(Discounts discounts);
 

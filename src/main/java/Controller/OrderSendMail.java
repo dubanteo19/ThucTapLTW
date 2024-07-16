@@ -1,4 +1,4 @@
-	package Controller;
+package Controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,11 +14,10 @@ import javax.servlet.http.HttpSession;
 
 import Controller.cart.Cart;
 import Database.IUserDAO;
-import Model.CartItem;
-import Model.Order_details;
-import Model.Orders;
-import Model.Status;
-import Model.User;
+import Model.*;
+import Services.IAddressService;
+import Services.ICartService;
+import Services.IDiscountService;
 import Services.IOrderService;
 
 /**
@@ -31,6 +30,12 @@ public class OrderSendMail extends HttpServlet {
 	IOrderService orderService;
 	@Inject
 	IUserDAO userdao;
+	@Inject
+	ICartService cartService;
+	@Inject
+	IDiscountService discountService;
+	@Inject
+	IAddressService addressService;
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -57,18 +62,53 @@ public class OrderSendMail extends HttpServlet {
 		HttpSession session = request.getSession(false);
 		User user = (User) request.getSession().getAttribute("user");
 		Cart cart = (Cart) request.getSession().getAttribute("cart");
+		Discounts discounts = (Discounts) request.getSession().getAttribute("discount");
 		List<CartItem> cartItems = cart.getCartItems();
 		List<Order_details> order_details = new ArrayList<Order_details>();
 		Orders orders = new Orders();
 		orders.setStatus(new Status(4, ""));
 		orders.setUser(user);
+		double amount;
 		double shipping = 40000;
-		orders.setTotalPrice(cart.getTotalPrice() + shipping);
-		orders.setDiscountId(0);
+		int discountId;
+		String totalPrice;
+		Discounts dis = new Discounts();
+		if(discounts == null){
+			amount = 0;
+			totalPrice = String.valueOf(cart.getTotalPrice() + shipping);
+			discountId = 0;
+		}else{
+			discountId = discounts.getId();
+			dis.setId(discountId);
+			dis.setQuantity(discounts.getQuantity()-1);
+			totalPrice = request.getParameter("totalPrice");
+			if(discounts.getType().equals("percentage")){
+				amount = Integer.parseInt(totalPrice) * discounts.getAmount();
+			}
+			else{
+				amount = discounts.getAmount();
+			}
+		}
+		orders.setTotalPrice(Double.parseDouble(totalPrice));
+		orders.setDiscountId(discountId);
 		orders.setPaymentMethod("COD");
 		orders.setShippingFee(shipping);
-		orders.setAddress(user.getAddresses().get(0).getDescription() + user.getAddresses().get(0).getWards()
-				+ user.getAddresses().get(0).getDistricts() + user.getAddresses().get(0).getProvince());
+		String selectedAddress = request.getParameter("selectedAddress");
+
+		String province = request.getParameter("Province");
+		String district = request.getParameter("District");
+		String ward = request.getParameter("Ward");
+		String note = request.getParameter("note");
+		Address selectedAddr = addressService.findAddressId(Integer.parseInt(selectedAddress));
+		if ("other".equals(selectedAddress)) {
+			String customAddress = province + ", " + district + ", " + ward+ ", Người nhận: " + selectedAddr.getNameUser() + ", Số điện thoại: " + selectedAddr.getPhoneUser();
+			orders.setAddress(customAddress);
+		} else {
+			String existingAddress = selectedAddr.getDescription() + ", " + selectedAddr.getWards() + ", " + selectedAddr.getDistricts() + ", " + selectedAddr.getProvince() + ", Người nhận: " + selectedAddr.getNameUser() + ", Số điện thoại: " + selectedAddr.getPhoneUser();
+			orders.setAddress(existingAddress);
+		}
+		orders.setNote(note);
+		discountService.updateQuantity(dis);
 		int orderId = orderService.save(orders);
 		orders.setId(orderId);
 		for (CartItem cartItem : cartItems) {
@@ -79,9 +119,11 @@ public class OrderSendMail extends HttpServlet {
 		orders.setDetails(order_details);
 		orderService.save(order_details);
 		session.removeAttribute("cart");
+		cartService.delete(user.getId());
 		user = userdao.findUserById(user.getId());
 		request.getSession().setAttribute("user", user);
 		request.setAttribute("orders", orders);
+		request.setAttribute("amount", amount);
 		request.getRequestDispatcher("hoa-don.jsp").forward(request, response);
 	}
 

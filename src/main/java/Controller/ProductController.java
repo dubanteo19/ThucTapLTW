@@ -50,7 +50,7 @@ public class ProductController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		getParams(req, resp);
-		List<Discounts> discounts = discountService.findAll();
+		List<Discounts> discounts = discountService.findAllActive();
 		List<Categories> categories = categoryService.findAll();
 		req.setAttribute("count", getCount(req, resp));
 		req.setAttribute("page", page);
