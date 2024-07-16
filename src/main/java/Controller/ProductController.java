@@ -122,7 +122,6 @@ public class ProductController extends HttpServlet {
 		String minPriceParam = req.getParameter("minPrice") != null ? req.getParameter("minPrice").trim() : "";
 		String maxPriceParam = req.getParameter("maxPrice") != null ? req.getParameter("maxPrice").trim() : "";
 		categoryId = req.getParameter("category") != null ? Integer.valueOf(req.getParameter("category").trim()) : 0;
-		System.out.println();
 
 		double minPrice = !minPriceParam.isEmpty() ? Double.parseDouble(minPriceParam) : 0;
 		double maxPrice = !maxPriceParam.isEmpty() ? Double.parseDouble(maxPriceParam) : 0;

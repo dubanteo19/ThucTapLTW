@@ -16,6 +16,7 @@
 </body>
 <script type="text/javascript" src="../javascripts/jquery-3.7.1.js"></script>
 <script type="text/javascript" src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
+<script src="../javascripts/moment.min.js"></script>
 <script>
 	$(document).ready(function() {
 		function toggleMenu() {

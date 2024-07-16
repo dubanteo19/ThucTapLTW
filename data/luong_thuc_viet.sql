@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost_3306
+ Source Server         : localhost 3306
  Source Server Type    : MySQL
  Source Server Version : 80030 (8.0.30)
  Source Host           : localhost:3306
@@ -11,7 +11,7 @@
  Target Server Version : 80030 (8.0.30)
  File Encoding         : 65001
 
- Date: 14/07/2024 00:31:49
+ Date: 16/07/2024 10:28:08
 */
 
 SET NAMES utf8mb4;
@@ -98,7 +98,7 @@ CREATE TABLE `carts`  (
 -- Records of carts
 -- ----------------------------
 INSERT INTO `carts` VALUES (2, '[{\"quantity\": 10, \"productId\": 2}, {\"quantity\": 12, \"productId\": 3}, {\"quantity\": 8, \"productId\": 5}, {\"quantity\": 8, \"productId\": 6}, {\"quantity\": 1, \"productId\": 7}, {\"quantity\": 1, \"productId\": 10}, {\"quantity\": 7, \"productId\": 11}]');
-INSERT INTO `carts` VALUES (4, '[{\"quantity\": 1, \"productId\": 10}, {\"quantity\": 14, \"productId\": 15}]');
+INSERT INTO `carts` VALUES (4, '[{\"quantity\": 1, \"productId\": 6}]');
 
 -- ----------------------------
 -- Table structure for categories
@@ -462,7 +462,7 @@ CREATE TABLE `logs`  (
   `level` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   `dateCreated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`logId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 251 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 275 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of logs
@@ -715,6 +715,30 @@ INSERT INTO `logs` VALUES (247, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View hom
 INSERT INTO `logs` VALUES (248, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-14 00:25:42');
 INSERT INTO `logs` VALUES (249, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-14 00:27:16');
 INSERT INTO `logs` VALUES (250, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-14 00:27:47');
+INSERT INTO `logs` VALUES (251, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-14 00:48:59');
+INSERT INTO `logs` VALUES (252, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-14 00:49:00');
+INSERT INTO `logs` VALUES (253, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-14 01:12:00');
+INSERT INTO `logs` VALUES (254, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-14 01:15:27');
+INSERT INTO `logs` VALUES (255, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-14 01:16:15');
+INSERT INTO `logs` VALUES (256, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-14 01:18:33');
+INSERT INTO `logs` VALUES (257, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-14 01:21:02');
+INSERT INTO `logs` VALUES (258, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-14 01:48:50');
+INSERT INTO `logs` VALUES (259, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-14 21:59:02');
+INSERT INTO `logs` VALUES (260, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-15 14:57:52');
+INSERT INTO `logs` VALUES (261, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-15 15:03:20');
+INSERT INTO `logs` VALUES (262, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-15 15:04:35');
+INSERT INTO `logs` VALUES (263, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-15 15:04:56');
+INSERT INTO `logs` VALUES (264, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-15 15:11:14');
+INSERT INTO `logs` VALUES (265, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-15 15:11:41');
+INSERT INTO `logs` VALUES (266, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-15 15:12:59');
+INSERT INTO `logs` VALUES (267, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-15 15:15:45');
+INSERT INTO `logs` VALUES (268, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-15 15:15:50');
+INSERT INTO `logs` VALUES (269, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-15 15:15:55');
+INSERT INTO `logs` VALUES (270, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-15 15:16:23');
+INSERT INTO `logs` VALUES (271, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-15 15:17:23');
+INSERT INTO `logs` VALUES (272, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-15 15:27:43');
+INSERT INTO `logs` VALUES (273, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-15 15:28:54');
+INSERT INTO `logs` VALUES (274, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-15 15:29:39');
 
 -- ----------------------------
 -- Table structure for news
@@ -726,7 +750,7 @@ CREATE TABLE `news`  (
   `blogId` int NULL DEFAULT NULL,
   `author` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   PRIMARY KEY (`newId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of news
@@ -908,6 +932,9 @@ INSERT INTO `orderdetails` VALUES (59, 6, 113000, 1);
 INSERT INTO `orderdetails` VALUES (60, 1, 119000, 1);
 INSERT INTO `orderdetails` VALUES (61, 6, 113000, 2);
 INSERT INTO `orderdetails` VALUES (61, 10, 127000, 2);
+INSERT INTO `orderdetails` VALUES (62, 10, 127000, 1);
+INSERT INTO `orderdetails` VALUES (62, 15, 10440, 70);
+INSERT INTO `orderdetails` VALUES (63, 63, 19500, 55);
 
 -- ----------------------------
 -- Table structure for orders
@@ -930,7 +957,7 @@ CREATE TABLE `orders`  (
   INDEX `fk_orders_users`(`userId` ASC) USING BTREE,
   CONSTRAINT `fk_orders_status` FOREIGN KEY (`statusId`) REFERENCES `status` (`statusId`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_orders_users` FOREIGN KEY (`userId`) REFERENCES `users` (`userId`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 62 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 64 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of orders
@@ -995,6 +1022,8 @@ INSERT INTO `orders` VALUES (58, 4, 4, 354980, 6, 'COD', 40000, ' Xã Cẩm Già
 INSERT INTO `orders` VALUES (59, 4, 4, 153000, 0, 'COD', 40000, '2, Người nhận: null, Số điện thoại:Thành phố Hà Nội', '2024-07-13 04:43:33', '2024-07-13 04:43:33', 'nhanh nha');
 INSERT INTO `orders` VALUES (60, 4, 4, 159000, 0, 'COD', 40000, '780, Xã Cốc Đán, Huyện Ngân Sơn, Tỉnh Bắc Kạn, Người nhận: Nguyễn Thị Chúc Ngân 123, Số điện thoại: 0869769142', '2024-07-13 05:06:50', '2024-07-13 05:06:50', '');
 INSERT INTO `orders` VALUES (61, 4, 4, 520000, 0, 'COD', 40000, '780, Xã Cốc Đán, Huyện Ngân Sơn, Tỉnh Bắc Kạn, Người nhận: Nguyễn Thị Chúc Ngân 123, Số điện thoại: 0869769142', '2024-07-13 23:17:18', '2024-07-13 23:17:18', '');
+INSERT INTO `orders` VALUES (62, 4, 4, 897800, 0, 'COD', 40000, '456, Xã Phúc Ứng, Huyện Sơn Dương, Tỉnh Tuyên Quang, Người nhận: Chúc Ngân123, Số điện thoại: 0463632573', '2024-07-14 01:11:52', '2024-07-14 01:11:52', '');
+INSERT INTO `orders` VALUES (63, 4, 4, 1112500, 0, 'COD', 40000, '456, Xã Phúc Ứng, Huyện Sơn Dương, Tỉnh Tuyên Quang, Người nhận: Chúc Ngân123, Số điện thoại: 0463632573', '2024-07-14 01:16:05', '2024-07-14 01:16:05', '');
 
 -- ----------------------------
 -- Table structure for producthaspromotion
@@ -1009,6 +1038,26 @@ CREATE TABLE `producthaspromotion`  (
 -- ----------------------------
 -- Records of producthaspromotion
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for productimports
+-- ----------------------------
+DROP TABLE IF EXISTS `productimports`;
+CREATE TABLE `productimports`  (
+  `productId` int NULL DEFAULT NULL,
+  `weight` decimal(10, 2) NULL DEFAULT NULL,
+  `costPrice` decimal(10, 0) NULL DEFAULT NULL,
+  `quantity` int NULL DEFAULT NULL,
+  `dateCreated` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of productimports
+-- ----------------------------
+INSERT INTO `productimports` VALUES (1, 10.00, 100000, 1000, '2024-07-15 00:00:00');
+INSERT INTO `productimports` VALUES (20, 50.00, 21500, 120, '2024-07-15 00:00:00');
+INSERT INTO `productimports` VALUES (145, 5.00, 125000, 180, '2024-07-15 00:00:00');
+INSERT INTO `productimports` VALUES (-1, 5.00, 120000, 500, '2024-07-15 00:00:00');
 
 -- ----------------------------
 -- Table structure for products
@@ -1048,12 +1097,12 @@ INSERT INTO `products` VALUES (6, 2, 'Gạo thơm A An ST21 túi 5kg', 'images/p
 INSERT INTO `products` VALUES (7, 2, 'Gạo Lài hương Đồng Việt túi 5kg', 'images/product-images/gao-lai-huong-dong-viet-tui-5kg-202212280845480911.jpg', 100000, 120000, 1, 8, 5.00, 13, '2023-01-17 00:00:00', '2023-01-18 00:00:00');
 INSERT INTO `products` VALUES (8, 14, 'Gạo lức huyết rồng PMT túi 2kg', 'images/product-images/-202210150918339457.jpg', 800000, 100000, 1, 8, 5.00, 55, '2023-03-22 00:00:00', '2023-04-06 00:00:00');
 INSERT INTO `products` VALUES (9, 2, 'Gạo thơm Vua Gạo ST25 túi 5kg', 'images/product-images/-202306191015007772.jpg', 124000, 134000, 1, 9, 5.00, 0, '2023-05-20 00:00:00', '2023-05-20 00:00:00');
-INSERT INTO `products` VALUES (10, 2, 'Gạo Ngọc Sa Cỏ May túi 5kg', 'images/product-images/gao-ngoc-sa-co-may-tui-5kg-202201050907494211.jpg', 137000, 157000, 1, 9, 10.00, -2, '2022-12-13 00:00:00', '2022-12-14 00:00:00');
+INSERT INTO `products` VALUES (10, 2, 'Gạo Ngọc Sa Cỏ May túi 5kg', 'images/product-images/gao-ngoc-sa-co-may-tui-5kg-202201050907494211.jpg', 137000, 157000, 1, 9, 10.00, 0, '2022-12-13 00:00:00', '2022-12-14 00:00:00');
 INSERT INTO `products` VALUES (11, 7, 'Khoai lang Nhật xuất khẩu 0.9kg - 1.1kg', 'images/product-images/khoai-lang-nhat-xuat-khau-1kg-202306141637486543.jpg', 40000, 46000, 1, 8, 5.00, 45, '2023-03-03 00:00:00', '2023-03-03 00:00:00');
 INSERT INTO `products` VALUES (12, 7, 'Chuối già giống Nam Mỹ hộp 0.9-1.1kg (6-7 trái)', 'images/product-images/chuoi-gia-giong-nam-my-hop-09-11kg-6-7-trai-202401151353168342.jpg', 20000, 26000, 1, 8, 5.00, 73, '2022-09-02 00:00:00', '2022-09-02 00:00:00');
 INSERT INTO `products` VALUES (13, 10, 'Nấm kim châm Thái Lan 150g', 'images/product-images/nam-kim-cham-thai-lan-150g-202308291048255023.jpg', 8000, 11000, 1, 8, 10.00, 94, '2023-03-05 00:00:00', '2023-04-08 00:00:00');
-INSERT INTO `products` VALUES (14, 7, 'Khoai môn 450g - 550g (1 củ)', 'images/product-images/khoai-mon-tui-500g-1-cu-202205201541019491.jpg', 19500, 27000, 1, 9, 5.00, 12, '2023-03-06 00:00:00', '2023-03-07 00:00:00');
-INSERT INTO `products` VALUES (15, 7, '2 trái bắp nếp từ 500g trở lên', 'images/product-images/bap-nep-cap-202207161543295487.jpg', 10000, 18000, 1, 8, 5.00, 70, '2023-03-07 00:00:00', '2023-03-08 00:00:00');
+INSERT INTO `products` VALUES (14, 7, 'Khoai môn 450g - 550g (1 củ)', 'images/product-images/khoai-mon-tui-500g-1-cu-202205201541019491.jpg', 19500, 27000, 1, 8, 5.00, 12, '2023-03-06 00:00:00', '2023-03-07 00:00:00');
+INSERT INTO `products` VALUES (15, 7, '2 trái bắp nếp từ 500g trở lên', 'images/product-images/bap-nep-cap-202207161543295487.jpg', 10000, 18000, 1, 9, 5.00, 0, '2023-03-07 00:00:00', '2023-03-08 00:00:00');
 INSERT INTO `products` VALUES (16, 11, 'Đậu cove Lâm Đồng 500g', 'images/product-images/dau-cove-lam-dong-tui-500g-202205201441226078.jpg', 16000, 23000, 1, 8, 50.00, 665, '2023-03-08 00:00:00', '2023-03-09 00:00:00');
 INSERT INTO `products` VALUES (17, 7, 'Củ sắn 1kg (3 - 5 củ)', 'images/product-images/cu-san-tui-1kg-3-5-cu-202205201546346566.jpg', 15000, 21000, 1, 9, 50.00, 0, '2020-08-16 00:00:00', '2022-12-06 00:00:00');
 INSERT INTO `products` VALUES (18, 7, 'Khoai tây 0.9-1.1kg (10-14 củ)', 'images/product-images/-202308301006493585.jpg', 16000, 24000, 1, 8, 25.00, 556, '2023-08-12 00:00:00', '2023-09-08 00:00:00');
@@ -1101,7 +1150,7 @@ INSERT INTO `products` VALUES (59, 2, 'Gạo thơm Vua Gạo Đậm Đà ST24 t�
 INSERT INTO `products` VALUES (60, 2, 'Gạo Nhật Shinichi Vua Gạo túi 5kg', 'images/product-images/gao-nhat-shinichi-tui-5kg.jpg', 20000, 28000, 1, 8, 5.00, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
 INSERT INTO `products` VALUES (61, 2, 'Gạo Lạc Việt đệ nhất ST25 túi 5kg', 'images/product-images/gao-lac-viet-de-nhat-st25-tui-5kg.jpg', 20000, 26000, 1, 8, 5.00, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
 INSERT INTO `products` VALUES (62, 7, 'Bắp nữ hoàng trái 250g trở lên', 'images/product-images/bap-nu-hoang-trai-tu-250g-tro-len.jpg', 60000, 64000, 1, 8, 0.25, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
-INSERT INTO `products` VALUES (63, 7, 'Khoai lang mật 1kg (2 - 5 củ)', 'images/product-images/khoai-lang-mat-tui-1kg-3-10-cu%20(1).jpg', 17000, 19500, 1, 8, 1.00, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
+INSERT INTO `products` VALUES (63, 7, 'Khoai lang mật 1kg (2 - 5 củ)', 'images/product-images/khoai-lang-mat-tui-1kg-3-10-cu%20(1).jpg', 17000, 19500, 1, 9, 1.00, 0, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
 INSERT INTO `products` VALUES (64, 7, 'Khoai lang tím 1kg', 'images/product-images/khoai-lang-tim-1kg%20(1).jpg', 36000, 38000, 1, 8, 1.00, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
 INSERT INTO `products` VALUES (65, 7, 'Khoai sọ gọt vỏ 400g', 'images/product-images/khoai-so-got-vo-400g%20(1).jpg', 85000, 90000, 1, 8, 0.40, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
 INSERT INTO `products` VALUES (66, 9, 'Hạt sen khô Việt San gói 150g', 'images/product-images/hat-sen-viet-san-150g-201812041634117252.jpg', 230000, 250000, 1, 8, 0.15, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
@@ -1184,7 +1233,7 @@ CREATE TABLE `promotions`  (
   `startDate` datetime NULL DEFAULT NULL,
   `expDate` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of promotions
