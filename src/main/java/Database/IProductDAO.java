@@ -20,6 +20,8 @@ public interface IProductDAO extends GenericDAO<Product> {
 
 	boolean update(Product p);
 
+	boolean updateStatus(Product product);
+
 	ProductDetail findProductDetailById(int id);
 
 	List<Product> findProductSales(int limit, int offSet);

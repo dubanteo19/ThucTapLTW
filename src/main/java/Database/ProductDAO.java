@@ -407,6 +407,12 @@ public class ProductDAO extends AbtractDAO<Product> implements IProductDAO {
         return update(sql, p.getName(), p.getCostPrice(), p.getUnitPrice(), p.getWeight(), p.getUnitsInStock(), p.getId());
     }
 
+    @Override
+    public boolean updateStatus(Product product) {
+        String sql = "UPDATE products SET statusId = ? WHERE productId =?";
+        return update(sql, product.getStatus().getId(), product.getId());
+    }
+
     public static void main(String[] args) {
         ProductDAO productDAO = new ProductDAO();
         Map<String, Object> filter = new HashMap<String, Object>();
