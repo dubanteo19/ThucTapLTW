@@ -100,20 +100,66 @@
         .dropdown-item {
             cursor: pointer;
         }
+
+        .section-item {
+            height: 100vh;
+        }
     </style>
 </head>
 <body>
 <jsp:include page="header.jsp"></jsp:include>
-<div class="container-fluid"></div>
 <div class="row">
     <jsp:include page="left-menu.jsp"></jsp:include>
+
     <div class="col-10 pt-3">
         <div class="container-fluid">
             <div class="row w-100">
-                <div class="col-12">
+                <div class="section-item col-12">
                     <div class="bg-white">
                         <div class="sub-title">
                             <h4>Quản lý nhập kho</h4>
+                        </div>
+                        <div class="table-container mt-3">
+                            <div class="mb-3">
+                                <div class="table-control d-flex align-items-center">
+                                    <button type="button" id="btn-filter" class="btn btn-info btn-control"
+                                            data-toggle="modal" data-target="#filterModal">
+                                        <i class="fa-solid fa-filter"></i>Bộ lọc
+                                    </button>
+
+                                    <div class="ms-auto text-end btn-container-dropdown">
+                                        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Xuất File
+                                        </button>
+                                        <div id="optionExportDisplay" class="dropdown-menu export-menu">
+                                            <span class="dropdown-item">Copy</span>
+                                            <span class="dropdown-item">CSV</span>
+                                            <span class="dropdown-item">Excel</span>
+                                            <span class="dropdown-item">PDF</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="datatable-products-display" class="cell-border hover nowrap w-100">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">Mã sản phẩm</th>
+                                    <th style="min-width: 10vw">Tên sản phẩm</th>
+                                    <th class="text-right">Trọng lượng</th>
+                                    <th class="text-right">Giá nhập</th>
+                                    <th class="text-right">Số lượng nhập</th>
+                                    <th class="text-center">Ngày nhập</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-item col-12">
+                    <div class="bg-white">
+                        <div class="sub-title">
+                            <h4>Nhập kho sản phẩm</h4>
                         </div>
                         <div class="table-container mt-3">
                             <div class="mb-3">
@@ -339,17 +385,83 @@
                 </div>
             </div>
 
-            <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-                <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
-                    <div class="toast-header" style="background-color: var(--primary-green); color: white">
-                        <i class="fa-solid fa-bell me-2"></i>
-                        <strong class="me-auto">Thông báo</strong>
-                        <small>1s ago</small>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+            <div class="modal fade" id="filterModal" tabindex="-1" role="dialog"
+                 aria-labelledby="filterModalCenterTitle"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Bộ lọc sản phẩm</h5>
+                            <i data-dismiss="modal" class="close fa-solid fa-xmark"></i>
+                        </div>
+                        <div class="modal-body">
+                            <form id="form-filter">
+                                <div class="form-group">
+                                    <div class="form-group row align-items-center">
+                                        <label class="col" for="durationSelect">Khoảng thời gian thống kê</label>
+                                        <div class="col">
+                                            <select id="durationSelect" class="form-select"
+                                                    onchange="handleDurationChange()">
+                                                <option selected value="3">3</option>
+                                                <option value="6">6</option>
+                                                <option value="12">12</option>
+                                                <option value="-1">Tất cả</option>
+                                                <option value="other">Khác</option>
+                                            </select>
+                                        </div>
+                                        <div class="col">
+                                            <select id="durationType" class="form-select">
+                                                <option value="DAY">DAY</option>
+                                                <option selected value="MONTH">MONTH</option>
+                                                <option value="YEAR">YEAR</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <input class="mt-2 form-control input-number" type="text" inputmode="numeric"
+                                           pattern="[0-9]*" id="durationInput" style="display: none;"
+                                           placeholder="Khoảng thời gian khác">
+                                </div>
+
+                                <div class="form-group row align-items-center">
+                                    <label class="col">Thời gian cụ thể</label>
+                                    <div class="col">
+                                        <input class="form-control" id="productDateFilter"
+                                               type="datetime-local" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row align-items-center">
+                                    <label class="col" for="categoriesList">Danh mục sản phẩm</label>
+                                    <div class="col">
+                                        <select id="categoriesList" class="form-select">
+                                            <c:forEach items="${categoriesList}" var="item">
+                                                <option value="${item.id}">${item.name}</option>
+                                            </c:forEach>
+                                            <option selected value="-1">Tất cả</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                            <button id="btnApplyFilter" class="btn btn-success" data-dismiss="modal">Áp dụng</button>
+                        </div>
                     </div>
-                    <div class="toast-body">
-                        <span class="toast-content"></span>
-                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+            <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
+                <div class="toast-header" style="background-color: var(--primary-green); color: white">
+                    <i class="fa-solid fa-bell me-2"></i>
+                    <strong class="me-auto">Thông báo</strong>
+                    <small>1s ago</small>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    <span class="toast-content"></span>
                 </div>
             </div>
         </div>
@@ -423,6 +535,27 @@
         });
     }
 
+    function getDurationValue() {
+        var select = document.getElementById('durationSelect');
+        var input = document.getElementById('durationInput');
+
+        if (select.value === 'other') {
+            return input.value;
+        } else {
+            return select.value;
+        }
+    }
+
+    function handleDurationChange() {
+        var select = document.getElementById('durationSelect');
+        var input = document.getElementById('durationInput');
+
+        if (select.value === 'other') {
+            input.style.display = 'block';
+        } else {
+            input.style.display = 'none';
+        }
+    }
 
     $(document)
         .ready(
@@ -496,8 +629,168 @@
                             </div>
                             `;
 
+                let controlBarDisplay = document.createElement('div');
+
+                controlBarDisplay.innerHTML = `
+                            <div class="align-items-center">
+                            <label>Tìm kiếm sản phẩm</label>
+                            <input style="padding-left: 5px; margin-left: 10px" id="search" class="search form-control" type="search" name="name" placeholder="Tìm kiếm...">
+                            </div>
+                            `;
+
                 let btnSave = document.createElement('div');
                 btnSave.innerHTML = '<button id="btnSave" class="btn btn-success my-2">Nhập kho' + '</button>';
+
+                $('#btnApplyFilter').click(function (event) {
+                    $('#datatable-products-display').DataTable().ajax.reload();
+                });
+
+                let tableDisplay = $('#datatable-products-display').DataTable({
+                    serverSide: true,
+                    pageLength: 25,
+                    scrollX: true,
+                    scrollCollapse: true,
+                    scrollY: '55vh',
+                    order: [],
+                    ajax: {
+                        url: 'nhap-kho',
+                        type: 'POST',
+                        data: function (d) {
+                            NProgress.start();
+                            d.action = 'get';
+                            d.duration = getDurationValue();
+                            d.durationType = $('#durationType').val();
+                            d.categoryId = $('#categoriesList').val();
+                            d.dateCreated = $('#productDateFilter').val();
+                            NProgress.done();
+                        }
+                    },
+                    rowCallback: function (row, data) {
+                        $(row).attr('data-id', data.product.id);
+                    },
+                    columnDefs: [
+                        {targets: 0, name: 'id'},
+                        {targets: 1, name: 'name'},
+                        {targets: 2, name: 'weight'},
+                        {targets: 3, name: 'costPrice'},
+                        {targets: 4, name: 'quantity'},
+                        {targets: 5, name: 'dateCreated'},
+                        {
+                            targets: [2, 3, 4],
+                            className: 'dt-right'
+                        },
+                        {
+                            targets: [0, 5],
+                            className: 'dt-center'
+                        },
+                    ],
+                    columns: [
+                        {
+                            data: 'product.id',
+                            render: function (data, type, row) {
+                                if (data == -1) {
+                                    return 'Mới';
+                                }
+                                return data;
+                            }
+                        },
+                        {
+                            data: 'product.name',
+                            render: function (data, type, row) {
+                                return '<span class="product-name">' + data + '</span>';
+                            }
+                        },
+                        {
+                            data: 'weight',
+                            render: function (data, type, row) {
+                                return data + ' kg';
+                            }
+                        },
+                        {
+                            data: 'costPrice',
+                            render: function (data, type, row) {
+                                return formatCurrency(data)
+                            }
+                        },
+                        {
+                            data: 'quantity',
+                            render: function (data, type, row) {
+                                return formatNumber(data);
+                            }
+                        },
+                        {
+                            data: 'dateCreated',
+                            render: function(data, type, row) {
+                                return moment(data).format('DD/MM/YYYY');
+                            }
+                        }
+                    ],
+                    layout: {
+                        topStart: controlBarDisplay,
+                        topEnd: 'pageLength',
+                    },
+                    buttons: [
+                        {
+                            extend: 'copyHtml5',
+                            title: 'Thông tin nhập kho ' + new Date().toISOString().slice(0, 10),
+                        },
+                        {
+                            extend: 'excelHtml5',
+                            filename: 'Thông tin nhập kho ' + new Date().toISOString().slice(0, 10),
+                            title: ''
+                        },
+                        {
+                            extend: 'csvHtml5',
+                            title: 'Thông tin nhập kho ' + new Date().toISOString().slice(0, 10),
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            title: 'Thông tin nhập kho ' + new Date().toISOString().slice(0, 10),
+                        }
+                    ],
+                    language: {
+                        "sProcessing": "Đang xử lý...",
+                        "sLengthMenu": "Hiển thị _MENU_ mục",
+                        "sZeroRecords": "Không tìm thấy dữ liệu",
+                        "sInfo": "Hiển thị _START_ đến _END_ của _TOTAL_ mục",
+                        "sInfoEmpty": "Hiển thị 0 đến 0 của 0 mục",
+                        "sInfoFiltered": "(được lọc từ _MAX_ mục)",
+                        "emptyTable": "Vui lòng thêm dữ liệu",
+                        "sInfoPostFix": "",
+                        "sSearch": "Tìm kiếm:",
+                        "sUrl": "",
+                        "oPaginate": {
+                            "sFirst": "Đầu",
+                            "sPrevious": "Trước",
+                            "sNext": "Tiếp",
+                            "sLast": "Cuối"
+                        },
+                        "oAria": {
+                            "sSortAscending": ": kích hoạt để sắp xếp cột tăng dần",
+                            "sSortDescending": ": kích hoạt để sắp xếp cột giảm dần"
+                        }
+                    },
+                    initComplete: function () {
+                        var api = this.api();
+                        var searchInput = $('#search');
+                        var debounceTimeout;
+
+                        function debounce(func, delay) {
+                            var context = this;
+                            clearTimeout(debounceTimeout);
+                            debounceTimeout = setTimeout(function () {
+                                func.apply(context);
+                            }, delay);
+                        }
+
+                        searchInput.on('keyup', function () {
+                            var value = this.value;
+                            debounce(function () {
+                                api.search(value).draw();
+                            }, 300);
+                        });
+                    }
+                });
 
                 let table = $('#datatable-products').DataTable({
                     pageLength: 25,
@@ -723,7 +1016,7 @@
 
                                 $('.toast-content').text(msg);
                                 $('.toast').toast('show');
-                                
+
                                 table.clear().draw();
                             },
                             error: function (error) {
@@ -827,6 +1120,11 @@
                 $('#optionExport .dropdown-item').on('click', function () {
                     var exportType = $(this).text().toLowerCase();
                     table.button('.buttons-' + exportType).trigger();
+                });
+
+                $('#optionExportDisplay .dropdown-item').on('click', function () {
+                    var exportType = $(this).text().toLowerCase();
+                    tableDisplay.button('.buttons-' + exportType).trigger();
                 });
             });
 

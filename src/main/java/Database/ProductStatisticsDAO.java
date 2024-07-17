@@ -294,13 +294,13 @@ public class ProductStatisticsDAO extends AbtractDAO<ProductStatistics> implemen
                     new StringBuilder(MessageFormat.format(" (products.costPrice < {0,number,#})", params));
 
             case "category" ->
-                    new StringBuilder(MessageFormat.format(" (categories.categoryId = {0} OR categories.parentCategoryId = {0})", params));
+                    new StringBuilder(MessageFormat.format(" (categories.categoryId = {0,number,#} OR categories.parentCategoryId = {0,number,#})", params));
 
-            case "status" -> new StringBuilder(MessageFormat.format(" (status.statusId = {0})", params));
+            case "status" -> new StringBuilder(MessageFormat.format(" (status.statusId = {0,number,#})", params));
 
-            case "id" -> new StringBuilder(MessageFormat.format(" (products.productId = {0})", params));
+            case "id" -> new StringBuilder(MessageFormat.format(" (products.productId = {0,number,#})", params));
 
-            case "limit" -> new StringBuilder(MessageFormat.format(" LIMIT {0} OFFSET {1}", params[0], params[1]));
+            case "limit" -> new StringBuilder(MessageFormat.format(" LIMIT {0,number,#} OFFSET {1,number,#}", params[0], params[1]));
 
             case "name" ->
                     new StringBuilder(MessageFormat.format(" ((products.productName LIKE ''%{0}%'') OR (categories.categoryName LIKE ''%{0}%''))", params));

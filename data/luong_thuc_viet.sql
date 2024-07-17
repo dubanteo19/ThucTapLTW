@@ -11,7 +11,7 @@
  Target Server Version : 80030 (8.0.30)
  File Encoding         : 65001
 
- Date: 16/07/2024 10:28:08
+ Date: 17/07/2024 15:36:25
 */
 
 SET NAMES utf8mb4;
@@ -462,7 +462,7 @@ CREATE TABLE `logs`  (
   `level` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   `dateCreated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`logId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 275 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 292 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of logs
@@ -739,6 +739,23 @@ INSERT INTO `logs` VALUES (271, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View hom
 INSERT INTO `logs` VALUES (272, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-15 15:27:43');
 INSERT INTO `logs` VALUES (273, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-15 15:28:54');
 INSERT INTO `logs` VALUES (274, '0:0:0:0:0:0:0:1', 'Home', '', '', '', 'View home page', 'INFO', '2024-07-15 15:29:39');
+INSERT INTO `logs` VALUES (275, '127.0.0.1', '/Home', 'Viet Nam', '', '', 'View', 'INFO', '2024-07-16 11:55:18');
+INSERT INTO `logs` VALUES (276, '127.0.0.1', '/Home', 'Viet Nam', '', '', 'View', 'INFO', '2024-07-16 11:55:42');
+INSERT INTO `logs` VALUES (277, '127.0.0.1', '/Home', 'Viet Nam', '', '', 'View', 'INFO', '2024-07-16 11:55:55');
+INSERT INTO `logs` VALUES (278, '127.0.0.1', '/CartController', 'Viet Nam', '', '', 'User Khách add product 6 to cart', 'INFO', '2024-07-16 11:55:57');
+INSERT INTO `logs` VALUES (279, '127.0.0.1', '/Home', 'Viet Nam', '', '', 'View', 'INFO', '2024-07-16 11:56:14');
+INSERT INTO `logs` VALUES (280, '127.0.0.1', '/Home', 'Viet Nam', '', '', 'View', 'INFO', '2024-07-17 14:26:38');
+INSERT INTO `logs` VALUES (281, '127.0.0.1', '/Home', 'Viet Nam', '', '', 'View', 'INFO', '2024-07-17 14:26:43');
+INSERT INTO `logs` VALUES (282, '127.0.0.1', '/Home', 'Viet Nam', '', '', 'View', 'INFO', '2024-07-17 14:26:48');
+INSERT INTO `logs` VALUES (283, '127.0.0.1', '/Home', 'Viet Nam', '', '', 'View', 'INFO', '2024-07-17 14:48:19');
+INSERT INTO `logs` VALUES (284, '127.0.0.1', '/CartController', 'Viet Nam', '', '', 'User Khách add product 42 to cart', 'INFO', '2024-07-17 14:48:50');
+INSERT INTO `logs` VALUES (285, '127.0.0.1', '/Home', 'Viet Nam', '', '', 'View', 'INFO', '2024-07-17 14:48:57');
+INSERT INTO `logs` VALUES (286, '127.0.0.1', '/ProductDetail', 'Viet Nam', '', '', 'View productGạo thơm A An ST21 túi 5kg', 'INFO', '2024-07-17 14:49:28');
+INSERT INTO `logs` VALUES (287, '127.0.0.1', '/Home', 'Viet Nam', '', '', 'View', 'INFO', '2024-07-17 14:50:07');
+INSERT INTO `logs` VALUES (288, '127.0.0.1', '/Home', 'Viet Nam', '', '', 'View', 'INFO', '2024-07-17 14:50:08');
+INSERT INTO `logs` VALUES (289, '127.0.0.1', '/Home', 'Viet Nam', '', '', 'View', 'INFO', '2024-07-17 14:50:38');
+INSERT INTO `logs` VALUES (290, '127.0.0.1', '/ProductDetail', 'Viet Nam', '', '', 'View productKhoai lang Nhật xuất khẩu 0.9kg - 1.1kg', 'INFO', '2024-07-17 14:59:07');
+INSERT INTO `logs` VALUES (291, '127.0.0.1', '/ProductDetail', 'Viet Nam', '', '', 'View productKhoai lang Nhật xuất khẩu 0.9kg - 1.1kg', 'INFO', '2024-07-17 14:59:13');
 
 -- ----------------------------
 -- Table structure for news
@@ -1054,10 +1071,6 @@ CREATE TABLE `productimports`  (
 -- ----------------------------
 -- Records of productimports
 -- ----------------------------
-INSERT INTO `productimports` VALUES (1, 10.00, 100000, 1000, '2024-07-15 00:00:00');
-INSERT INTO `productimports` VALUES (20, 50.00, 21500, 120, '2024-07-15 00:00:00');
-INSERT INTO `productimports` VALUES (145, 5.00, 125000, 180, '2024-07-15 00:00:00');
-INSERT INTO `productimports` VALUES (-1, 5.00, 120000, 500, '2024-07-15 00:00:00');
 
 -- ----------------------------
 -- Table structure for products
@@ -1076,6 +1089,7 @@ CREATE TABLE `products`  (
   `unitsInStock` int NULL DEFAULT NULL,
   `dateCreated` datetime NULL DEFAULT CURRENT_TIMESTAMP,
   `lastUpdated` datetime NULL DEFAULT NULL,
+  `lastUpdatedImport` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`productId`) USING BTREE,
   INDEX `fk_products_categories`(`categoryId` ASC) USING BTREE,
   INDEX `fk_products_status`(`statusId` ASC) USING BTREE,
@@ -1088,88 +1102,88 @@ CREATE TABLE `products`  (
 -- ----------------------------
 -- Records of products
 -- ----------------------------
-INSERT INTO `products` VALUES (1, 2, 'Gạo thơm đặc sản Neptune ST25 túi 5kg', 'images/product-images/gao-thom-dac-san-neptune-st25-tui-5kg-202306191511488893.jpg', 100000, 129000, 1, 8, 10.00, 51, '2023-01-29 00:00:00', '2023-01-30 00:00:00');
-INSERT INTO `products` VALUES (2, 2, 'Gạo giống Nhật Bản Vinh Hiển Taiyo túi 5kg', 'images/product-images/gao-giong-nhat-ban-vinh-hien-taiyo-tui-5kg-202007211001455095.jpg', 100000, 149000, 2, 8, 25.00, 31, '2023-01-20 00:00:00', '2023-01-21 00:00:00');
-INSERT INTO `products` VALUES (3, 2, 'Gạo Hạt Ngọc Trời Tiên Nữ túi 5kg', 'images/product-images/-202210270821594671.jpg', 100000, 120000, 3, 8, 10.00, 224, '2023-01-25 00:00:00', '2023-02-26 00:00:00');
-INSERT INTO `products` VALUES (4, 2, 'Gạo lài sữa Đồng Việt túi 5kg', 'images/product-images/gao-lai-sua-dong-viet-tui-5kg-202212280858091468.jpg', 100000, 115000, 4, 8, 10.00, 33, '2022-12-29 00:00:00', '2023-03-24 00:00:00');
-INSERT INTO `products` VALUES (5, 2, 'Gạo ST25 Đồng Việt túi 5kg', 'images/product-images/gao-st25-thuong-hang-dong-viet-tui-5kg-202212280854102020.jpg', 100000, 134000, 5, 8, 5.00, 68, '2023-01-10 00:00:00', '2023-01-10 00:00:00');
-INSERT INTO `products` VALUES (6, 2, 'Gạo thơm A An ST21 túi 5kg', 'images/product-images/gao-thom-a-an-st21-tui-5kg-202006061602569575.jpg', 123000, 133000, 1, 8, 5.00, 48, '2023-01-16 00:00:00', '2023-01-17 00:00:00');
-INSERT INTO `products` VALUES (7, 2, 'Gạo Lài hương Đồng Việt túi 5kg', 'images/product-images/gao-lai-huong-dong-viet-tui-5kg-202212280845480911.jpg', 100000, 120000, 1, 8, 5.00, 13, '2023-01-17 00:00:00', '2023-01-18 00:00:00');
-INSERT INTO `products` VALUES (8, 14, 'Gạo lức huyết rồng PMT túi 2kg', 'images/product-images/-202210150918339457.jpg', 800000, 100000, 1, 8, 5.00, 55, '2023-03-22 00:00:00', '2023-04-06 00:00:00');
-INSERT INTO `products` VALUES (9, 2, 'Gạo thơm Vua Gạo ST25 túi 5kg', 'images/product-images/-202306191015007772.jpg', 124000, 134000, 1, 9, 5.00, 0, '2023-05-20 00:00:00', '2023-05-20 00:00:00');
-INSERT INTO `products` VALUES (10, 2, 'Gạo Ngọc Sa Cỏ May túi 5kg', 'images/product-images/gao-ngoc-sa-co-may-tui-5kg-202201050907494211.jpg', 137000, 157000, 1, 9, 10.00, 0, '2022-12-13 00:00:00', '2022-12-14 00:00:00');
-INSERT INTO `products` VALUES (11, 7, 'Khoai lang Nhật xuất khẩu 0.9kg - 1.1kg', 'images/product-images/khoai-lang-nhat-xuat-khau-1kg-202306141637486543.jpg', 40000, 46000, 1, 8, 5.00, 45, '2023-03-03 00:00:00', '2023-03-03 00:00:00');
-INSERT INTO `products` VALUES (12, 7, 'Chuối già giống Nam Mỹ hộp 0.9-1.1kg (6-7 trái)', 'images/product-images/chuoi-gia-giong-nam-my-hop-09-11kg-6-7-trai-202401151353168342.jpg', 20000, 26000, 1, 8, 5.00, 73, '2022-09-02 00:00:00', '2022-09-02 00:00:00');
-INSERT INTO `products` VALUES (13, 10, 'Nấm kim châm Thái Lan 150g', 'images/product-images/nam-kim-cham-thai-lan-150g-202308291048255023.jpg', 8000, 11000, 1, 8, 10.00, 94, '2023-03-05 00:00:00', '2023-04-08 00:00:00');
-INSERT INTO `products` VALUES (14, 7, 'Khoai môn 450g - 550g (1 củ)', 'images/product-images/khoai-mon-tui-500g-1-cu-202205201541019491.jpg', 19500, 27000, 1, 8, 5.00, 12, '2023-03-06 00:00:00', '2023-03-07 00:00:00');
-INSERT INTO `products` VALUES (15, 7, '2 trái bắp nếp từ 500g trở lên', 'images/product-images/bap-nep-cap-202207161543295487.jpg', 10000, 18000, 1, 9, 5.00, 0, '2023-03-07 00:00:00', '2023-03-08 00:00:00');
-INSERT INTO `products` VALUES (16, 11, 'Đậu cove Lâm Đồng 500g', 'images/product-images/dau-cove-lam-dong-tui-500g-202205201441226078.jpg', 16000, 23000, 1, 8, 50.00, 665, '2023-03-08 00:00:00', '2023-03-09 00:00:00');
-INSERT INTO `products` VALUES (17, 7, 'Củ sắn 1kg (3 - 5 củ)', 'images/product-images/cu-san-tui-1kg-3-5-cu-202205201546346566.jpg', 15000, 21000, 1, 9, 50.00, 0, '2020-08-16 00:00:00', '2022-12-06 00:00:00');
-INSERT INTO `products` VALUES (18, 7, 'Khoai tây 0.9-1.1kg (10-14 củ)', 'images/product-images/-202308301006493585.jpg', 16000, 24000, 1, 8, 25.00, 556, '2023-08-12 00:00:00', '2023-09-08 00:00:00');
-INSERT INTO `products` VALUES (19, 12, 'Rau củ nấu súp 400g', 'images/product-images/rau-cu-nau-sup-400g-202304250826472059.jpg', 21500, 31500, 1, 8, 25.00, 43, '2023-03-11 00:00:00', '2023-03-11 00:00:00');
-INSERT INTO `products` VALUES (20, 12, 'Khoai mỡ gọt sẵn 400g', 'images/product-images/khoai-mo-got-vo-goi-400g-202205201016361262.jpg', 21500, 34000, 1, 8, 50.00, 535, '2023-03-12 00:00:00', '2023-03-12 00:00:00');
-INSERT INTO `products` VALUES (21, 12, 'Rau hỗn hợp 300g', 'images/product-images/rau-hon-hop-300g-202304211604279400.jpg', 21500, 31500, 1, 8, 50.00, 367, '2023-03-13 00:00:00', '2023-03-13 00:00:00');
-INSERT INTO `products` VALUES (22, 10, 'Tỏi cô đơn 300g', 'images/product-images/toi-co-don-tui-300g-202205190845024132.jpg', 30000, 40000, 1, 8, 50.00, 75, '2023-03-14 00:00:00', '2023-03-14 00:00:00');
-INSERT INTO `products` VALUES (23, 12, 'Bắp Mỹ tách hạt 250g', 'images/product-images/bap-my-tach-hat-khay-250g-202212231636526263.jpg', 15000, 18000, 1, 8, 50.00, 35, '2023-07-14 00:00:00', '2023-07-14 00:00:00');
-INSERT INTO `products` VALUES (24, 8, 'Yến mạch nguyên chất Oatmeal Cereal gói 350g', 'images/product-images/yen-mach-nguyen-chat-oatmeal-cereal-bich-350g-202006050941400071.jpg', 50000, 56000, 1, 9, 25.00, 0, '2023-03-16 00:00:00', '2023-03-16 00:00:00');
-INSERT INTO `products` VALUES (25, 8, 'Ngũ cốc trái cây Calbee gói 700g', 'images/product-images/ngu-coc-trai-cay-calbee-goi-700g-202201061030381669.jpg', 210000, 280000, 1, 8, 25.00, 32, '2023-03-17 00:00:00', '2023-03-17 00:00:00');
-INSERT INTO `products` VALUES (26, 8, 'Yến mạch trái cây Sunrise vị phô mai bịch 300g', 'images/product-images/yen-mach-trai-cay-sunrise-vi-pho-mai-bich-300g-202110280827521037.jpg', 75000, 95000, 1, 8, 25.00, 36, '2023-03-17 00:00:00', '2023-03-17 00:00:00');
-INSERT INTO `products` VALUES (27, 8, 'Ngũ cốc ăn sáng Nestlé Milo gói 50g', 'images/product-images/ngu-coc-an-sang-nestle-milo-goi-50g-202307251047471726.jpg', 30000, 32000, 1, 8, 70.00, 775, '2023-03-19 00:00:00', '2023-03-19 00:00:00');
-INSERT INTO `products` VALUES (28, 8, 'Ngũ cốc Nestlé Grannola Fitnesse nam việt quất và hạt bí ngô 300g', 'images/product-images/ngu-coc-nestle-grannola-fitnesse-nam-viet-quat-va-hat-bi-ngo-300g-202311241500018548.jpg', 92000, 112000, 1, 8, 70.00, 26, '2023-03-20 00:00:00', '2023-03-20 00:00:00');
-INSERT INTO `products` VALUES (29, 8, 'Hạt chia Sunrise gói 300g', 'images/product-images/hat-chia-sunrise-goi-300g-202102051608220656.jpg', 82000, 102000, 1, 8, 50.00, 73, '2023-03-21 00:00:00', '2023-03-21 00:00:00');
-INSERT INTO `products` VALUES (30, 8, 'Yến mạch nguyên chất Oatta hũ 400g', 'images/product-images/yen-mach-nguyen-chat-oatta-hu-400g-202205230910269570.jpg', 55000, 75000, 1, 8, 50.00, 242, '2023-03-22 00:00:00', '2023-03-25 00:00:00');
-INSERT INTO `products` VALUES (31, 8, 'Thực phẩm bổ sung yến mạch hạt chia Best Choice gói 240g', 'images/product-images/thuc-pham-bo-sung-yen-mach-hat-chia-best-choice-goi-240g-202103101701410503.jpg', 40000, 48000, 1, 8, 50.00, 115, '2022-12-29 00:00:00', '2022-12-30 00:00:00');
-INSERT INTO `products` VALUES (32, 9, 'Hạt điều tỏi ớt Vinahe gói 70g', 'images/product-images/hat-dieu-toi-ot-vinahe-goi-70g-202105221054036436.jpg', 23000, 33000, 1, 9, 50.00, 0, '2023-07-01 00:00:00', '2023-07-01 00:00:00');
-INSERT INTO `products` VALUES (33, 9, 'Đậu phộng vị tỏi ớt Phi Yến hũ 180g', 'images/product-images/dau-phong-vi-toi-ot-phi-yen-hu-180g-202309070836582924.jpg', 25000, 35000, 1, 8, 25.00, 85, '2023-01-07 00:00:00', '2023-01-07 00:00:00');
-INSERT INTO `products` VALUES (34, 9, 'Hạt Macca Úc nứt vỏ Your Superfood hũ 360g', 'images/product-images/hat-macca-uc-nut-vo-your-superfood-hu-360g-202201120833531644.jpg', 137000, 157000, 1, 8, 50.00, 81, '2022-10-06 00:00:00', '2022-10-06 00:00:00');
-INSERT INTO `products` VALUES (35, 9, 'Hỗn hợp hạt vị socola Nutty Trailmix hũ 220g', 'images/product-images/hon-hop-hat-vi-socola-nutty-trailmix-hu-220g-202012181051277230.jpg', 109000, 129000, 1, 8, 50.00, 4, '2022-12-02 00:00:00', '2022-12-13 00:00:00');
-INSERT INTO `products` VALUES (36, 9, 'Hạt hướng dương nguyên vị Chacheer gói 130g', 'images/product-images/hat-huong-duong-nguyen-vi-chacheer-goi-130g-202307052328272630.jpg', 20000, 25000, 1, 8, 50.00, 37, '2023-03-28 00:00:00', '2023-03-31 00:00:00');
-INSERT INTO `products` VALUES (37, 9, 'Hạt hướng dương vị dừa Chacheer gói 130g', 'images/product-images/hat-huong-duong-vi-dua-chacheer-goi-130g-202102051533461550.jpg', 20000, 25000, 1, 8, 50.00, 33, '2023-03-29 00:00:00', '2023-03-29 00:00:00');
-INSERT INTO `products` VALUES (38, 9, 'Tiêu đen hạt gói 50g', 'images/product-images/tieu-den-hat-goi-50g-202009242351555936.jpg', 8900, 11900, 1, 8, 50.00, 84, '2022-12-02 00:00:00', '2022-12-02 00:00:00');
-INSERT INTO `products` VALUES (39, 13, 'Bột đậu nành hạt sen mật ong Vitapro bịch 420g', 'images/product-images/bot-dau-nanh-hat-sen-mat-ong-vitapro-bich-420g-202111021835211739.jpg', 23000, 33000, 1, 8, 50.00, 2, '2022-11-24 00:00:00', '2022-11-24 00:00:00');
-INSERT INTO `products` VALUES (40, 8, 'Bột ngũ cốc Vitapro bịch 400g', 'images/product-images/bot-ngu-coc-vitapro-bich-400g-202111021836110392.jpg', 23000, 33000, 1, 8, 50.00, 556, '2023-01-10 00:00:00', '2023-01-10 00:00:00');
-INSERT INTO `products` VALUES (41, 13, 'Bột đậu xanh hạt sen mật ong Vitapro bịch 420g', 'images/product-images/bot-dau-xanh-hat-sen-mat-ong-vitapro-bich-420g-202111021833538201.jpg', 23000, 33000, 1, 8, 25.00, 34, '2023-01-16 00:00:00', '2023-01-16 00:00:00');
-INSERT INTO `products` VALUES (42, 14, 'Gạo lứt tím than Lotus Rice NutriChoice hộp 0,5kg', 'images/product-images/gao-lut-tim-than-lotus-rice-nutrichoice-hop-0-5kg-201906210859255437.jpg', 52000, 62000, 1, 8, 25.00, 22, '2023-01-17 00:00:00', '2023-01-17 00:00:00');
-INSERT INTO `products` VALUES (43, 14, 'Gạo lứt huyết rồng Lotus Rice NutriChoice hộp 0,5kg', 'images/product-images/gao-lut-huyet-rong-lotus-rice-nutrichoice-hop-0-5kg-201906210948298885.jpg', 52000, 62000, 1, 8, 25.00, 16, '2023-03-22 00:00:00', '2023-03-31 00:00:00');
-INSERT INTO `products` VALUES (44, 14, 'Gạo Cỏ May lứt nâu organic hộp 1kg', 'images/product-images/gao-co-may-lut-nau-organic-hop-1kg-202106260813001938.jpg', 50000, 66000, 1, 8, 50.00, 998, '2023-05-20 00:00:00', '2023-05-20 00:00:00');
-INSERT INTO `products` VALUES (45, 6, 'Nếp Bắc Việt San túi 1kg', 'images/product-images/nep-bac-viet-san-tui-1kg-201912101503256744.jpg', 32000, 42000, 1, 8, 50.00, 436, '2023-07-14 00:00:00', '2023-07-14 00:00:00');
-INSERT INTO `products` VALUES (46, 6, 'Nếp than PMT túi 1kg', 'images/product-images/nep-than-pmt-tui-1kg-201912101601134334.jpg', 40500, 55500, 1, 8, 50.00, 4, '2023-03-16 00:00:00', '2023-03-16 00:00:00');
-INSERT INTO `products` VALUES (47, 6, 'Nếp cái hoa vàng Vinh Hiển túi 1kg', 'images/product-images/nep-cai-hoa-vang-vinh-hien-tui-1kg-202008150913276084.jpg', 30000, 36000, 1, 8, 50.00, 565, '2023-03-17 00:00:00', '2023-03-17 00:00:00');
-INSERT INTO `products` VALUES (48, 6, 'Nếp sáp Vinh Hiển túi 1kg', 'images/product-images/nep-sap-vinh-hien-tui-1kg-202006251846038687.jpg', 22500, 32500, 1, 8, 25.00, 21, '2023-03-17 00:00:00', '2023-03-17 00:00:00');
-INSERT INTO `products` VALUES (49, 14, 'Gạo lứt đỏ Vinh Hiển túi 1kg', 'images/product-images/gao-lut-do-vinh-hien-tui-1kg-202010171224597621.jpg', 20000, 27000, 1, 8, 25.00, 79, '2023-03-19 00:00:00', '2023-04-14 00:00:00');
-INSERT INTO `products` VALUES (50, 10, 'Xúc xích dinh dưỡng thịt heo Ponnie gói 175g', 'images/product-images/-202207290833032025.jpg', 16500, 22500, 1, 8, 25.00, 1, '2023-03-20 00:00:00', '2023-03-20 00:00:00');
-INSERT INTO `products` VALUES (51, 10, 'Lạp xưởng heo Vissan gói 200g', 'images/product-images/lap-xuong-heo-vissan-goi-200g-202011170920354523.jpg', 41000, 51000, 1, 8, 50.00, 23, '2023-03-21 00:00:00', '2023-03-21 00:00:00');
-INSERT INTO `products` VALUES (52, 10, 'Lạp xưởng Mai Quế Lộ C.P 500g', 'images/product-images/lap-xuong-mai-que-lo-cp-500g-202004251859056840.jpg', 87000, 107000, 1, 8, 50.00, 33, '2023-03-22 00:00:00', '2023-04-01 00:00:00');
-INSERT INTO `products` VALUES (53, 8, 'Thực phẩm bổ sung yến mạch gạo lứt Yumfood gói 210g', 'images/product-images/thuc-pham-bo-sung-yen-mach-yumfood-gao-lut-goi-210g-30g-x-7-goi-202010122216179623.jpg', 32000, 42000, 1, 8, 50.00, 5, '2022-12-29 00:00:00', '2022-12-29 00:00:00');
-INSERT INTO `products` VALUES (54, 8, 'Thực phẩm bổ sung yến mạch nếp cẩm Yumfood gói 210g', 'images/product-images/thuc-pham-bo-sung-yen-mach-yumfood-nep-cam-goi-210g-30g-x-7-goi-202010122213538084.jpg', 32000, 42000, 1, 8, 50.00, 446, '2023-07-01 00:00:00', '2023-07-01 00:00:00');
-INSERT INTO `products` VALUES (55, 11, 'Đậu đỏ gói 150g', 'images/product-images/dau-do-hat-cao-cap-vietfresh-150g-202012092312144594.jpg', 8900, 11900, 1, 8, 50.00, 2, '2023-03-12 00:00:00', '2023-04-02 00:00:00');
-INSERT INTO `products` VALUES (56, 11, 'Đậu trắng bi 150g', 'images/product-images/dau-trang-bi-vietfresh-150g-202104230116055741.jpg', 12600, 15600, 1, 8, 50.00, 46, '2023-03-13 00:00:00', '2023-03-13 00:00:00');
-INSERT INTO `products` VALUES (57, 9, 'Hạt sen khô gói 100g', 'images/product-images/hat-sen-kho-duc-dung-goi-100g-202110290743596457.jpg', 30000, 35000, 1, 8, 50.00, 45, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
-INSERT INTO `products` VALUES (58, 2, 'Gạo thơm Vua Gạo Phù Sa túi 5kg', 'images/product-images/gao-phu-sa-tui-5kg.jpg', 100000, 120000, 1, 8, 5.00, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
-INSERT INTO `products` VALUES (59, 2, 'Gạo thơm Vua Gạo Đậm Đà ST24 túi 5kg', 'images/product-images/gao-st24-tui-5kg.jpg', 90000, 110000, 1, 8, 5.00, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
-INSERT INTO `products` VALUES (60, 2, 'Gạo Nhật Shinichi Vua Gạo túi 5kg', 'images/product-images/gao-nhat-shinichi-tui-5kg.jpg', 20000, 28000, 1, 8, 5.00, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
-INSERT INTO `products` VALUES (61, 2, 'Gạo Lạc Việt đệ nhất ST25 túi 5kg', 'images/product-images/gao-lac-viet-de-nhat-st25-tui-5kg.jpg', 20000, 26000, 1, 8, 5.00, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
-INSERT INTO `products` VALUES (62, 7, 'Bắp nữ hoàng trái 250g trở lên', 'images/product-images/bap-nu-hoang-trai-tu-250g-tro-len.jpg', 60000, 64000, 1, 8, 0.25, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
-INSERT INTO `products` VALUES (63, 7, 'Khoai lang mật 1kg (2 - 5 củ)', 'images/product-images/khoai-lang-mat-tui-1kg-3-10-cu%20(1).jpg', 17000, 19500, 1, 9, 1.00, 0, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
-INSERT INTO `products` VALUES (64, 7, 'Khoai lang tím 1kg', 'images/product-images/khoai-lang-tim-1kg%20(1).jpg', 36000, 38000, 1, 8, 1.00, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
-INSERT INTO `products` VALUES (65, 7, 'Khoai sọ gọt vỏ 400g', 'images/product-images/khoai-so-got-vo-400g%20(1).jpg', 85000, 90000, 1, 8, 0.40, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
-INSERT INTO `products` VALUES (66, 9, 'Hạt sen khô Việt San gói 150g', 'images/product-images/hat-sen-viet-san-150g-201812041634117252.jpg', 230000, 250000, 1, 8, 0.15, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
-INSERT INTO `products` VALUES (67, 9, 'Hạt điều vỏ lụa Yến Nhung hộp 180g', 'images/product-images/hat-dieu-vo-lua-yen-nhung-hop-180g-202211260948312440.jpg', 350000, 360000, 1, 8, 0.18, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
-INSERT INTO `products` VALUES (68, 9, 'Hạt hạnh nhân Mỹ Your Superfood hũ 450g', 'images/product-images/hat-hanh-nhan-my-your-superfood-hu-450g-202201120844001533.jpg', 450000, 500000, 1, 8, 0.45, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
-INSERT INTO `products` VALUES (69, 9, 'Hạt điều rang củi Your Superfood hộp tròn 240g', 'images/product-images/hat-dieu-rang-cui-your-superfood-hop-tron-240g-202311040947410838.jpg', 450000, 500000, 1, 8, 0.24, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
-INSERT INTO `products` VALUES (70, 11, 'Đậu nành gói 500g', 'images/product-images/dau-nanh-naita-500g-202204161723244150.jpg', 42000, 45000, 1, 8, 0.50, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
-INSERT INTO `products` VALUES (71, 11, 'Đậu phộng Việt San 150g', 'images/product-images/dau-phong-viet-san-150g-201812041440132432.jpg', 74000, 76000, 1, 8, 0.15, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
-INSERT INTO `products` VALUES (72, 11, 'Đậu xanh không vỏ Việt San 500g', 'images/product-images/dau-xanh-khong-vo-viet-san-500g-201812041347258312.jpg', 65000, 70000, 1, 8, 0.50, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
-INSERT INTO `products` VALUES (73, 11, 'Đậu đen Việt San 300g', 'images/product-images/dau-den-viet-san-300g-201812041650351216.jpg', 42000, 46000, 1, 8, 0.30, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
-INSERT INTO `products` VALUES (74, 8, 'Ngũ cốc dinh dưỡng MacCereal bịch 560g', 'images/product-images/ngu-coc-macgereal.jpg', 100000, 112000, 1, 8, 0.56, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
-INSERT INTO `products` VALUES (75, 8, 'Ngũ cốc dinh dưỡng NutiFood bịch 500g', 'images/product-images/ngu-coc-dinh-duong-nutifood-nguyen-cam-bo-sung-canxi-bich-500g.jpg', 100000, 110000, 1, 8, 0.50, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
-INSERT INTO `products` VALUES (76, 8, 'Bột ngũ cốc ăn kiêng Euro Cereal gói 500g', 'images/product-images/bot-ngu-coc-an-kieng-euro-cereal-goi-500g-25g-x-20-goi-202111192314385764.jpeg', 100000, 114000, 1, 8, 0.50, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
-INSERT INTO `products` VALUES (77, 8, 'Sữa dinh dưỡng ngũ cốc Dutch Lady túi 300g', 'images/product-images/sua-dinh-duong-ngu-coc-dutch-lady-tui-300g-12-goi-x-25g-202204231154439430.jpg', 200000, 216000, 1, 8, 0.30, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
-INSERT INTO `products` VALUES (78, 10, 'Bánh canh ống Mikiri gói 300g', 'images/product-images/banh-canh-ong-mikiri-goi-300g-202308210940075440.jpg', 87000, 93000, 1, 8, 0.30, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
-INSERT INTO `products` VALUES (79, 10, 'Bánh mì tươi đông lạnh O\'smiles 350g', 'images/product-images/banh-mi-tuoi-osmiles-goi-350g-70g-x-5-o-202101141649320940.jpg', 90000, 100000, 1, 8, 0.35, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
-INSERT INTO `products` VALUES (80, 10, 'Bánh gạo Tteokbokki Hàn Quốc HT Food gói 500g', 'images/product-images/banh-gao-tteokbokki-han-quoc-ht-food-goi-500g-202201181305036109.jpg', 70000, 76000, 1, 8, 0.50, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
-INSERT INTO `products` VALUES (81, 10, 'Bánh bao nhân khoai môn C.P 270g', 'images/product-images/banh-bao-nhan-khoai-mon-cp-270g-202212261129142314.jpg', 80000, 85000, 1, 8, 0.27, 53, '2023-03-14 00:00:00', '2023-07-08 00:00:00');
-INSERT INTO `products` VALUES (145, 3, 'Gạo Lạc Việt 5kg', 'images/product-images/sellingpoint1.jpg', 125000, 130000, 1, 8, 5.00, 63, '2024-01-26 12:57:26', '2024-01-26 12:57:26');
+INSERT INTO `products` VALUES (1, 2, 'Gạo thơm đặc sản Neptune ST25 túi 5kg', 'images/product-images/gao-thom-dac-san-neptune-st25-tui-5kg-202306191511488893.jpg', 1, 129000, 1, 8, 1.00, 1424, '2023-01-29 00:00:00', '2023-01-30 00:00:00', '2024-07-17 15:33:00');
+INSERT INTO `products` VALUES (2, 2, 'Gạo giống Nhật Bản Vinh Hiển Taiyo túi 5kg', 'images/product-images/gao-giong-nhat-ban-vinh-hien-taiyo-tui-5kg-202007211001455095.jpg', 2, 149000, 2, 8, 2.00, 36, '2023-01-20 00:00:00', '2023-01-21 00:00:00', '2024-07-17 15:20:10');
+INSERT INTO `products` VALUES (3, 2, 'Gạo Hạt Ngọc Trời Tiên Nữ túi 5kg', 'images/product-images/-202210270821594671.jpg', 100000, 120000, 3, 8, 10.00, 224, '2023-01-25 00:00:00', '2023-02-26 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (4, 2, 'Gạo lài sữa Đồng Việt túi 5kg', 'images/product-images/gao-lai-sua-dong-viet-tui-5kg-202212280858091468.jpg', 100000, 115000, 4, 8, 10.00, 33, '2022-12-29 00:00:00', '2023-03-24 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (5, 2, 'Gạo ST25 Đồng Việt túi 5kg', 'images/product-images/gao-st25-thuong-hang-dong-viet-tui-5kg-202212280854102020.jpg', 100000, 134000, 5, 8, 5.00, 68, '2023-01-10 00:00:00', '2023-01-10 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (6, 2, 'Gạo thơm A An ST21 túi 5kg', 'images/product-images/gao-thom-a-an-st21-tui-5kg-202006061602569575.jpg', 123000, 133000, 1, 8, 5.00, 48, '2023-01-16 00:00:00', '2023-01-17 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (7, 2, 'Gạo Lài hương Đồng Việt túi 5kg', 'images/product-images/gao-lai-huong-dong-viet-tui-5kg-202212280845480911.jpg', 100000, 120000, 1, 8, 5.00, 13, '2023-01-17 00:00:00', '2023-01-18 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (8, 14, 'Gạo lức huyết rồng PMT túi 2kg', 'images/product-images/-202210150918339457.jpg', 800000, 100000, 1, 8, 5.00, 55, '2023-03-22 00:00:00', '2023-04-06 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (9, 2, 'Gạo thơm Vua Gạo ST25 túi 5kg', 'images/product-images/-202306191015007772.jpg', 124000, 134000, 1, 9, 5.00, 0, '2023-05-20 00:00:00', '2023-05-20 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (10, 2, 'Gạo Ngọc Sa Cỏ May túi 5kg', 'images/product-images/gao-ngoc-sa-co-may-tui-5kg-202201050907494211.jpg', 137000, 157000, 1, 9, 10.00, 0, '2022-12-13 00:00:00', '2022-12-14 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (11, 7, 'Khoai lang Nhật xuất khẩu 0.9kg - 1.1kg', 'images/product-images/khoai-lang-nhat-xuat-khau-1kg-202306141637486543.jpg', 40000, 46000, 1, 8, 5.00, 45, '2023-03-03 00:00:00', '2023-03-03 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (12, 7, 'Chuối già giống Nam Mỹ hộp 0.9-1.1kg (6-7 trái)', 'images/product-images/chuoi-gia-giong-nam-my-hop-09-11kg-6-7-trai-202401151353168342.jpg', 20000, 26000, 1, 8, 5.00, 73, '2022-09-02 00:00:00', '2022-09-02 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (13, 10, 'Nấm kim châm Thái Lan 150g', 'images/product-images/nam-kim-cham-thai-lan-150g-202308291048255023.jpg', 8000, 11000, 1, 8, 10.00, 94, '2023-03-05 00:00:00', '2023-04-08 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (14, 7, 'Khoai môn 450g - 550g (1 củ)', 'images/product-images/khoai-mon-tui-500g-1-cu-202205201541019491.jpg', 19500, 27000, 1, 8, 5.00, 12, '2023-03-06 00:00:00', '2023-03-07 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (15, 7, '2 trái bắp nếp từ 500g trở lên', 'images/product-images/bap-nep-cap-202207161543295487.jpg', 10000, 18000, 1, 9, 5.00, 0, '2023-03-07 00:00:00', '2023-03-08 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (16, 11, 'Đậu cove Lâm Đồng 500g', 'images/product-images/dau-cove-lam-dong-tui-500g-202205201441226078.jpg', 16000, 23000, 1, 8, 50.00, 665, '2023-03-08 00:00:00', '2023-03-09 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (17, 7, 'Củ sắn 1kg (3 - 5 củ)', 'images/product-images/cu-san-tui-1kg-3-5-cu-202205201546346566.jpg', 15000, 21000, 1, 9, 50.00, 0, '2020-08-16 00:00:00', '2022-12-06 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (18, 7, 'Khoai tây 0.9-1.1kg (10-14 củ)', 'images/product-images/-202308301006493585.jpg', 16000, 24000, 1, 8, 25.00, 556, '2023-08-12 00:00:00', '2023-09-08 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (19, 12, 'Rau củ nấu súp 400g', 'images/product-images/rau-cu-nau-sup-400g-202304250826472059.jpg', 21500, 31500, 1, 8, 25.00, 43, '2023-03-11 00:00:00', '2023-03-11 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (20, 12, 'Khoai mỡ gọt sẵn 400g', 'images/product-images/khoai-mo-got-vo-goi-400g-202205201016361262.jpg', 21500, 34000, 1, 8, 50.00, 535, '2023-03-12 00:00:00', '2023-03-12 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (21, 12, 'Rau hỗn hợp 300g', 'images/product-images/rau-hon-hop-300g-202304211604279400.jpg', 21500, 31500, 1, 8, 50.00, 367, '2023-03-13 00:00:00', '2023-03-13 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (22, 10, 'Tỏi cô đơn 300g', 'images/product-images/toi-co-don-tui-300g-202205190845024132.jpg', 30000, 40000, 1, 8, 50.00, 75, '2023-03-14 00:00:00', '2023-03-14 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (23, 12, 'Bắp Mỹ tách hạt 250g', 'images/product-images/bap-my-tach-hat-khay-250g-202212231636526263.jpg', 15000, 18000, 1, 8, 50.00, 35, '2023-07-14 00:00:00', '2023-07-14 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (24, 8, 'Yến mạch nguyên chất Oatmeal Cereal gói 350g', 'images/product-images/yen-mach-nguyen-chat-oatmeal-cereal-bich-350g-202006050941400071.jpg', 50000, 56000, 1, 9, 25.00, 0, '2023-03-16 00:00:00', '2023-03-16 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (25, 8, 'Ngũ cốc trái cây Calbee gói 700g', 'images/product-images/ngu-coc-trai-cay-calbee-goi-700g-202201061030381669.jpg', 210000, 280000, 1, 8, 25.00, 32, '2023-03-17 00:00:00', '2023-03-17 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (26, 8, 'Yến mạch trái cây Sunrise vị phô mai bịch 300g', 'images/product-images/yen-mach-trai-cay-sunrise-vi-pho-mai-bich-300g-202110280827521037.jpg', 75000, 95000, 1, 8, 25.00, 36, '2023-03-17 00:00:00', '2023-03-17 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (27, 8, 'Ngũ cốc ăn sáng Nestlé Milo gói 50g', 'images/product-images/ngu-coc-an-sang-nestle-milo-goi-50g-202307251047471726.jpg', 30000, 32000, 1, 8, 70.00, 775, '2023-03-19 00:00:00', '2023-03-19 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (28, 8, 'Ngũ cốc Nestlé Grannola Fitnesse nam việt quất và hạt bí ngô 300g', 'images/product-images/ngu-coc-nestle-grannola-fitnesse-nam-viet-quat-va-hat-bi-ngo-300g-202311241500018548.jpg', 92000, 112000, 1, 8, 70.00, 26, '2023-03-20 00:00:00', '2023-03-20 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (29, 8, 'Hạt chia Sunrise gói 300g', 'images/product-images/hat-chia-sunrise-goi-300g-202102051608220656.jpg', 82000, 102000, 1, 8, 50.00, 73, '2023-03-21 00:00:00', '2023-03-21 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (30, 8, 'Yến mạch nguyên chất Oatta hũ 400g', 'images/product-images/yen-mach-nguyen-chat-oatta-hu-400g-202205230910269570.jpg', 55000, 75000, 1, 8, 50.00, 242, '2023-03-22 00:00:00', '2023-03-25 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (31, 8, 'Thực phẩm bổ sung yến mạch hạt chia Best Choice gói 240g', 'images/product-images/thuc-pham-bo-sung-yen-mach-hat-chia-best-choice-goi-240g-202103101701410503.jpg', 40000, 48000, 1, 8, 50.00, 115, '2022-12-29 00:00:00', '2022-12-30 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (32, 9, 'Hạt điều tỏi ớt Vinahe gói 70g', 'images/product-images/hat-dieu-toi-ot-vinahe-goi-70g-202105221054036436.jpg', 23000, 33000, 1, 9, 50.00, 0, '2023-07-01 00:00:00', '2023-07-01 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (33, 9, 'Đậu phộng vị tỏi ớt Phi Yến hũ 180g', 'images/product-images/dau-phong-vi-toi-ot-phi-yen-hu-180g-202309070836582924.jpg', 25000, 35000, 1, 8, 25.00, 85, '2023-01-07 00:00:00', '2023-01-07 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (34, 9, 'Hạt Macca Úc nứt vỏ Your Superfood hũ 360g', 'images/product-images/hat-macca-uc-nut-vo-your-superfood-hu-360g-202201120833531644.jpg', 137000, 157000, 1, 8, 50.00, 81, '2022-10-06 00:00:00', '2022-10-06 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (35, 9, 'Hỗn hợp hạt vị socola Nutty Trailmix hũ 220g', 'images/product-images/hon-hop-hat-vi-socola-nutty-trailmix-hu-220g-202012181051277230.jpg', 109000, 129000, 1, 8, 50.00, 4, '2022-12-02 00:00:00', '2022-12-13 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (36, 9, 'Hạt hướng dương nguyên vị Chacheer gói 130g', 'images/product-images/hat-huong-duong-nguyen-vi-chacheer-goi-130g-202307052328272630.jpg', 20000, 25000, 1, 8, 50.00, 37, '2023-03-28 00:00:00', '2023-03-31 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (37, 9, 'Hạt hướng dương vị dừa Chacheer gói 130g', 'images/product-images/hat-huong-duong-vi-dua-chacheer-goi-130g-202102051533461550.jpg', 20000, 25000, 1, 8, 50.00, 33, '2023-03-29 00:00:00', '2023-03-29 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (38, 9, 'Tiêu đen hạt gói 50g', 'images/product-images/tieu-den-hat-goi-50g-202009242351555936.jpg', 8900, 11900, 1, 8, 50.00, 84, '2022-12-02 00:00:00', '2022-12-02 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (39, 13, 'Bột đậu nành hạt sen mật ong Vitapro bịch 420g', 'images/product-images/bot-dau-nanh-hat-sen-mat-ong-vitapro-bich-420g-202111021835211739.jpg', 23000, 33000, 1, 8, 50.00, 2, '2022-11-24 00:00:00', '2022-11-24 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (40, 8, 'Bột ngũ cốc Vitapro bịch 400g', 'images/product-images/bot-ngu-coc-vitapro-bich-400g-202111021836110392.jpg', 23000, 33000, 1, 8, 50.00, 556, '2023-01-10 00:00:00', '2023-01-10 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (41, 13, 'Bột đậu xanh hạt sen mật ong Vitapro bịch 420g', 'images/product-images/bot-dau-xanh-hat-sen-mat-ong-vitapro-bich-420g-202111021833538201.jpg', 23000, 33000, 1, 8, 25.00, 34, '2023-01-16 00:00:00', '2023-01-16 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (42, 14, 'Gạo lứt tím than Lotus Rice NutriChoice hộp 0,5kg', 'images/product-images/gao-lut-tim-than-lotus-rice-nutrichoice-hop-0-5kg-201906210859255437.jpg', 52000, 62000, 1, 8, 25.00, 22, '2023-01-17 00:00:00', '2023-01-17 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (43, 14, 'Gạo lứt huyết rồng Lotus Rice NutriChoice hộp 0,5kg', 'images/product-images/gao-lut-huyet-rong-lotus-rice-nutrichoice-hop-0-5kg-201906210948298885.jpg', 52000, 62000, 1, 8, 25.00, 16, '2023-03-22 00:00:00', '2023-03-31 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (44, 14, 'Gạo Cỏ May lứt nâu organic hộp 1kg', 'images/product-images/gao-co-may-lut-nau-organic-hop-1kg-202106260813001938.jpg', 50000, 66000, 1, 8, 50.00, 998, '2023-05-20 00:00:00', '2023-05-20 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (45, 6, 'Nếp Bắc Việt San túi 1kg', 'images/product-images/nep-bac-viet-san-tui-1kg-201912101503256744.jpg', 32000, 42000, 1, 8, 50.00, 436, '2023-07-14 00:00:00', '2023-07-14 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (46, 6, 'Nếp than PMT túi 1kg', 'images/product-images/nep-than-pmt-tui-1kg-201912101601134334.jpg', 40500, 55500, 1, 8, 50.00, 4, '2023-03-16 00:00:00', '2023-03-16 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (47, 6, 'Nếp cái hoa vàng Vinh Hiển túi 1kg', 'images/product-images/nep-cai-hoa-vang-vinh-hien-tui-1kg-202008150913276084.jpg', 30000, 36000, 1, 8, 50.00, 565, '2023-03-17 00:00:00', '2023-03-17 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (48, 6, 'Nếp sáp Vinh Hiển túi 1kg', 'images/product-images/nep-sap-vinh-hien-tui-1kg-202006251846038687.jpg', 22500, 32500, 1, 8, 25.00, 21, '2023-03-17 00:00:00', '2023-03-17 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (49, 14, 'Gạo lứt đỏ Vinh Hiển túi 1kg', 'images/product-images/gao-lut-do-vinh-hien-tui-1kg-202010171224597621.jpg', 20000, 27000, 1, 8, 25.00, 79, '2023-03-19 00:00:00', '2023-04-14 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (50, 10, 'Xúc xích dinh dưỡng thịt heo Ponnie gói 175g', 'images/product-images/-202207290833032025.jpg', 16500, 22500, 1, 8, 25.00, 1, '2023-03-20 00:00:00', '2023-03-20 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (51, 10, 'Lạp xưởng heo Vissan gói 200g', 'images/product-images/lap-xuong-heo-vissan-goi-200g-202011170920354523.jpg', 41000, 51000, 1, 8, 50.00, 23, '2023-03-21 00:00:00', '2023-03-21 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (52, 10, 'Lạp xưởng Mai Quế Lộ C.P 500g', 'images/product-images/lap-xuong-mai-que-lo-cp-500g-202004251859056840.jpg', 87000, 107000, 1, 8, 50.00, 33, '2023-03-22 00:00:00', '2023-04-01 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (53, 8, 'Thực phẩm bổ sung yến mạch gạo lứt Yumfood gói 210g', 'images/product-images/thuc-pham-bo-sung-yen-mach-yumfood-gao-lut-goi-210g-30g-x-7-goi-202010122216179623.jpg', 32000, 42000, 1, 8, 50.00, 5, '2022-12-29 00:00:00', '2022-12-29 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (54, 8, 'Thực phẩm bổ sung yến mạch nếp cẩm Yumfood gói 210g', 'images/product-images/thuc-pham-bo-sung-yen-mach-yumfood-nep-cam-goi-210g-30g-x-7-goi-202010122213538084.jpg', 32000, 42000, 1, 8, 50.00, 446, '2023-07-01 00:00:00', '2023-07-01 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (55, 11, 'Đậu đỏ gói 150g', 'images/product-images/dau-do-hat-cao-cap-vietfresh-150g-202012092312144594.jpg', 8900, 11900, 1, 8, 50.00, 2, '2023-03-12 00:00:00', '2023-04-02 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (56, 11, 'Đậu trắng bi 150g', 'images/product-images/dau-trang-bi-vietfresh-150g-202104230116055741.jpg', 12600, 15600, 1, 8, 50.00, 46, '2023-03-13 00:00:00', '2023-03-13 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (57, 9, 'Hạt sen khô gói 100g', 'images/product-images/hat-sen-kho-duc-dung-goi-100g-202110290743596457.jpg', 30000, 35000, 1, 8, 50.00, 45, '2023-03-14 00:00:00', '2023-07-08 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (58, 2, 'Gạo thơm Vua Gạo Phù Sa túi 5kg', 'images/product-images/gao-phu-sa-tui-5kg.jpg', 100000, 120000, 1, 8, 5.00, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (59, 2, 'Gạo thơm Vua Gạo Đậm Đà ST24 túi 5kg', 'images/product-images/gao-st24-tui-5kg.jpg', 90000, 110000, 1, 8, 5.00, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (60, 2, 'Gạo Nhật Shinichi Vua Gạo túi 5kg', 'images/product-images/gao-nhat-shinichi-tui-5kg.jpg', 20000, 28000, 1, 8, 5.00, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (61, 2, 'Gạo Lạc Việt đệ nhất ST25 túi 5kg', 'images/product-images/gao-lac-viet-de-nhat-st25-tui-5kg.jpg', 20000, 26000, 1, 8, 5.00, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (62, 7, 'Bắp nữ hoàng trái 250g trở lên', 'images/product-images/bap-nu-hoang-trai-tu-250g-tro-len.jpg', 60000, 64000, 1, 8, 0.25, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (63, 7, 'Khoai lang mật 1kg (2 - 5 củ)', 'images/product-images/khoai-lang-mat-tui-1kg-3-10-cu%20(1).jpg', 17000, 19500, 1, 9, 1.00, 0, '2023-03-14 00:00:00', '2023-07-08 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (64, 7, 'Khoai lang tím 1kg', 'images/product-images/khoai-lang-tim-1kg%20(1).jpg', 36000, 38000, 1, 8, 1.00, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (65, 7, 'Khoai sọ gọt vỏ 400g', 'images/product-images/khoai-so-got-vo-400g%20(1).jpg', 85000, 90000, 1, 8, 0.40, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (66, 9, 'Hạt sen khô Việt San gói 150g', 'images/product-images/hat-sen-viet-san-150g-201812041634117252.jpg', 230000, 250000, 1, 8, 0.15, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (67, 9, 'Hạt điều vỏ lụa Yến Nhung hộp 180g', 'images/product-images/hat-dieu-vo-lua-yen-nhung-hop-180g-202211260948312440.jpg', 350000, 360000, 1, 8, 0.18, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (68, 9, 'Hạt hạnh nhân Mỹ Your Superfood hũ 450g', 'images/product-images/hat-hanh-nhan-my-your-superfood-hu-450g-202201120844001533.jpg', 450000, 500000, 1, 8, 0.45, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (69, 9, 'Hạt điều rang củi Your Superfood hộp tròn 240g', 'images/product-images/hat-dieu-rang-cui-your-superfood-hop-tron-240g-202311040947410838.jpg', 450000, 500000, 1, 8, 0.24, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (70, 11, 'Đậu nành gói 500g', 'images/product-images/dau-nanh-naita-500g-202204161723244150.jpg', 42000, 45000, 1, 8, 0.50, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (71, 11, 'Đậu phộng Việt San 150g', 'images/product-images/dau-phong-viet-san-150g-201812041440132432.jpg', 74000, 76000, 1, 8, 0.15, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (72, 11, 'Đậu xanh không vỏ Việt San 500g', 'images/product-images/dau-xanh-khong-vo-viet-san-500g-201812041347258312.jpg', 65000, 70000, 1, 8, 0.50, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (73, 11, 'Đậu đen Việt San 300g', 'images/product-images/dau-den-viet-san-300g-201812041650351216.jpg', 42000, 46000, 1, 8, 0.30, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (74, 8, 'Ngũ cốc dinh dưỡng MacCereal bịch 560g', 'images/product-images/ngu-coc-macgereal.jpg', 100000, 112000, 1, 8, 0.56, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (75, 8, 'Ngũ cốc dinh dưỡng NutiFood bịch 500g', 'images/product-images/ngu-coc-dinh-duong-nutifood-nguyen-cam-bo-sung-canxi-bich-500g.jpg', 100000, 110000, 1, 8, 0.50, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (76, 8, 'Bột ngũ cốc ăn kiêng Euro Cereal gói 500g', 'images/product-images/bot-ngu-coc-an-kieng-euro-cereal-goi-500g-25g-x-20-goi-202111192314385764.jpeg', 100000, 114000, 1, 8, 0.50, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (77, 8, 'Sữa dinh dưỡng ngũ cốc Dutch Lady túi 300g', 'images/product-images/sua-dinh-duong-ngu-coc-dutch-lady-tui-300g-12-goi-x-25g-202204231154439430.jpg', 200000, 216000, 1, 8, 0.30, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (78, 10, 'Bánh canh ống Mikiri gói 300g', 'images/product-images/banh-canh-ong-mikiri-goi-300g-202308210940075440.jpg', 87000, 93000, 1, 8, 0.30, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (79, 10, 'Bánh mì tươi đông lạnh O\'smiles 350g', 'images/product-images/banh-mi-tuoi-osmiles-goi-350g-70g-x-5-o-202101141649320940.jpg', 90000, 100000, 1, 8, 0.35, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (80, 10, 'Bánh gạo Tteokbokki Hàn Quốc HT Food gói 500g', 'images/product-images/banh-gao-tteokbokki-han-quoc-ht-food-goi-500g-202201181305036109.jpg', 70000, 76000, 1, 8, 0.50, 55, '2023-03-14 00:00:00', '2023-07-08 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (81, 10, 'Bánh bao nhân khoai môn C.P 270g', 'images/product-images/banh-bao-nhan-khoai-mon-cp-270g-202212261129142314.jpg', 80000, 85000, 1, 8, 0.27, 53, '2023-03-14 00:00:00', '2023-07-08 00:00:00', '2024-07-17 14:16:22');
+INSERT INTO `products` VALUES (145, 3, 'Gạo Lạc Việt 5kg', 'images/product-images/sellingpoint1.jpg', 125000, 130000, 1, 8, 5.00, 163, '2024-01-26 12:57:26', '2024-01-26 12:57:26', '2024-07-17 14:43:00');
 
 -- ----------------------------
 -- Table structure for products_sale
@@ -1191,7 +1205,7 @@ CREATE TABLE `products_sale`  (
 -- ----------------------------
 INSERT INTO `products_sale` VALUES (1, '20.000đ', 119000, 149, 109, '2024-01-29 08:50:02', '2024-08-06 00:21:56');
 INSERT INTO `products_sale` VALUES (5, '19%', 108540, 331, 173, '2024-01-28 18:48:53', '2024-08-06 00:21:56');
-INSERT INTO `products_sale` VALUES (6, '20.000đ', 113000, 444, 216, '2024-01-26 10:50:27', '2024-08-06 00:21:56');
+INSERT INTO `products_sale` VALUES (6, '20.000đ', 113000, 444, 0, '2024-01-26 10:50:27', '2024-08-06 00:21:56');
 INSERT INTO `products_sale` VALUES (10, '30.000đ', 127000, 145, 125, '2024-01-29 16:05:06', '2024-08-06 00:21:56');
 INSERT INTO `products_sale` VALUES (15, '42%', 10440, 280, 204, '2024-01-21 07:25:44', '2024-08-06 00:21:56');
 INSERT INTO `products_sale` VALUES (17, '51%', 10290, 317, 312, '2024-01-27 00:11:43', '2024-08-06 00:21:56');
