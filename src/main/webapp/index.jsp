@@ -120,7 +120,10 @@
                                 </div>
                                 <div class="card-body">
                                     <h3 class="card-title">
-                                        <a href=""> ${item.name} </a>
+
+                                        <a class="product_name"
+                                           href="ProductDetail?productId=${item.id}">${item.name}</a>
+
                                     </h3>
                                     <div class="card-text">
                                         <div class="price-box">
@@ -307,7 +310,7 @@
 <script type="text/javascript" src="javascripts/jquery-3.7.1.js"></script>
 <script type="text/javascript" src="javascripts/bootstrap.bundle.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script type="text/javascript" src="javascripts/shopping-cart.js?hh"></script>
+<script type="text/javascript" src="javascripts/shopping-cart.js?"></script>
 <script type="text/javascript" src="javascripts/main.js?j"></script>
 <script>
 

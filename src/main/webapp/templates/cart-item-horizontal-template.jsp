@@ -3,12 +3,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <div class="cart_product d-flex text-center cart-item"
-	data-cart-id="${param.productId}" >
+	data-cart-id="${param.productId}"   data-stock-quantity="${param.unitsInStock}">
 	<a href="" class="cart_img" title="Kim chi"><img
 		src="${param.productThumb}" style="width: 120px"></a>
 	<div class="cart_info d-flex col-xl-10">
 		<div class="cart_name col-xl-6 text-lg-start text-center">
-			<a href="" class="h6 fw-bold text-dark cart_title">${param.productName}</a>
+			<a href="ProductDetail?productId=${param.productId}" class="h6 fw-bold text-dark cart_title">${param.productName}</a>
 			<span class="variant-title d-block">${param.productWeight} Kg</span>
 			<div class="cart_delete" style="margin-bottom: 10px;">
 				<span>Xóa</span>

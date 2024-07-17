@@ -574,13 +574,19 @@
                 $("#error-message").text("Mã giảm giá không hợp lệ !");
                 break;
             case "Discount code not supported for this category":
-                $("#error-message").text("Mã giảm giá không áp dụng cho đơn hàng này !");
+                $("#error-message").text("Mã giảm giá không áp dụng cho danh mục này !");
                 break;
             case "Discount code has expired":
                 $("#error-message").text("Mã giảm giá đã hết hạn !");
                 break;
-            case "Discount code does not apply to your order.":
-                $("#error-message").text("Mã giảm giá không áp dụng cho đơn hàng của bạn !");
+            case "Order total does not meet the minimum condition for this discount":
+                $("#error-message").text("Tổng đơn hàng không đáp ứng điều kiện tối thiểu cho ưu đãi giảm giá này !");
+                break;
+            case "Discount code is invalid":
+                $("#error-message").text("Mã code không hợp lệ !");
+                break;
+            case "Unknown discount type":
+                $("#error-message").text("Không tồn tại loại giảm giá này !");
                 break;
             default:
                 $("#error-message").text("");

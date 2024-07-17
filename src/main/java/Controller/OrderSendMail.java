@@ -19,6 +19,7 @@ import Services.IAddressService;
 import Services.ICartService;
 import Services.IDiscountService;
 import Services.IOrderService;
+import org.checkerframework.checker.units.qual.s;
 
 /**
  * Servlet implementation class OrderSendMail
@@ -36,6 +37,8 @@ public class OrderSendMail extends HttpServlet {
 	IDiscountService discountService;
 	@Inject
 	IAddressService addressService;
+	@Inject
+	MailController mailController;
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -82,8 +85,9 @@ public class OrderSendMail extends HttpServlet {
 			dis.setId(discountId);
 			dis.setQuantity(discounts.getQuantity()-1);
 			totalPrice = request.getParameter("totalPrice");
+			System.out.println(totalPrice  + "=totalPrice");
 			if(discounts.getType().equals("percentage")){
-				amount = Integer.parseInt(totalPrice) * discounts.getAmount();
+				amount = cart.getTotalPrice() * ((double) discounts.getAmount() /100);
 			}
 			else{
 				amount = discounts.getAmount();
@@ -126,6 +130,8 @@ public class OrderSendMail extends HttpServlet {
 		request.getSession().setAttribute("user", user);
 		request.setAttribute("orders", orders);
 		request.setAttribute("amount", amount);
+		System.out.println(amount  + "=amount");
+		mailController.sendOrderConfirmationEmail(user.getEmail(), amount, orders);
 		request.getRequestDispatcher("hoa-don.jsp").forward(request, response);
 	}
 

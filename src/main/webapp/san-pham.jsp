@@ -134,7 +134,7 @@
 <script type="text/javascript" src="javascripts/jquery-3.7.1.js"></script>
 <script type="text/javascript" src="javascripts/lightslider.js"></script>
 <script type="text/javascript" src="javascripts/main.js?abc"></script>
-<script type="text/javascript" src="javascripts/shopping-cart.js"></script>
+<script type="text/javascript" src="javascripts/shopping-cart.js?gjgj"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript" src="javascripts/pagination.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>

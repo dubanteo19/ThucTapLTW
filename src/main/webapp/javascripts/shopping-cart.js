@@ -8,16 +8,17 @@ $(document).on('click', '.add_cart', function () {
 });
 $(document).on('click', '.search_detail', function () {
     var id = $(this).closest('.product').data('product-id');
-    console.log("click");
     location.href = "ProductDetail?productId=" + id;
 });
+
 
 $(document).on('click', '.cart-item .cart_increase', function () {
     var cartItem = $(this).closest('.cart-item');
     var quantity = parseInt(cartItem.find('.cart_quantity').val(), 10);
-    var maxQuantity = cartItem.find('.cart_increase').data('stock-quantity');
+    var maxQuantity = $(this).closest('.cart-item').data('stock-quantity');
     console.log(maxQuantity)
     if (quantity < maxQuantity) {
+        console.log("fsfsaddsv")
         updateCartItem(cartItem.data('cart-id'), quantity + 1);
     } else {
         Swal.fire({
@@ -207,7 +208,9 @@ function renderCartItem(item, itemTotalPrice, quantity) {
         var $cartItem = $(template);
 
         $cartItem.attr('data-cart-id', item.product.id);
+        $cartItem.attr('data-stock-quantity', item.product.unitsInStock);
         $cartItem.find('.cart_img').attr('src', item.product.thumb);
+        $cartItem.find('.cart_title').attr('href', "ProductDetail?productId="+item.product.id);
         $cartItem.find('.cart_title').text(item.product.name);
         $cartItem.find('.cart_quantity').val(quantity);
         $cartItem.find('.cart_price').text(formatPrice(itemTotalPrice));
