@@ -197,6 +197,7 @@
                         <div class="d-flex justify-content-between mb-2">
                             <h4 class="title-head">Thông tin đăng nhập</h4>
                         </div>
+                        <div id="error-address" style="color: red"></div>
                         <form class="mb-child-10" method="post" id="thanh-toan"
                               action="OrderSendMail">
                             <input type="hidden" id="hidden-total-price" name="totalPrice">
@@ -231,35 +232,31 @@
                                     <option value="other">Khác</option>
                                 </select>
                             </c:if>
-                            <c:forEach var="item" items="${user.getAddresses()}">
-                                <c:if test="${item.isDefault()}">
                                     <div class="group-country col-md-12 col-lg-12 col-sm-12 col-xs-12" id="customForm"
                                          style="display: none;">
                                         <fieldset
                                                 class="form-group select-field select-field-provinces">
-                                            <select name="Province" value=""
+                                            <select name="Province" value="" required
                                                     class="form-control add provinces" id="provinces"
                                                     onchange="getDistricts()"></select>
                                         </fieldset>
                                         <fieldset class="form-group select-field">
-                                            <select name="District" class="form-control add districts"
+                                            <select name="District" class="form-control add districts" required
                                                     value="" id="districts" onchange="getWards()">
                                                 <option value="" hidden="">Quận huyện</option>
                                             </select>
                                         </fieldset>
                                         <fieldset class="form-group select-field">
-                                            <select name="Ward" class="form-control add wards"
+                                            <select name="Ward" class="form-control add wards" required
                                                     value="" id="wards">
                                                 <option value="" hidden="">Phường xã</option>
                                             </select>
                                         </fieldset>
                                     </div>
-                                </c:if>
-
-                            </c:forEach>
                             <textarea id="note" name="note" rows="4"
                                       placeholder="Ghi chú (tùy chọn)"></textarea>
                         </form>
+
                     </div>
 
                     <div class="col-md-6 mt-2">
@@ -487,6 +484,15 @@
         }
     }
 
+    document.addEventListener("DOMContentLoaded", function() {
+        var selectedAddress = document.getElementById("selectedAddress").value;
+        if (!selectedAddress || selectedAddress === "0" || selectedAddress === "other") {
+            selectedAddress.value = "other";
+            toggleCustomForm();
+        } else {
+            toggleCustomForm();
+        }
+    });
 </script>
 <script>
     $(document).ready(function() {
@@ -521,6 +527,21 @@
     let newTotal;
     function validateAndSubmit() {
         var payOnDeliveryRadio = document.getElementById("pay-on-delivery");
+        var customForm = document.getElementById("customForm");
+        var selectedOption = document.getElementById("selectedAddress").selectedOptions[0];
+        if (selectedOption.value === "other") {
+            var provinces = document.getElementById("provinces");
+            var districts = document.getElementById("districts");
+            var wards = document.getElementById("wards");
+
+            if (!provinces.value || !districts.value || !wards.value) {
+                $("#error-address").text("Vui lòng nhập đầy đủ thông tin địa chỉ.");
+                return;
+            } else {
+                $("#error-address").text("");
+            }
+        }
+
         if (!payOnDeliveryRadio.checked) {
             $("#error-delivery").text("Vui lòng chọn phương thức thanh toán khi nhận hàng.");
             return;
@@ -532,6 +553,8 @@
         if (discountCode) {
             $("#hidden-total-price").val(Number(newTotal));
         }
+
+
         $("#thanh-toan").submit();
     }
 

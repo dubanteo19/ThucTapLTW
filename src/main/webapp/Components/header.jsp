@@ -6,10 +6,6 @@
 <%@page import="Model.User"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-<%@page import="java.text.NumberFormat"%>
-<%@page import="java.util.Formatter"%>
-<%@page import="java.util.logging.SimpleFormatter"%>
-<%@ page import="org.checkerframework.checker.units.qual.C" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
@@ -173,6 +169,7 @@ request.setAttribute("wishlistId", wishlist.getWishListId());
 											<c:forEach items="${cart.getCartItems()}" var="item">
 												<jsp:include page="/templates/cart-item-template.jsp">
 													<jsp:param name="productId" value="${item.product.id}" />
+													<jsp:param name="unitsInStock" value="${item.product.unitsInStock}"/>
 													<jsp:param name="productName" value="${item.product.name}" />
 													<jsp:param name="productThumb"
 														value="${item.product.thumb}" />
@@ -182,14 +179,14 @@ request.setAttribute("wishlistId", wishlist.getWishListId());
 												</jsp:include>
 											</c:forEach>
 											<div class="empty-message"
-												 style="${cart.getTotalItems()  > 0? 'display: none;' : ''}">
+												 style="${cart.cartItems.size() > 0? 'display: none;' : ''}">
 												<i class="fa-solid fa-cart-shopping"></i> <span
 													style="display: block;">Bạn chưa có sản phẩm nào
 													trong giỏ hàng</span>
 											</div>
 										</div>
 										<div class="cart-total-info"
-											 style="${cart.getTotalItems() > 0? '' : 'display: none;'}">
+											 style="${cart.cartItems.size() > 0? '' : 'display: none;'}">
 											<div
 													class="d-flex justify-content-between aligh-items-center"
 													style="padding: 10px 20px;">

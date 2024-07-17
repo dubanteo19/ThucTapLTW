@@ -30,7 +30,10 @@ public class CartItem {
 	}
 
 	public void increase(int quantity) {
-		this.quantity += quantity;
+		int newQuantity = this.quantity + quantity;
+		if(newQuantity>product.getUnitsInStock())
+			throw new IllegalStateException("out of stock");
+		this.quantity = newQuantity;
 	}
 	
 	public void decrease(int quantity) {

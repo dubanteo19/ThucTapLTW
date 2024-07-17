@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost_3306
+ Source Server         : localhost 3306
  Source Server Type    : MySQL
  Source Server Version : 80030 (8.0.30)
  Source Host           : localhost:3306
@@ -11,7 +11,11 @@
  Target Server Version : 80030 (8.0.30)
  File Encoding         : 65001
 
+<<<<<<< HEAD
  Date: 16/07/2024 09:24:59
+=======
+ Date: 16/07/2024 10:28:08
+>>>>>>> 5d4dbeea04f610a5de33aa4a7d5af3c93d05dc00
 */
 
 SET NAMES utf8mb4;
@@ -1040,6 +1044,26 @@ CREATE TABLE `producthaspromotion`  (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for productimports
+-- ----------------------------
+DROP TABLE IF EXISTS `productimports`;
+CREATE TABLE `productimports`  (
+  `productId` int NULL DEFAULT NULL,
+  `weight` decimal(10, 2) NULL DEFAULT NULL,
+  `costPrice` decimal(10, 0) NULL DEFAULT NULL,
+  `quantity` int NULL DEFAULT NULL,
+  `dateCreated` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of productimports
+-- ----------------------------
+INSERT INTO `productimports` VALUES (1, 10.00, 100000, 1000, '2024-07-15 00:00:00');
+INSERT INTO `productimports` VALUES (20, 50.00, 21500, 120, '2024-07-15 00:00:00');
+INSERT INTO `productimports` VALUES (145, 5.00, 125000, 180, '2024-07-15 00:00:00');
+INSERT INTO `productimports` VALUES (-1, 5.00, 120000, 500, '2024-07-15 00:00:00');
+
+-- ----------------------------
 -- Table structure for products
 -- ----------------------------
 DROP TABLE IF EXISTS `products`;
@@ -1081,7 +1105,11 @@ INSERT INTO `products` VALUES (10, 2, 'Gạo Ngọc Sa Cỏ May túi 5kg', 'imag
 INSERT INTO `products` VALUES (11, 7, 'Khoai lang Nhật xuất khẩu 0.9kg - 1.1kg', 'images/product-images/khoai-lang-nhat-xuat-khau-1kg-202306141637486543.jpg', 40000, 46000, 1, 8, 5.00, 45, '2023-03-03 00:00:00', '2023-03-03 00:00:00');
 INSERT INTO `products` VALUES (12, 7, 'Chuối già giống Nam Mỹ hộp 0.9-1.1kg (6-7 trái)', 'images/product-images/chuoi-gia-giong-nam-my-hop-09-11kg-6-7-trai-202401151353168342.jpg', 20000, 26000, 1, 8, 5.00, 73, '2022-09-02 00:00:00', '2022-09-02 00:00:00');
 INSERT INTO `products` VALUES (13, 10, 'Nấm kim châm Thái Lan 150g', 'images/product-images/nam-kim-cham-thai-lan-150g-202308291048255023.jpg', 8000, 11000, 1, 8, 10.00, 94, '2023-03-05 00:00:00', '2023-04-08 00:00:00');
+<<<<<<< HEAD
 INSERT INTO `products` VALUES (14, 7, 'Khoai môn 450g - 550g (1 củ)', 'images/product-images/khoai-mon-tui-500g-1-cu-202205201541019491.jpg', 19500, 27000, 1, 9, 5.00, 12, '2023-03-06 00:00:00', '2023-03-07 00:00:00');
+=======
+INSERT INTO `products` VALUES (14, 7, 'Khoai môn 450g - 550g (1 củ)', 'images/product-images/khoai-mon-tui-500g-1-cu-202205201541019491.jpg', 19500, 27000, 1, 8, 5.00, 12, '2023-03-06 00:00:00', '2023-03-07 00:00:00');
+>>>>>>> 5d4dbeea04f610a5de33aa4a7d5af3c93d05dc00
 INSERT INTO `products` VALUES (15, 7, '2 trái bắp nếp từ 500g trở lên', 'images/product-images/bap-nep-cap-202207161543295487.jpg', 10000, 18000, 1, 9, 5.00, 0, '2023-03-07 00:00:00', '2023-03-08 00:00:00');
 INSERT INTO `products` VALUES (16, 11, 'Đậu cove Lâm Đồng 500g', 'images/product-images/dau-cove-lam-dong-tui-500g-202205201441226078.jpg', 16000, 23000, 1, 8, 50.00, 665, '2023-03-08 00:00:00', '2023-03-09 00:00:00');
 INSERT INTO `products` VALUES (17, 7, 'Củ sắn 1kg (3 - 5 củ)', 'images/product-images/cu-san-tui-1kg-3-5-cu-202205201546346566.jpg', 15000, 21000, 1, 9, 50.00, 0, '2020-08-16 00:00:00', '2022-12-06 00:00:00');

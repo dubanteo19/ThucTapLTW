@@ -27,9 +27,11 @@
 						</div>
 						<input type="number" class="input-quantity cart_quantity"
 							name="input-quantity"
+							data-stock-quantity="${param.unitsInStock}"
 							style="width: 32px; height: 26px; text-align: center; color: #000; border: none;"
 							value="${param.quantity}">
 						<div class="btn-green btn-small cart_increase"
+							 data-stock-quantity="${param.unitsInStock}"
 							style="width: 26px; height: 26px; border-radius: 4px;">
 							<i class="fa-solid fa-plus"></i>
 						</div>

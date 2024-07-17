@@ -17,7 +17,7 @@
     <link rel="stylesheet" type="text/css" href="styles/nav.css">
 
     <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css?versio">
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .delete-form {
             display: none;
@@ -55,8 +55,8 @@
             <div class="col-lg-3">
                 <div id="page_account">
                     <h4 class="title-account">TRANG TÀI KHOẢN</h4>
-                    <p class="title-account">
-                        Xin chào! <span class="text-primary-green" id="userName">${user.getFullName()}</span>
+                    <p class="title-account" style="font-size: 20px">
+                        Xin chào! <span class="text-primary-green" id="userName"  style="font-size: 20px">${user.getFullName()}</span>
                     </p>
                 </div>
                 <ul class=" toc-list m-0 p-0">
@@ -133,17 +133,19 @@
                                         <div class="form-signup clearfix">
                                             <fieldset class="form-group">
                                                 <label for="oldPass">Mật khẩu cũ <span
-                                                        class="error">*</span></label> <input type="password"
-                                                                                              name="OldPassword"
-                                                                                              id="OldPass" required=""
-                                                                                              class="form-control form-control-lg">
+                                                        class="error">*</span></label><input type="password"
+                                                                                 name="OldPassword"
+                                                                                 id="OldPass" required=""
+                                                                                 class="form-control form-control-lg"/>
                                             </fieldset>
                                             <fieldset class="form-group">
                                                 <label for="changePass">Mật khẩu mới <span
                                                         class="error">*</span></label> <input type="password"
                                                                                               name="Password"
                                                                                               id="changePass"
-                                                                                              required=""
+                                                                                              required
+                                                                                              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                                                                              title="Phải chứa ít nhất một số và một chữ cái viết hoa và viết thường và ít nhất 8 ký tự trở lên"
                                                                                               class="form-control form-control-lg">
                                             </fieldset>
                                             <fieldset class="form-group">
@@ -231,7 +233,6 @@
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </section>
 <div class="modal" tabindex="-1" role="dialog" id="updateInfor">
@@ -350,11 +351,13 @@
             wardE.append(option);
         }
     }
-
     document.addEventListener('DOMContentLoaded', function () {
         provincesElement.select2();
         showMenu('<%=menuId%>');
         $("#add-adress").click(function () {
+            let form = $("#address-form");
+            form.find("#fullName").val('');
+            form.find("#PhoneNumber").val('');
             showAddressForm();
         });
         $(".btn-edit-address").click(function () {

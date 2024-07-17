@@ -25,7 +25,7 @@ public class ProductStatisticsMapper implements RowMapper<ProductStatistics> {
 
             if (product.getUnitsInStock() <= requiredQuantity
                     && requiredQuantity != 0) {
-                productStatistics.setStatus("Cần nhập thêm");
+                productStatistics.setStatus("Cần nhập");
             } else {
                 productStatistics.setStatus(product.getStatus().getDescription());
             }

@@ -99,11 +99,13 @@ public class OrderSendMail extends HttpServlet {
 		String district = request.getParameter("District");
 		String ward = request.getParameter("Ward");
 		String note = request.getParameter("note");
-		Address selectedAddr = addressService.findAddressId(Integer.parseInt(selectedAddress));
+
 		if ("other".equals(selectedAddress)) {
-			String customAddress = province + ", " + district + ", " + ward+ ", Người nhận: " + selectedAddr.getNameUser() + ", Số điện thoại: " + selectedAddr.getPhoneUser();
+			System.out.println("khác");
+			String customAddress = province + ", " + district + ", " + ward+ ", Người nhận: " + user.getFullName() + ", Số điện thoại: " + user.getPhone();
 			orders.setAddress(customAddress);
 		} else {
+			Address selectedAddr = addressService.findAddressId(Integer.parseInt(selectedAddress));
 			String existingAddress = selectedAddr.getDescription() + ", " + selectedAddr.getWards() + ", " + selectedAddr.getDistricts() + ", " + selectedAddr.getProvince() + ", Người nhận: " + selectedAddr.getNameUser() + ", Số điện thoại: " + selectedAddr.getPhoneUser();
 			orders.setAddress(existingAddress);
 		}

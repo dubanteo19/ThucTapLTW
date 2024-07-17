@@ -23,7 +23,6 @@ public class JDBCConnector {
 		String username = "root";
 		String password = "";
 		String url = "jdbc:mysql://" + host + ":" + port + "/" + dbName+"?useUnicode=true&characterEncoding=utf8";
-		
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(url, username, password);

@@ -1,8 +1,11 @@
 package Controller.cart;
 
 import Model.CartItem;
+import Model.Log;
 import Model.User;
 import Services.ICartService;
+import Services.ILogService;
+import Services.MLogFactory;
 import Utils.JsonUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -15,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.text.MessageFormat;
 
 /**
  * Servlet implementation class Cart
@@ -28,9 +32,12 @@ public class CartController extends HttpServlet {
 
     private final String PRODUCT_NOT_FOUND = "Lỗi, không tìm thấy sản phẩm";
     private final String ADD_SUCCESS = "Thêm vào giỏ hàng thành công";
-
+    Log log;
+    String fullName;
     @Inject
     private ICartService cartService;
+    @Inject
+    private ILogService logService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -40,7 +47,9 @@ public class CartController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
-
+        log = MLogFactory.getLog(req, this, 1);
+        User user = (User) req.getSession().getAttribute("user");
+        fullName = user == null ? "Khách" : user.getFullName();
         if (action != null) {
             action = action.trim().toUpperCase();
         } else
@@ -66,7 +75,7 @@ public class CartController extends HttpServlet {
         int status;
         User user = (User) session.getAttribute("user");
         int userId = -1;
-        if(user != null) userId = user.getId();
+        if (user != null) userId = user.getId();
 
         if (cart.update(userId, idProduct, quantity)) {
             session.setAttribute("cart", cart);
@@ -78,6 +87,10 @@ public class CartController extends HttpServlet {
             jsonResp.addProperty("error", PRODUCT_NOT_FOUND);
             status = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
         }
+        String des = MessageFormat.format("User {0} update product {1} with quantity {2} to cart",
+                fullName, idProduct, quantity);
+        log.setDescription(des);
+        logService.saveLog(log);
         JsonUtils.sendJsonResponse(resp, status, jsonResp.toString());
     }
 
@@ -90,27 +103,25 @@ public class CartController extends HttpServlet {
         }
 
         int quantity = 1;
-        quantity = req.getParameter("quantity") == null ? quantity : Integer.valueOf(req.getParameter("quantity"));
+        quantity = req.getParameter("quantity") == null ? quantity : Integer.parseInt(req.getParameter("quantity"));
         int idProduct = Integer.parseInt(req.getParameter("idProduct"));
         JsonObject jsonResp = new JsonObject();
         int status;
         User user = (User) session.getAttribute("user");
         int userId = -1;
-        if(user != null) userId = user.getId();
-
+        if (user != null) userId = user.getId();
         if (cart.add(userId, idProduct, quantity)) {
             session.setAttribute("cart", cart);
-
             addJsonCart(cart.getItem(idProduct), jsonResp);
-
             jsonResp.addProperty("success", ADD_SUCCESS);
-
             status = HttpServletResponse.SC_OK;
         } else {
             jsonResp.addProperty("error", PRODUCT_NOT_FOUND);
             status = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
         }
-
+        String des = MessageFormat.format("User {0} add product {1} to cart", fullName, idProduct);
+        log.setDescription(des);
+        logService.saveLog(log);
         JsonUtils.sendJsonResponse(resp, status, jsonResp.toString());
     }
 
@@ -118,6 +129,7 @@ public class CartController extends HttpServlet {
         jsonResp.addProperty("totalItems", cart.getTotalItems());
         jsonResp.addProperty("totalPrice", cart.getTotalPrice());
         jsonResp.addProperty("itemTotalPrice", item != null ? item.calculatePrice() : 0);
+
         jsonResp.add("item", new Gson().toJsonTree(item, CartItem.class));
     }
 }

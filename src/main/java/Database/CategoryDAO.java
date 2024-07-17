@@ -35,6 +35,7 @@ public class CategoryDAO extends AbtractDAO<Categories> implements ICategoryDAO 
 		return re;
 	}
 
+
 	@Override
 	public int save(Categories categories) {
 		String sql = "INSERT INTO categories(parentCategoryId,categoryName,active)" + " VALUES(?,?,?)";
@@ -64,7 +65,7 @@ public class CategoryDAO extends AbtractDAO<Categories> implements ICategoryDAO 
 //		categories.setId(16);
 //		categories.setParentCategoryId(1);
 //		categories.setName("Gạo Đồng Tháp Vip");
-		categoryDAO.findAllAdmin().forEach(System.out::println);
+		categoryDAO.findAll().forEach(System.out::println);
 	}
 
 	@Override

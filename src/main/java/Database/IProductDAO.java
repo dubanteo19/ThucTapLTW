@@ -19,7 +19,6 @@ public interface IProductDAO extends GenericDAO<Product> {
 	int save(Product p);
 
 	boolean update(Product p);
-
 	boolean updateStatus(Product product);
 
 	ProductDetail findProductDetailById(int id);
@@ -54,4 +53,5 @@ public interface IProductDAO extends GenericDAO<Product> {
 	int save(List<Image> images);
 
 	boolean update(Blog blog);
+	List<Integer> findId(String id);
 }

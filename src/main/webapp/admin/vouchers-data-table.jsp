@@ -73,7 +73,10 @@
     .form-voucher button:hover {
         background-color: #0056b3;
     }
-    
+   #orders th, #orders td {
+	   text-align: center;
+	   vertical-align: middle;
+   }
 </style>
 
 <body>
@@ -81,7 +84,7 @@
 	<div class="container-fluid">
 		<div class="row">
 			<jsp:include page="left-menu.jsp"></jsp:include>
-			<div class="col-9 h-100 pt-3">
+			<div class="col-10 h-100 pt-3">
 				<div
 					class="container title d-flex justify-content-between bg-white rounded">
 					<h5>Quản lý voucher</h5>
@@ -90,7 +93,7 @@
 				<div class="container-fluid">
 					<div class="row w-100">
 						<div class="col-12">
-							<div class="list-orders mt-3 bg-white">
+							<div class="list-orders mt-3 bg-white w-100">
 								<div class="sub-title">
 									<h4>Danh sách các voucher</h4>
 								</div>
@@ -103,10 +106,13 @@
 								<table class="table" id="orders">
 									<thead>
 										<tr>
-											<th scope="col">ID vocher</th>
-											<th scope="col">Mã voucher</th>
-											<th scope="col">Loại giảm giá</th>
+											<th scope="col">ID</th>
+											<th scope="col">Mã</th>
 											<th scope="col">Điều kiện</th>
+											<th scope="col">Loại giảm giá</th>
+											<th scope="col">Mô tả</th>
+											<th scope="col">Loại danh mục</th>
+											<th scope="col">Số lượng</th>
 											<th scope="col">Ngày hết hạn</th>
 											<th scope="col">Chức năng</th>
 										</tr>
@@ -116,8 +122,11 @@
 											<tr>
 												<td>${item.id}</td>
 												<td>${item.code}</td>
+												<td>${item.amount}</td>
 												 <td>${item.type}</td>
-												<td>${item.condition}</td>
+												<td>${item.description}</td>
+												<td>${item.categoryId}</td>
+												<td>${item.quantity}</td>
 												<td>${item.expDate}</td>
 												<td><div class="btn-group">
 														<button class="btn btn-secondary btn-sm me-1 btn-delete" data-target=${item.id}>

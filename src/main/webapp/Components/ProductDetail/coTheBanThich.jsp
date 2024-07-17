@@ -23,10 +23,10 @@
 						<div>
 							<p class="max-width-50">${item.name}</p>
 							<span class="text-primary-green fw-bold"> <fmt:formatNumber
-									value="${item.newPrice}" type="currency"></fmt:formatNumber>
+									value="${item.newPrice}" type="currency"> </fmt:formatNumber>
 							</span> <small
 								class="text-decoration-line-through text-secondary text-sm">
-								<fmt:formatNumber value="${item.unitPrice}" type="currency"></fmt:formatNumber>
+								<fmt:formatNumber value="${item.unitPrice}" type="currency"> </fmt:formatNumber>
 							</small>
 						</div>
 					</c:if>
@@ -36,7 +36,9 @@
 						<div>
 							<p class="max-width-50">${item.name}</p>
 							<span class="text-primary-green fw-bold"> <fmt:formatNumber
-									value="${item.unitPrice}" type="currency"></fmt:formatNumber>
+									value="${item.unitPrice}" type="currency">
+
+							</fmt:formatNumber>
 							</span>
 						</div>
 					</c:if>

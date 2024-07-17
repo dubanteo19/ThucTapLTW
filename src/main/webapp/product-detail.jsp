@@ -24,10 +24,11 @@
     <title>Chi tiết sản phẩm</title>
 </head>
 <style>
-    .header-nav{
-        height: 0!important;
+    .header-nav {
+        height: 0 !important;
     }
-    .header{
+
+    .header {
         min-height: 0 !important;
     }
 </style>
@@ -48,11 +49,11 @@
         <div class="col-9">
             <div class="left-side row">
                 <div class="col-6">
-                    <div class="product-images">
+                    <div class="product-images w-100">
                         <ul id="imageGallery">
                             <c:forEach items="<%=images%>" var="image">
                                 <li data-thumb="${image.path}" data-src="${image.path}"><img
-                                        width="400px" alt="${image.name}" src="${image.path}"></li>
+                                        width="500px" alt="${image.name}" src="${image.path}"></li>
                             </c:forEach>
                         </ul>
                     </div>
@@ -64,6 +65,11 @@
                             <span>Tình trạng: </span><span
                                 class="description text-light-color" id="productStatus">
                             ${productDetail.status.description} </span>
+                        </div>
+                        <div class="stock">
+                            <span>Số lượng: </span><span
+                                class="description text-light-color" id="productStock">
+                            ${productDetail.unitsInStock} </span>
                         </div>
                         <div class="description">
                             <span>Mã sản phẩm: </span><span id="productId"
@@ -118,17 +124,25 @@
                             <span class="description fw-bold">Số lượng: </span>
                             <div class="quantity-form">
                                 <button class="btn-green minus-btn">-</button>
-                                <input class="input-quanlity" type="number" value="1">
+                                <input class="input-quanlity" type="number" value="1" min="1"
+                                       max="${productDetail.unitsInStock}">
                                 <button class="btn-green plus-btn">+</button>
                             </div>
                         </div>
-                        <button class="add-to-cart-btn btn-green mt-3">
+                        <button id="addToCartBtn" class="add-to-cart-btn btn-green mt-3 w-100">
                             <div class="col-2">
                                 <i class="fas fa-shopping-cart cart-icon"></i>
                             </div>
                             <div class="col-10" id="add-to-cart">
-                                <span class="fw-bold">Thêm vào giỏ hàng</span><br> <span>Giao
-										hàng tận nơi miễn phí</span>
+                                <span class="fw-bold">Thêm vào giỏ hàng</span>
+                                <br>
+                                <span id="outOfStockMsg"
+                                      style="${productDetail.unitsInStock > 0 ? 'display: none;' : 'display: block;'}">
+                                    Sản phẩm đã hết hàng
+                                </span>
+                                <c:if test='${productDetail.unitsInStock > 0}'>
+                                    <span>Giao hàng tận nơi miễn phí</span>
+                                </c:if>
                             </div>
                         </button>
                         <div class="progress mr-3  mt-2">
@@ -200,13 +214,12 @@
     <jsp:include page="Components/footer.jsp"/>
 </footer>
 </body>
-<script
-        src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script type="text/javascript" src="javascripts/jquery-3.7.1.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script type="text/javascript" src="javascripts/jquery.show-more.js"></script>
 <script type="text/javascript" src="javascripts/lightslider.js"></script>
 <script type="text/javascript" src="javascripts/main.js?ddsdss"></script>
-<script type="text/javascript" src="javascripts/shopping-cart.js?dds"></script>
+<script type="text/javascript" src="javascripts/shopping-cart.js?"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -218,12 +231,62 @@
             animationspeed: 250,
         })
 
-        $("#add-to-cart").click(function () {
-            let quanlity = $(".input-quanlity").val();
-            let productId = ${productDetail.id}
-                addToCart(productId, quanlity);
-            notify2("Chúc mừng", "Bạn đã thêm vào giỏ hàng thành công ", "success", 800);
-        })
+        let unitsInStock = ${productDetail.unitsInStock};
+        let addToCartBtn = $("#addToCartBtn");
+        let outOfStockMsg = $("#outOfStockMsg");
+        let inputQuantity = $(".input-quanlity");
+
+        if (unitsInStock <= 0) {
+            addToCartBtn.prop("disabled", true);
+            outOfStockMsg.show();
+        } else {
+            addToCartBtn.prop("disabled", false);
+            outOfStockMsg.hide();
+        }
+
+        $("#add-to-cart").click(async function () {
+            try {
+                let quantity = $(".input-quanlity").val();
+                let productId = ${requestScope.productDetail.id};
+
+                let isAdded = await addToCart(productId, quantity);
+
+                if (isAdded) {
+                    notify2("Chúc mừng", "Bạn đã thêm vào giỏ hàng thành công", "success", 800);
+                } else {
+                    notify2("Xin lỗi", "Số lượng sản phẩm bạn chọn vượt quá số lượng trong kho!", "error", 1000);
+                }
+            } catch (error) {
+                console.log("An error occurred: " + error);
+                notify2("Xin lỗi", "Số lượng sản phẩm bạn chọn vượt quá số lượng trong kho!", "error", 1000);
+            }
+        });
+        function plus(val) {
+            let newCount = Number(inputQuantity.val()) + val;
+            if (newCount > 0 && newCount <= unitsInStock) {
+                inputQuantity.val(newCount);
+            } else if (newCount > unitsInStock) {
+                notify2("Xin lỗi", "Số lượng sản phẩm bạn chọn vượt quá số lượng trong kho!", "error", 1000);
+            }
+        }
+
+        $(".plus-btn").on('click', () => plus(1));
+        $(".minus-btn").on('click', () => plus(-1));
+
+        inputQuantity.on('input', function () {
+            let value = parseInt($(this).val());
+            if (isNaN(value) || value < 1) {
+                $(this).val(1);
+            }
+        });
+
+        let productDetailBtns = $(".product-des > button");
+        productDetailBtns.click(function () {
+            productDetailBtns.removeClass("actived");
+            $(this).addClass("actived");
+            show($(this).data("target"));
+        });
+
         show("description-box");
         $('#imageGallery').lightSlider({
             gallery: true,
@@ -236,29 +299,12 @@
             currentPagerPosition: 'left',
         });
 
-        function plus(val) {
-            let inputQuanlity = $(".input-quanlity");
-            let newCount = Number(inputQuanlity.val()) + val;
-            if (newCount > 0) {
-                inputQuanlity.val(newCount);
-            }
-        }
-
-        $(".plus-btn").on('click', () => plus(1));
-        $(".minus-btn").on('click', () => plus(-1));
-        let productDetailBtns = $(".product-des > button");
-        productDetailBtns.click(function () {
-            productDetailBtns.removeClass("actived");
-            $(this).addClass("actived");
-            show($(this).data("target"));
-        });
-
         function hideAll() {
             let descriptionBoxes = $(".description-box");
             descriptionBoxes.each(function () {
                 $(this).hide();
             })
-        };
+        }
 
         function show(id) {
             hideAll();

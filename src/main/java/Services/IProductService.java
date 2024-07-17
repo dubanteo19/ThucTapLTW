@@ -51,5 +51,5 @@ public interface IProductService extends IGenericService<Product> {
 	int save(Product product);
 
 	void sell(int id, int quantity);
-
+	List<Integer> findId(String id);
 }
