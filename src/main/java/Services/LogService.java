@@ -2,6 +2,7 @@ package Services;
 
 import Database.ILogDAO;
 import Model.Log;
+import Model.LogLevel;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -29,4 +30,13 @@ public class LogService implements ILogService {
     public boolean deleteLogById(int id) {
         return logDAO.delete(id);
     }
+
+    @Override
+    public List<Log> filterLogs(List<Integer> levels) {
+        List<LogLevel> logLevels = levels.stream().map(MLogFactory::getLogLevel).toList();
+        return findAllLogs().stream()
+                .filter(l -> logLevels.contains(l.getLevel()))
+                .toList();
+    }
+
 }

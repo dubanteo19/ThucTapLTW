@@ -3,6 +3,8 @@ package Controller;
 import Controller.cart.Cart;
 import Model.*;
 import Services.ICartService;
+import Services.LogServiceManager;
+import Services.MLogFactory;
 import Services.UserServices;
 import Utils.BHash;
 import Utils.GoogleLoginHelper;
@@ -38,6 +40,7 @@ public class GoogleLogin extends HttpServlet {
         String accessToken = gg.getToken(code);
         GoogleAccount acc = gg.getUserInfo(accessToken);
         User user = userServices.findUserByEmail(acc.getEmail());
+        LogServiceManager.getLogService().saveLog(MLogFactory.getLog(request, this, 2));
         if (user == null) {
             user = new User();
             user.setEmail(acc.getEmail());
@@ -56,7 +59,7 @@ public class GoogleLogin extends HttpServlet {
                 map.put(ci.getProduct().getId(), ci);
             });
             Cart cart = (Cart) session.getAttribute("cart");
-            if(cart == null) {
+            if (cart == null) {
                 cart = new Cart();
             }
             cart.addAll(user.getId(), map);

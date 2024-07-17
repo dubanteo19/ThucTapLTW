@@ -1,9 +1,7 @@
 package Controller;
 
 import Model.Log;
-import Model.LogLevel;
 import Services.*;
-import com.mysql.cj.log.LogFactory;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -24,8 +22,7 @@ public class HomeController extends HttpServlet {
     ICarouselServices carouselServices;
     @Inject
     ICategoryService categoryService;
-    @Inject
-    ILogService logService;
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -40,8 +37,8 @@ public class HomeController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // TODO Auto-generated method stub
-        Log log = MLogFactory.getLog(request, this,1);
-        logService.saveLog(log);
+        Log log = MLogFactory.getLog(request, this, 1);
+        LogServiceManager.getLogService().saveLog(log);
         request.setAttribute("productsSale", productService.findProductSales(30, 0));
         request.setAttribute("dsCuQua", productService.findProductByCategoryId(7, 16, 0));
         request.setAttribute("dsGao", productService.findProductByCategoryId(1, 16, 0));

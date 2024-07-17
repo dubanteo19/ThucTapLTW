@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class MLogFactory {
     public static Map<Integer, LogLevel> logMap = new HashMap<Integer, LogLevel>();
@@ -18,6 +19,7 @@ public class MLogFactory {
         logMap.put(4, LogLevel.DANGER);
     }
 
+
     public static LogLevel getLogLevel(int level) {
         return logMap.get(level);
     }
@@ -28,7 +30,7 @@ public class MLogFactory {
         log.setIpAddress(ipAddress);
         String url = hquest.getRequestURI();
         log.setUrl(url);
-        log.setDescription("View");
+        log.setDescription("Xem trang chủ");
         log.setAfterValue("");
         log.setCurrentValue("");
         log.setNation(getNation(ipAddress));
@@ -44,4 +46,5 @@ public class MLogFactory {
     private static String getNation(String ipAddress) {
         return "Viet Nam";
     }
+
 }

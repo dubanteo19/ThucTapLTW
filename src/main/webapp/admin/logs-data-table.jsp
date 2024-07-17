@@ -68,63 +68,58 @@
                         <div class="sub-title">
                             <h4>Bảng ghi log</h4>
                         </div>
-                        <table class="table" id="orders">
+                        <h5 class="mt-3">Bộ lọc</h5>
+                        <div class="container d-flex justify-content-between p-2">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox"
+                                       value="1"
+                                       id="info-level">
+                                <label class="form-check-label"
+                                       for="info-level">INFO
+                                </label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       value="2"
+                                       id="alert-level">
+                                <label class="form-check-label"
+                                       for="alert-level">
+                                    ALERT
+                                </label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input"
+                                       id="warning-level"
+                                       value="3"
+                                       type="checkbox">
+                                <label class="form-check-label"
+                                       for="warning-level">
+                                    Warning
+                                </label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input"
+                                       id="danger-level"
+                                       value="4"
+                                       type="checkbox">
+                                <label class="form-check-label"
+                                       for="danger-level">
+                                    Danger
+                                </label>
+                            </div>
+                        </div>
+                        <table class="table" id="log-table">
                             <thead>
                             <tr>
-                                <th scope="col">ID Log</th>
+                                <th scope="col">#</th>
                                 <th scope="col">Địa chỉ IP</th>
-                                <th scope="col">Quốc gia</th>
                                 <th scope="col">URL</th>
                                 <th scope="col">LEVEL</th>
-                                <th scope="col">Giá trị trước</th>
-                                <th scope="col">Giá trị sau</th>
                                 <th scope="col">Thời gian</th>
                                 <th scope="col">Chức năng</th>
                             </tr>
                             </thead>
-                            <c:forEach items="${logs}" var="item">
-                                <c:set var="level">
-                                    <c:choose>
-                                        <c:when test="${item.level == 'INFO'}">info</c:when>
-                                        <c:when test="${item.level == 'ALERT'}">alertz</c:when>
-                                        <c:when test="${item.level == 'WARNING'}">warning</c:when>
-                                        <c:when test="${item.level == 'DANGER'}">danger</c:when>
-                                    </c:choose>
-                                </c:set>
-
-                                <tbody id="${item.id}">
-                                <tr>
-                                    <td>${item.id}</td>
-                                    <td>${item.ipAddress}</td>
-                                    <td>${item.nation}</td>
-                                    <td>${item.url}</td>
-                                    <td class="level">
-                                        <span class="${level}">${item.level}</span>
-                                    </td>
-                                    <td>${item.currentValue}</td>
-                                    <td>${item.afterValue}</td>
-                                    <td>${item.dateCreated}</td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <button class="btn btn-success btn-sm detail-btn me-1"
-                                                    type="button"
-                                                    data-toggle="modal"
-                                                    data-target="#log-detail-modal-lg"
-                                                    data-log='{"id": "${item.id}", "description":"${item.description}", "ipAddress": "${item.ipAddress}", "nation": "${item.nation}", "url": "${item.url}", "level": "${item.level}", "currentValue": "${item.currentValue}", "afterValue": "${item.afterValue}", "dateCreated": "${item.dateCreated}"}'>
-
-                                                <i class="fa-solid fa-circle-info"></i>
-                                            </button>
-                                            <button
-                                                    type="button"
-                                                    class="btn btn-warning btn-sm remove-btn"
-                                                    data-target=${item.id}>
-                                                <i class='fa-solid fa-trash'></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </c:forEach>
                         </table>
                     </div>
                 </div>
@@ -152,12 +147,94 @@
 </div>
 
 </body>
-<script src="../javascripts/jquery-3.7.1.js"></script>
+<script src="../DataTables/datatables.min.js"></script>
 <script src="../javascripts/bootstrap.min.js"></script>
-<script type="text/javascript" src="javascripts/Utils.js"></script>
+<link href="../DataTables/datatables.min.css" rel="stylesheet">
 <script type="text/javascript">
     $(".nav-link").removeClass("active");
     $("#logs-nav-link").addClass("active");
+    //data table
+    let table = new DataTable("#log-table", {
+        columns: [
+            {data: 'id'},
+            {data: "Địa chỉ IP"},
+            {data: 'URL'},
+            {data: 'LEVEL'},
+            {data: 'Thời gian'},
+            {data: 'Chức năng'},
+        ],
+        language: {
+            url: "https://cdn.datatables.net/plug-ins/2.0.2/i18n/vi.json"
+        }
+    });
+    //handle filter level
+    $('input[type="checkbox"]').on('change', function () {
+        let selectedCheckboxes = [];
+        $('input[type="checkbox"]:checked').each(function () {
+            selectedCheckboxes.push($(this).val());
+        });
+        filterLogs(selectedCheckboxes)
+        // You can do other operations with the selectedCheckboxes array here
+    });
+    filterLogs([])
+
+    function filterLogs(levels) {
+        console.log(levels)
+        $.ajax({
+                type: "GET",
+                url: "/admin/LogController",
+                data: {
+                    action: "getFilter",
+                    levels: levels.join(","),
+                },
+                success: (response) => {
+                    renderTable(response);
+                },
+                error: () => {
+                }
+            }
+        )
+    }
+
+    function renderTable(logs) {
+        table.clear();
+        table.draw();
+        logs.forEach(log => {
+            let levelClass;
+            switch (log.level) {
+                case 'INFO':
+                    levelClass = 'info';
+                    break;
+                case 'ALERT':
+                    levelClass = 'alertz';
+                    break;
+                case 'WARNING':
+                    levelClass = 'warning';
+                    break;
+                case 'DANGER':
+                    levelClass = 'danger';
+                    break;
+            }
+            table.row.add({
+                id: log.id,
+                'Địa chỉ IP': log.ipAddress,
+                URL: log.url,
+                'LEVEL': `<span class="level \${levelClass}">\${log.level}</span>`,
+                'Thời gian': log.dateCreated,
+                'Chức năng': `
+                    <div class="btn-group">
+                        <button class="btn btn-success btn-sm detail-btn me-1" type="button" data-toggle="modal" data-target="#log-detail-modal-lg" data-log='\${JSON.stringify(log)}'>
+                            <i class="fa-solid fa-circle-info"></i>
+                        </button>
+                        <button type="button" class="btn btn-warning btn-sm remove-btn" data-target="\${log.id}">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                `
+            }).draw();
+        });
+    }
+
     function renderModal(log) {
         $("#modal-ipAddress").text(log.ipAddress);
         $("#modal-nation").text(log.nation);
@@ -167,20 +244,20 @@
         $("#modal-afterValue").text(log.afterValue);
         $("#modal-dateCreated").text(log.dateCreated);
         $("#modal-description").text(log.description);
-
     }
 
-    $(".detail-btn").click(function () {
+    $(document).on('click', '.detail-btn', function () {
         let log = $(this).data("log");
         renderModal(log);
-    })
+    });
 
-    $(".remove-btn").click(function () {
+    $(document).on('click', '.remove-btn', function () {
         let logId = $(this).data("target");
-        removeLog(logId);
-    })
+        let row = $(this).closest('tr');
+        removeLog(logId, row);
+    });
 
-    function removeLog(logId) {
+    function removeLog(logId, row) {
         $.ajax({
             type: "post",
             url: "/admin/LogController",
@@ -189,6 +266,8 @@
                 action: "remove"
             },
             success: function (response) {
+                table.row(row).remove().draw();
+
             },
             error: function (xhr, status, error) {
                 console.log("loi")

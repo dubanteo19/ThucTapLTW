@@ -7,6 +7,8 @@ import Model.Status;
 import Services.ILogService;
 import Services.IOrderDetailsService;
 import Services.IOrderService;
+import Services.MLogFactory;
+import com.google.gson.Gson;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -15,7 +17,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * Servlet implementation class OrderController
@@ -34,6 +39,7 @@ public class LogController extends HttpServlet {
         String action = request.getParameter("action") != null ? request.getParameter("action") : "get";
         switch (action) {
             case "get" -> get(request, response);
+            case "getFilter" -> getFilter(request, response);
             case "remove" -> remove(request, response);
             default -> throw new IllegalArgumentException("Unexpected value: " + action);
         }
@@ -45,6 +51,19 @@ public class LogController extends HttpServlet {
         logService.deleteLogById(id);
     }
 
+    protected void getFilter(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String levels = request.getParameter("levels");
+        response.setContentType("application/json");
+        List<Log> filteredLogs = logService.findAllLogs();
+        if (!levels.isEmpty()) {
+            List<String> levelList = Arrays.asList(levels.split(","));
+            filteredLogs = logService.filterLogs(levelList.stream().map(Integer::parseInt).toList());
+        }
+        System.out.println(filteredLogs);
+        String json = new Gson().toJson(filteredLogs);
+        response.getWriter().write(json);
+    }
+
     /**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
      * response)
@@ -53,17 +72,6 @@ public class LogController extends HttpServlet {
         List<Log> logs = logService.findAllLogs();
         request.setAttribute("logs", logs);
         request.getRequestDispatcher("/admin/logs-data-table.jsp").forward(request, response);
-    }
-
-    protected void detail(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-//		int orderId = request.getParameter("orderId") != null ? Integer.valueOf(request.getParameter("orderId")) : 0;
-//		Orders order = orderService.findById(orderId);
-//		List<Order_details> order_details = orderDetailsService.findAllOrderId(orderId);
-//		order.setDetails(order_details);
-//		request.setAttribute("order", order);
-//		request.getRequestDispatcher("/admin/order-detail.jsp").forward(request, response);
-
     }
 
 
