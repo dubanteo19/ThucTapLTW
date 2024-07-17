@@ -235,7 +235,7 @@
                                         <label class="col" for="productDateImportInput">Ngày nhập</label>
                                         <div class="col">
                                             <input class="form-control" id="productDateImportInput"
-                                                   type="date" required>
+                                                   type="datetime-local" required>
                                         </div>
                                     </div>
                                 </div>
@@ -558,7 +558,7 @@
                         {
                             data: 'dateCreated',
                             render: function (data, type, row) {
-                                return moment(data).format('DD/MM/YYYY');
+                                return moment(data, 'DD-MM-YYYY HH:mm').format('DD-MM-YYYY HH:mm');
                             }
                         }
                     ],
@@ -668,7 +668,7 @@
                     let weight = $('#productWeightInput').val();
                     let costPrice = $('#productCostPriceInput').val().replace(/\D/g, '');
                     let quantity = $('#productImportQuantityInput').val().replace(/\D/g, '');
-                    let dateCreate = $('#productDateImportInput').val();
+                    let dateCreate = moment($('#productDateImportInput').val()).format('DD-MM-YYYY HH:mm');
 
                     let product = {
                         id: id,
@@ -705,8 +705,25 @@
                             },
                             success: function (resp) {
                                 var numAffected = resp.affected;
-                                $('.toast-content').text('Đã nhập thành công ' + numAffected + ' sản phẩm');
+                                var length = data.length;
+                                var msg;
+
+                                if(numAffected === length) {
+                                    msg = 'Đã nhập thành công ' + numAffected + ' sản phẩm';
+                                }
+                                else {
+                                    if(numAffected > 0) {
+                                        msg = 'Đã nhập thành công ' + numAffected + ' sản phẩm.' +
+                                            ' Trong đó ' + (length - numAffected) + ' dữ liệu nhập kho đã tồn tại'
+                                    }
+                                    else {
+                                        msg = 'Nhập thất bại. Dữ liệu đã tồn tại';
+                                    }
+                                }
+
+                                $('.toast-content').text(msg);
                                 $('.toast').toast('show');
+                                
                                 table.clear().draw();
                             },
                             error: function (error) {
@@ -770,8 +787,6 @@
                         excelData.shift();
 
                         var importedData = excelData.map(function (row) {
-                            var dateString = row[selectedColumns[5]];
-                            var parsedDate = moment(dateString, ["DD/MM/YYYY", "MM/DD/YYYY", "YYYY-MM-DD"]).toDate();
                             var id = String(row[selectedColumns[0]]).replace(/\D/g, '');
 
                             return {
@@ -780,11 +795,11 @@
                                 weight: String(row[selectedColumns[2]]).replace(/\D/g, ''),
                                 costPrice: String(row[selectedColumns[3]]).replace(/\D/g, ''),
                                 quantity: String(row[selectedColumns[4]]).replace(/\D/g, ''),
-                                dateCreated: moment(parsedDate).format('YYYY-MM-DD')
+                                dateCreated: row[selectedColumns[5]]
                             };
                         });
 
-                        var rowNodes = table.clear().rows().rows.add(importedData).draw().nodes();
+                        var rowNodes = table.clear().rows.add(importedData).draw().nodes();
 
                         $(rowNodes).addClass('highlight');
                         setTimeout(function () {

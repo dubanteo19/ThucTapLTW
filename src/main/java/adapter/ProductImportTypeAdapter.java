@@ -7,6 +7,8 @@ import com.google.gson.*;
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class ProductImportTypeAdapter implements JsonDeserializer<ProductImport> {
     @Override
@@ -16,8 +18,12 @@ public class ProductImportTypeAdapter implements JsonDeserializer<ProductImport>
         double weight = jsonObject.get("weight").getAsDouble();
         double costPrice = jsonObject.get("costPrice").getAsDouble();
         int quantity = jsonObject.get("quantity").getAsInt();
-        LocalDate localDate = LocalDate.parse(jsonObject.get("dateCreated").getAsString());
-        Timestamp dateCreated = Timestamp.valueOf(localDate.atStartOfDay());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        String dateCreatedStr = jsonObject.get("dateCreated").getAsString();
+
+        LocalDateTime localDateTime = LocalDateTime.parse(dateCreatedStr, formatter);
+
+        Timestamp dateCreated = Timestamp.valueOf(localDateTime);
 
         int productId = jsonObject.get("id").getAsInt();
         String productName = jsonObject.get("name").getAsString();

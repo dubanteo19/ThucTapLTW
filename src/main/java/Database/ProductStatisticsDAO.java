@@ -348,7 +348,7 @@ public class ProductStatisticsDAO extends AbtractDAO<ProductStatistics> implemen
 
         Map<String, Object> filters = new HashMap<>();
 //        filters.put("category", 2);
-        filters.put("requiredImport", true);
+//        filters.put("requiredImport", true);
 
         String orderBy = "totalRevenue";
         String orderDir = "DESC";
@@ -359,8 +359,8 @@ public class ProductStatisticsDAO extends AbtractDAO<ProductStatistics> implemen
         int duration = 3;
 
  //       System.out.println(productStatisticsDAO.getCount(filters, duration, "MONTH"));
-//        System.out.println(productStatisticsDAO.findProductStatisticsByFilter(filters, limit, offset, orderBy, orderDir, duration, "MONTH"));
-        System.out.println(productStatisticsDAO.findProductStatisticsByFilterByDate(filters, 4, "2024"));
+        System.out.println(productStatisticsDAO.findProductStatisticsByFilter(filters, limit, offset, orderBy, orderDir, duration, "MONTH"));
+//        System.out.println(productStatisticsDAO.findProductStatisticsByFilterByDate(filters, 4, "2024"));
 //        System.out.println(productStatisticsDAO.getCountProductRequiredImport(filters, 3, "MONTH"));
     }
 }
