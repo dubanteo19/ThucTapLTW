@@ -22,6 +22,35 @@
     .btn-order-detail i {
         color: #fFffff;
     }
+
+    /* General Styles for Status */
+    .status {
+        font-weight: bold;
+        padding: 5px 10px;
+        width: 160px;
+        border-radius: 5px;
+        display: inline-block;
+        color: #fff;
+        text-align: center;
+    }
+
+    /* Specific Status Styles */
+    .status-processing {
+        background-color: #007bff; /* Bootstrap primary color */
+    }
+
+    .status-delivering {
+        background-color: #fd7e14; /* Bootstrap orange color */
+    }
+
+    .status-completed {
+        background-color: #28a745; /* Bootstrap green color */
+    }
+
+    .status-canceled {
+        background-color: #dc3545; /* Bootstrap red color */
+    }
+
 </style>
 <body>
 <jsp:include page="header.jsp"></jsp:include>
@@ -88,7 +117,7 @@
                         <table class="cell-border hover nowrap w-100" id="order-table">
                             <thead>
                             <tr>
-                                <th scope="col">ID đơn hàng</th>
+                                <th scope="col">#</th>
                                 <th scope="col">Tên khách hàng</th>
                                 <th scope="col">Tổng tiền</th>
                                 <th scope="col">Trạng thái</th>
@@ -103,7 +132,25 @@
                                     <td>${item.user.fullName}</td>
                                     <td><fmt:formatNumber value="${item.totalPrice}"
                                                           type="currency"/></td>
-                                    <td>${item.status.description}</td>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${item.status.id == 4}">
+                                                <span class="status status-processing">${item.status.description}</span>
+                                            </c:when>
+                                            <c:when test="${item.status.id == 5}">
+                                                <span class="status status-delivering">${item.status.description}</span>
+                                            </c:when>
+                                            <c:when test="${item.status.id == 6}">
+                                                <span class="status status-completed">${item.status.description}</span>
+                                            </c:when>
+                                            <c:when test="${item.status.id == 7}">
+                                                <span class="status status-canceled">${item.status.description}</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                ${item.status.description}
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
                                     <td>${item.getDateCreated()}</td>
                                     <td class="text-center">
                                         <div class="btn-group">
@@ -144,7 +191,9 @@
             {data: '#'},
             {data: "Tên khách hàng"},
             {data: 'Tổng tiền'},
-            {data: 'Trạng thái'},
+            {
+                data: 'Trạng thái',
+            },
             {data: 'Ngày tạo đơn hàng'},
             {data: 'Chức năng'},
         ],
