@@ -26,7 +26,7 @@
     .status {
         font-weight: bold;
         padding: 5px 10px;
-        width: 200px;
+        width: 250px;
         border-radius: 5px;
         color: #fff;
     }
@@ -43,19 +43,18 @@
         margin: 0 15px;
     }
 
-    .form-check-inline::before {
+    .form-check-inline::after {
         content: '';
         position: absolute;
         top: 50%;
-        left: 100%;
-        width: 30px;
+        left: 110%;
+        width: 100px;
         height: 3px;
-        background-color: #6c757d; /* Bootstrap secondary color */
+        background-color: darkseagreen;
         transform: translateY(-50%);
-        z-index: -1;
     }
 
-    .form-check-inline:last-child::before {
+    .form-check-inline:last-child::after {
         display: none;
     }
 
@@ -182,7 +181,7 @@
                                 <c:if test="${order.status.id == 4}">
                                        checked
                                 </c:if>
-                                       id="statusProcessing" value="processing">
+                                       id="statusProcessing" value="4">
                                 <label class=" form-check-label" for="statusProcessing">Đang xử lý</label>
                             </div>
                             <div class="form-check form-check-inline">
@@ -190,17 +189,23 @@
                                 <c:if test="${order.status.id == 5}">
                                        checked
                                 </c:if>
-                                       id="statusDelivering" value="delivering">
+                                       id="statusDelivering" value="5">
                                 <label class="form-check-label" for="statusDelivering">Đang vận chuyển</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="statusOptions"
-                                       id="statusCompleted" value="completed">
+                                <c:if test="${order.status.id == 6}">
+                                       checked
+                                </c:if>
+                                       id="statusCompleted" value="6">
                                 <label class="form-check-label" for="statusCompleted">Đã hoàn thành</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="statusOptions"
-                                       id="statusCanceled" value="canceled">
+                                <c:if test="${order.status.id == 7}">
+                                       checked
+                                </c:if>
+                                       id="statusCanceled" value="7">
                                 <label class="form-check-label" for="statusCanceled">Đã hủy</label>
                             </div>
                         </div>
@@ -239,22 +244,67 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript" src="../javascripts/main.js"></script>
 <script type="text/javascript">
-    let re = ' ${requestScope.result}';
-    if (re != ' ') {
-        showNotification();
-    }
+    $(document).ready(() => {
 
-    function showNotification() {
-        notify2("Thông báo", re, "success", 1000);
-    }
+        let re = ' ${requestScope.result}';
+        if (re != ' ') {
+            showNotification();
+        }
+        $('input[type="radio"]').on('change', function () {
+            let targetStatus = $(this).val();
+            Swal.fire({
+                title: "Cảnh báo",
+                text: "Bạn có thật sự muốn cập nhập đơn hàng?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Cập nhập",
+                cancelButtonText: "Hủy"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "OrderController?action=put&statusId=" + targetStatus + "&orderId=" +
+                    ${requestScope.order.id}
+                } else {
+                    let currentRadio = $("input[type=radio][value=" + ${requestScope.order.status.id} +"]");
+                    console.log(currentRadio);
+                    currentRadio.prop("checked", true);
+                }
+            });
+        });
 
-    $(".form-select").on("change", function () {
-        $("#statusForm").submit();
+        function disable(statusList) {
+            $.each(statusList, function (index, status) {
+                $("input[type=radio][value=" + status + "]").attr("disabled", true);
+            });
+        }
+
+        setStatusConstrains();
+
+        function setStatusConstrains() {
+            let status = ${requestScope.order.status.id};
+            switch (status) {
+                case 4:
+                    disable([6]);
+                    break;
+                case 5:
+                    disable([4, 7]);
+                    break;
+                case 6:
+                    disable([4, 5, 7]);
+                    break;
+                case 7:
+                    disable([4, 5, 6]);
+                    break;
+            }
+        }
+
+        function showNotification() {
+            notify2("Thông báo", re, "success", 1000);
+        }
+
+
+        $(".nav-link").removeClass("active");
+        $("#orders-nav-link").addClass("active");
     })
-
-    let statusId = "status" + '${order.status.getId()}';
-    $("#" + statusId).attr("selected", "selected");
-
-    $(".nav-link").removeClass("active");
-    $("#orders-nav-link").addClass("active");
 </script>

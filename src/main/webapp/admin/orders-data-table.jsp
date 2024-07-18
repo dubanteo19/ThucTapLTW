@@ -27,7 +27,7 @@
     .status {
         font-weight: bold;
         padding: 5px 10px;
-        width: 160px;
+        width: 180px;
         border-radius: 5px;
         display: inline-block;
         color: #fff;
@@ -184,7 +184,6 @@
     $('input[type="checkbox"]').on('change', function () {
         let filterStatus = $(this).val();
         window.location = "OrderController?action=getFilter&status=" + filterStatus;
-        console.log(filterStatus);
     });
     let table = new DataTable("#order-table", {
         columns: [
