@@ -10,6 +10,9 @@ public interface IUserService extends IGenericService<User>{
 	User findUserByEmail(String email);
 	User findUserById(int id);
 	int signUp(User user);
+
+	boolean updateRole(User user);
+
 	boolean verify(int userId);
 	boolean changePassword(int userId, String newPassword);
 	List<Product> getWishlist(int id);

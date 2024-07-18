@@ -40,6 +40,51 @@
                     <div class="mt-3 bg-white">
                     </div>
                 </div>
+                <form action="StaffController" method="POST">
+                    <input hidden="hidden" name="action"
+                            <c:if test="${requestScope.action == 'put'}">
+                                value="put"
+                            </c:if>
+                            <c:if test="${requestScope.action != 'put'}">
+                                value="create"
+                            </c:if>
+                    />
+                    <input hidden="hidden" name="userId" value="${requestScope.user.id}"/>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Họ và tên</label>
+                        <input type="text" name="fullName"
+                               value="${requestScope.user.fullName}"
+                               class="form-control" id="fullname"
+                               aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Số điện thoại</label>
+                        <input type="number" name="phoneNumber" value="${requestScope.user.phone}" class="form-control"
+                               id="phone"
+                               aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Địa chỉ email</label>
+                        <input type="email" name="email"
+                               value="${requestScope.user.email}"
+                               class="form-control" id="exampleInputEmail1"
+                               aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Mật khẩu</label>
+                        <input type="password" name="password" class="form-control"
+                               id="exampleInputPassword1">
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <c:if test="${requestScope.action == 'put'}">
+                            Cập nhập nhân viên
+                        </c:if>
+                        <c:if test="${requestScope.action != 'put'}">
+                            Tạo nhân viên mới
+                        </c:if>
+
+                    </button>
+                </form>
             </div>
         </div>
     </div>

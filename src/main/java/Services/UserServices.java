@@ -8,9 +8,6 @@ import javax.inject.Inject;
 import Model.Product;
 import Model.User;
 import Database.IUserDAO;
-import Database.UserDAO;
-import RowMaper.ProductMapper;
-import RowMaper.UserMapper;
 import Utils.BHash;
 
 @ManagedBean
@@ -46,6 +43,11 @@ public class UserServices implements IUserService {
     @Override
     public int signUp(User user) {
         return userDAO.save(user);
+    }
+
+    @Override
+    public boolean updateRole(User user) {
+        return userDAO.updateRole(user);
     }
 
     @Override

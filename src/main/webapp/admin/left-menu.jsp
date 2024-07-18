@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -19,7 +20,7 @@
         <div id="profile"
              class="profile-box d-flex flex-column align-items-center pt-2 h">
             <img width="60px" src="Images/avatar.png" alt="">
-            <h5 class="text-white">Admin</h5>
+            <h5 class="text-white">${sessionScope.user.fullName}</h5>
             <div class="line"></div>
         </div>
         <div class="nav flex-column py-3" id="navigation">
@@ -31,15 +32,19 @@
                     data-link="customers-data-table.jsp" href="UserController?action=get">
             <i class="fa-solid fa-people-roof"></i> <span class="menu-text">
 						Quản lý khách hàng</span>
-        </a> <a class="nav-link" id="staffs-nav-link"
-                data-link="staffs-data-table.jsp" href="StaffController?action=get">
-            <i class="fa-solid fa-people-roof"></i> <span class="menu-text">
-						Quản lý nhân viên</span>
-        </a> <a class="nav-link pointer-event" id="products-nav-link"
-                data-link="products-data-table.jsp" href="quan-ly-san-pham">
-            <i class="fa-solid fa-box"></i> <span class="menu-text">
-						Quản lý sản phẩm</span>
         </a>
+            <c:if test="${sessionScope.user.roleId == 1}">
+                <a class="nav-link" id="staffs-nav-link"
+                   data-link="staffs-data-table.jsp" href="StaffController?action=get">
+                    <i class="fa-solid fa-people-roof"></i> <span class="menu-text">
+						Quản lý nhân viên</span>
+                </a>
+            </c:if>
+            <a class="nav-link pointer-event" id="products-nav-link"
+               data-link="products-data-table.jsp" href="quan-ly-san-pham">
+                <i class="fa-solid fa-box"></i> <span class="menu-text">
+						Quản lý sản phẩm</span>
+            </a>
             <a class="nav-link pointer-event" id="product-sales-nav-link"
                data-link="products-data-table.jsp" href="quan-ly-giam-gia">
                 <i class="fa-solid fa-box"></i> <span class="menu-text">
@@ -61,11 +66,16 @@
                 <i class="fa-solid fa-file-invoice-dollar"></i> <span
                     class="menu-text"> Quản lý đơn hàng</span>
             </a>
-            </a> <a class="nav-link" id="logs-nav-link"
-                    data-link="logs-data-table.jsp" href="LogController">
-            <i class="fa-solid fa-file-invoice-dollar"></i> <span
-                class="menu-text"> Quản lý log</span>
-        </a>
+            </a>
+
+            <c:if test="${sessionScope.user.roleId == 1}">
+                <a class="nav-link" id="logs-nav-link"
+                   data-link="logs-data-table.jsp" href="LogController">
+                    <i class="fa-solid fa-file-invoice-dollar"></i> <span
+                        class="menu-text"> Quản lý log</span>
+                </a>
+            </c:if>
+
 
             <div class="parent-nav" id="promotions-nav-link">
                 <a> <i class="fa-solid fa-percent"></i> <span class="menu-text">

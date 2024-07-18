@@ -43,9 +43,9 @@
                         </div>
                         <div class="m-2">
                             <a href="staffs-create-form.jsp">
-                                <buttn class="btn btn-success">
+                                <button class="btn btn-success">
                                     Tạo nhân viên mới
-                                </buttn>
+                                </button>
                             </a>
                         </div>
                         <table class="cell-border hover nowrap w-100" id="users-table">
@@ -69,7 +69,7 @@
                                         <td>${user.email}</td>
                                         <td>${user.status.description}</td>
                                         <td><a
-                                                href="UserController?action=detail&userId=${user.id}">
+                                                href="StaffController?action=detail&userId=${user.id}">
                                             <button
                                                     class="btn btn-secondary btn-sm me-1 btn-order-detail"
                                                     data-target=${item.id}>

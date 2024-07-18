@@ -32,12 +32,12 @@
         <div
                 class="container title d-flex justify-content-between bg-white rounded">
             <h5>Quản lý khách hàng</h5>
-            <span class="date">Thứ 6, ngày 19/07/2024</span>
+            <span class="date">Thứ 2, ngày 30/10/2023 - 11 giờ 25 phút</span>
         </div>
         <div class="container-fluid">
             <div class="row w-100">
                 <div class="col-12">
-                    <div class="list-orders mt-3 bg-white">
+                    <div class=" mt-3 bg-white">
                         <div class="sub-title">
                             <h4>Danh sách khách hàng</h4>
                         </div>
