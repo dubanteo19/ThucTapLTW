@@ -112,6 +112,7 @@
                                     <th scope="col">Mã</th>
                                     <th scope="col">Mức giảm</th>
                                     <th scope="col">Loại giảm giá</th>
+                                    <th scope="col">Mô tả</th>
                                     <th scope="col">Loại danh mục</th>
                                     <th scope="col">Số lượng</th>
                                     <th scope="col">Điều kiện</th>
@@ -124,10 +125,9 @@
                                     <tr>
                                         <td>${item.id}</td>
                                         <td>${item.code}</td>
-                                       <c:if test="">
-
-                                       </c:if>
+                                        <td>${item.amount}</td>
                                         <td>${item.type}</td>
+                                        <td>${item.description}</td>
                                         <td>${item.categoryId}</td>
                                         <td>${item.quantity}</td>
                                         <td>${item.condition}</td>
@@ -248,7 +248,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>y
+                        </div>
                     </div>
                 </div>
             </div>
