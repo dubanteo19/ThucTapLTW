@@ -52,7 +52,14 @@
                                     <h5>ID đơn hàng: ${order.id}</h5>
                                 </div>
                                 <div>
-                                    <h5>Tên khách hàng: ${order.user.getFullName()}</h5>
+                                    <h5>Tên khách hàng: ${order.user.getFullName()}
+                                        <a
+                                                href="UserController?action=detail&userId=${order.user.id}"
+                                                class="btn btn-secondary btn-sm me-1 btn-order-detail"
+                                                data-target=${item.id}>
+                                            <i class="fa-solid fa-circle-info"></i>
+                                        </a>
+                                    </h5>
                                 </div>
                                 <div>
                                     <h5>Phương thức thanh toán: ${order.paymentMethod}</h5>
@@ -66,8 +73,15 @@
                                                           value="${order.shippingFee}"/>
                                     </h5>
                                 </div>
-                                <div>
+                                <div class="d-flex ">
                                     <h5>Phiếu giảm giá:</h5>
+                                    <c:if test="${not empty requestScope.discount}">
+                                        <h5>${requestScope.discount.code}</h5>
+                                        <h5>-
+                                            <fmt:formatNumber type="currency"
+                                                              value="${requestScope.discount.amount}"/>
+                                        </h5>
+                                    </c:if>
                                 </div>
                                 <div>
                                     <h5>

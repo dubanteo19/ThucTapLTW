@@ -58,7 +58,7 @@
                                     <td>${item.user.fullName}</td>
                                     <td><fmt:formatNumber value="${item.totalPrice}"
                                                           type="currency"/></td>
-                                    <td  >${item.status.description}</td>
+                                    <td>${item.status.description}</td>
                                     <td>${item.getDateCreated()}</td>
                                     <td class="text-center">
                                         <div class="btn-group">
