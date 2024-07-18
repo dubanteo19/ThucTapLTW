@@ -19,6 +19,7 @@ import Services.IAddressService;
 import Services.ICartService;
 import Services.IDiscountService;
 import Services.IOrderService;
+import org.checkerframework.checker.units.qual.s;
 
 /**
  * Servlet implementation class OrderSendMail
@@ -36,6 +37,8 @@ public class OrderSendMail extends HttpServlet {
 	IDiscountService discountService;
 	@Inject
 	IAddressService addressService;
+	@Inject
+	MailController mailController;
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -82,8 +85,9 @@ public class OrderSendMail extends HttpServlet {
 			dis.setId(discountId);
 			dis.setQuantity(discounts.getQuantity()-1);
 			totalPrice = request.getParameter("totalPrice");
+			System.out.println(totalPrice  + "=totalPrice");
 			if(discounts.getType().equals("percentage")){
-				amount = Integer.parseInt(totalPrice) * discounts.getAmount();
+				amount = cart.getTotalPrice() * ((double) discounts.getAmount() /100);
 			}
 			else{
 				amount = discounts.getAmount();
@@ -99,11 +103,13 @@ public class OrderSendMail extends HttpServlet {
 		String district = request.getParameter("District");
 		String ward = request.getParameter("Ward");
 		String note = request.getParameter("note");
-		Address selectedAddr = addressService.findAddressId(Integer.parseInt(selectedAddress));
+
 		if ("other".equals(selectedAddress)) {
-			String customAddress = province + ", " + district + ", " + ward+ ", Người nhận: " + selectedAddr.getNameUser() + ", Số điện thoại: " + selectedAddr.getPhoneUser();
+			System.out.println("khác");
+			String customAddress = province + ", " + district + ", " + ward+ ", Người nhận: " + user.getFullName() + ", Số điện thoại: " + user.getPhone();
 			orders.setAddress(customAddress);
 		} else {
+			Address selectedAddr = addressService.findAddressId(Integer.parseInt(selectedAddress));
 			String existingAddress = selectedAddr.getDescription() + ", " + selectedAddr.getWards() + ", " + selectedAddr.getDistricts() + ", " + selectedAddr.getProvince() + ", Người nhận: " + selectedAddr.getNameUser() + ", Số điện thoại: " + selectedAddr.getPhoneUser();
 			orders.setAddress(existingAddress);
 		}
@@ -124,6 +130,8 @@ public class OrderSendMail extends HttpServlet {
 		request.getSession().setAttribute("user", user);
 		request.setAttribute("orders", orders);
 		request.setAttribute("amount", amount);
+		System.out.println(amount  + "=amount");
+		mailController.sendOrderConfirmationEmail(user.getEmail(), amount, orders);
 		request.getRequestDispatcher("hoa-don.jsp").forward(request, response);
 	}
 

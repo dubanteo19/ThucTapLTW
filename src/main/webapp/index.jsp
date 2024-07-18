@@ -120,7 +120,10 @@
                                 </div>
                                 <div class="card-body">
                                     <h3 class="card-title">
-                                        <a href=""> ${item.name} </a>
+
+                                        <a class="product_name"
+                                           href="ProductDetail?productId=${item.id}">${item.name}</a>
+
                                     </h3>
                                     <div class="card-text">
                                         <div class="price-box">

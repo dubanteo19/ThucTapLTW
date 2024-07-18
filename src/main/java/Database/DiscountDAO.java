@@ -87,11 +87,11 @@ public class DiscountDAO extends AbtractDAO<Discounts> implements IDiscountDAO {
 //		System.out.println("All Discounts: " + allDiscounts);
 //
 //		// Test save
-		String selectedDate = "25/01/2024";
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		java.util.Date date = dateFormat.parse(selectedDate);
-		Date sqlDate = new Date(date.getTime());
-		Discounts newDiscount = new Discounts(0, 10, "NEWCODE", "type1", "description", 100.0, sqlDate, 1, 50);
+//		String selectedDate = "25/01/2024";
+//		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+//		java.util.Date date = dateFormat.parse(selectedDate);
+//		Date sqlDate = new Date(date.getTime());
+//		Discounts newDiscount = new Discounts(0, 10, "NEWCODE", "type1", "description", 100.0, sqlDate, 1, 50);
 //		int newDiscountId = dao.save(newDiscount);
 ////		System.out.println("Saved new discount with ID: " + newDiscountId);
 //
@@ -100,8 +100,8 @@ public class DiscountDAO extends AbtractDAO<Discounts> implements IDiscountDAO {
 //		System.out.println("Found Discount by ID: " + discountById);
 
 		// Test findByCode
-//		Discounts discountByCode = dao.findByCode("LTV50K");
-//		System.out.println("Found Discount by Code: " + discountByCode);
+		Discounts discountByCode = dao.findByCode("LTV10PT");
+		System.out.println("Found Discount by Code: " + discountByCode);
 //
 ////		// Test update
 //		discountById.setAmount(20);
@@ -121,7 +121,7 @@ public class DiscountDAO extends AbtractDAO<Discounts> implements IDiscountDAO {
 //		System.out.println("Discounts by Category: " + discountsByCategory);
 //
 //		// Test isApplicable
-		boolean applicable = dao.isApplicable(newDiscount, 200.0);
-		System.out.println("Is discount applicable: " + applicable);
+//		boolean applicable = dao.isApplicable(newDiscount, 200.0);
+//		System.out.println("Is discount applicable: " + applicable);
 	}
 }

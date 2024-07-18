@@ -12,7 +12,8 @@
 		<div class="col-md-10">
 			<div class="card-body d-flex flex-column">
 				<h3 class="card-title" style="color: #000; height: auto;">
-					<a class="product_name" href="">${param.name}</a>
+
+					<a class="product_name">${param.name}</a>
 				</h3>
 				<div class="price-box">
 					<span class="product_new_price"> <fmt:setLocale

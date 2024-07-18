@@ -3,12 +3,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <div class="cart_product d-flex text-center cart-item"
-	data-cart-id="${param.productId}">
+	data-cart-id="${param.productId}"   data-stock-quantity="${param.unitsInStock}">
 	<a href="" class="cart_img" title="Kim chi"><img
 		src="${param.productThumb}" style="width: 120px"></a>
 	<div class="cart_info d-flex col-xl-10">
 		<div class="cart_name col-xl-6 text-lg-start text-center">
-			<a href="" class="h6 fw-bold text-dark cart_title">${param.productName}</a>
+			<a href="ProductDetail?productId=${param.productId}" class="h6 fw-bold text-dark cart_title">${param.productName}</a>
 			<span class="variant-title d-block">${param.productWeight} Kg</span>
 			<div class="cart_delete" style="margin-bottom: 10px;">
 				<span>Xóa</span>
@@ -30,11 +30,13 @@
 				<label>
 					<input type="number" class="input-quantity cart_quantity"
 						   id="input-quantity"
-						name="input-quantity"
+						   data-stock-quantity="${param.unitsInStock}"
+							name="input-quantity"
+
 						style="width: 32px; height: 26px; text-align: center; color: #000; border: none;"
 						value="${param.quantity}"/>
 				</label>
-				<div class="btn-green btn-small cart_increase"
+				<div class="btn-green btn-small cart_increase" data-stock-quantity="${param.unitsInStock}"
 					style="width: 26px; height: 26px; border-radius: 4px;">
 					<i class="fa-solid fa-plus"></i>
 				</div>

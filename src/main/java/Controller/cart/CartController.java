@@ -103,7 +103,7 @@ public class CartController extends HttpServlet {
         }
 
         int quantity = 1;
-        quantity = req.getParameter("quantity") == null ? quantity : Integer.valueOf(req.getParameter("quantity"));
+        quantity = req.getParameter("quantity") == null ? quantity : Integer.parseInt(req.getParameter("quantity"));
         int idProduct = Integer.parseInt(req.getParameter("idProduct"));
         JsonObject jsonResp = new JsonObject();
         int status;
