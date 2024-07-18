@@ -14,5 +14,4 @@ public interface ICategoryService extends IGenericService<Categories>{
 	int save(Categories categories);
 
 	boolean update(Categories categories);
-
 }

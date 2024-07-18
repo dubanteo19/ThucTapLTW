@@ -10,6 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import EmailService.IEmailService;
+import Model.Discounts;
+import Model.Order_details;
+import Model.Orders;
+import Services.IDiscountService;
+import Services.IOrderService;
 
 /**
  * Servlet implementation class MailController
@@ -18,7 +23,11 @@ import EmailService.IEmailService;
 public class MailController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	@Inject
-	IEmailService mailEmailService;
+	IEmailService emailService;
+	@Inject
+	IOrderService orderService;
+	@Inject
+	IDiscountService discountService;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -45,11 +54,86 @@ public class MailController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doGet(request, response);
-		int orderId = request.getParameter("orderId") != null ? Integer.valueOf(request.getParameter("orderId")) : 0;
+		int orderId = 0;
+		try {
+			orderId = Integer.parseInt(request.getParameter("orderId"));
+		} catch (NumberFormatException e) {
+			response.getWriter().append("Invalid orderId parameter.");
+			return;
+		}
 		String email = request.getParameter("email");
-		String message = request.getParameter("html");
-		mailEmailService.send(email, "Xác nhận đơn hàng #" + orderId + " từ Lương Thực Việt", message);
+		Orders orders = orderService.findById(orderId);
+		if (orders == null) {
+			response.getWriter().append("Order not found.");
+			return;
+		}
+        sendOrderConfirmationEmail(email, orderId, orders);
+		response.getWriter().append("Order confirmation email sent successfully.");
+	}
 
+	public void sendOrderConfirmationEmail(String to, double amount, Orders orders) {
+		double totalPrice = orders.getTotalPrice();
+		String formattedTotalPrice = String.format("%,.0f", totalPrice);
+		String voucherInfo = getVoucherInfo(orders, amount);
+
+		String body = "<div style=\"font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f5f5f5; border: 1px solid #ddd; border-radius: 8px;\">\r\n"
+				+ "<h2 style=\"text-align: center; color: #4CAF50;\">Thông tin đơn hàng</h2>\r\n"
+				+ "<div style=\"background-color: #fff; padding: 15px; border-radius: 4px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);\">\r\n"
+				+ "<p>Xin chào bạn,"+ to +"</p>\r\n"
+				+ "<p>Đơn hàng của bạn đã được xác nhận. Dưới đây là thông tin chi tiết:</p>\r\n"
+				+ "<div style=\"margin-bottom: 20px;\">\r\n"
+				+ generateOrderDetailsHtml(orders)
+				+ "</div>\r\n"
+				+ "<p style=\"margin-bottom: 10px;\"><strong>Tổng tiền hàng:</strong> " + String.format("%,.0f", (totalPrice - orders.getShippingFee()) + amount) + " VNĐ</p>\r\n"
+				+ "<p style=\"margin-bottom: 10px;\">" + voucherInfo + "</p>\r\n"
+				+ "<p style=\"margin-bottom: 10px;\"><strong>Phí vận chuyển:</strong> " + String.format("%,.0f", orders.getShippingFee()) + " VNĐ</p>\r\n"
+				+ "<p style=\"margin-bottom: 10px;\"><strong>Tổng tiền thanh toán:</strong> " + formattedTotalPrice + " VNĐ</p>\r\n"
+				+ "</div>\r\n"
+				+ "<p style=\"text-align: center; margin-top: 20px; color: #777;\">Trân trọng,<br> Website Lương Thực Việt</p>\r\n"
+				+ "</div>";
+
+		String subject = "Xác nhận đơn hàng #" + orders.getId() + " từ Lương Thực Việt";
+		emailService.send(to, subject, body);
+	}
+
+	private String getVoucherInfo(Orders orders, double amount) {
+		String voucherInfo = "";
+		if (orders.getDiscountId() != 0) {
+			Discounts discounts = discountService.findById(orders.getDiscountId());
+			if(discounts.getType().equals("percentage")){
+				voucherInfo = "Ưu đãi: Giảm " + amount + " VNĐ từ voucher " + discounts.getCode();
+			}
+			else{
+				voucherInfo = "Ưu đãi: Giảm " + discounts.getAmount() + " VNĐ từ voucher " + discounts.getCode();
+			}
+		}
+		return voucherInfo;
+	}
+	private String generateOrderDetailsHtml(Orders orders) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("<table style=\"width: 100%; border: 1px solid #ddd; border-collapse: collapse;\">");
+		sb.append("<thead style=\"background-color: #f2f2f2;\">");
+		sb.append("<tr>");
+		sb.append("<th style=\"padding: 8px; text-align: left; border: 1px solid #ddd;\">Sản phẩm</th>");
+		sb.append("<th style=\"padding: 8px; text-align: center; border: 1px solid #ddd;\">Số lượng</th>");
+		sb.append("<th style=\"padding: 8px; text-align: center; border: 1px solid #ddd;\">Giá</th>");
+		sb.append("</tr>");
+		sb.append("</thead>");
+		sb.append("<tbody>");
+
+		// Loop through order items
+		for (Order_details item : orders.getDetails()) {
+			sb.append("<tr>");
+			sb.append("<td style=\"padding: 8px; text-align: left; border: 1px solid #ddd;\">").append(item.getProduct().getName()).append("</td>");
+			sb.append("<td style=\"padding: 8px; text-align: center; border: 1px solid #ddd;\">").append(item.getQuantity()).append("</td>");
+			sb.append("<td style=\"padding: 8px; text-align: center; border: 1px solid #ddd;\">").append(item.getPrice()).append("</td>");
+			sb.append("</tr>");
+		}
+
+		sb.append("</tbody>");
+		sb.append("</table>");
+
+		return sb.toString();
 	}
 
 }

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
+import Services.ICategoryService;
 import Services.IDiscountService;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -26,9 +27,13 @@ import Utils.JsonUtils;
 public class CartDispatcher extends HttpServlet {
     @Inject
     IDiscountService discountService;
+
+    @Inject
+    ICategoryService categoryService;
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("discounts",discountService.findAllActive());
+        req.setAttribute("categories", categoryService.findAll());
         req.getRequestDispatcher("gio-hang.jsp").forward(req,resp);
     }
 

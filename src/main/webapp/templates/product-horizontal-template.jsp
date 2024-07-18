@@ -15,7 +15,8 @@
 		<div class="col-md-8">
 			<div class="card-body d-flex flex-column product" data-product-id="${param.id}">
 				<h3 class="card-title">
-					<a href="">${param.name}</a>
+					<a class="product_name" href="ProductDetail?productId=${param.id}">${param.name}</a>
+				</h3>
 				</h3>
 				<div class="price-box">
 					<fmt:setLocale value='vi-VN' />

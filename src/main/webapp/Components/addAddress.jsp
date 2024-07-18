@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: PC
-  Date: 5/26/2024
-  Time: 1:34 AM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -33,23 +26,24 @@
                         Địa chỉ nhận hàng <span id="adress-close">X Đóng</span>
                     </h2>
                     <form action="UserInfo" method="post" id="address-form">
-                        <input type="hidden" name="pos" id="pos" value=""> <input
-                            type="hidden" name="action" value="addAddress"> <input
-                            type="hidden" name="menu" value="address_your">
+                        <input type="hidden" name="pos" id="pos" value="">
+                        <input type="hidden" name="action" value="addAddress">
+                        <input type="hidden" name="menu" value="address_your">
                         <p style="padding: 0">Chọn đầy đủ địa chỉ nhận hàng để biết chính xác thời
                             gian giao</p>
-                        <div class=" col-lg-12 col-sm-12 col-xs-12">
-                            <fieldset class="form-group">
+                        <div class=" col-lg-12 col-sm-12 col-xs-12" >
+                            <fieldset class="form-group" >
                                 <input type="text" class="form-input select-field"
                                        value="" name="fullName" id="fullName"
-                                       placeholder="Họ tên" required="">
+                                       placeholder="Họ tên" required>
                             </fieldset>
                         </div>
                         <div class=" col-lg-12 col-sm-12 col-xs-12">
                             <fieldset class="form-group">
                                 <input placeholder="Số điện thoại" type="text"
                                        pattern="\d+" class="form-input form-control-comment"
-                                       name="PhoneNumber" required="" id="PhoneNumber">
+                                       name="PhoneNumber" required id="PhoneNumber"
+                                >
                             </fieldset>
                         </div>
                         <div

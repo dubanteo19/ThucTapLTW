@@ -21,6 +21,10 @@ import java.util.List;
 
 @WebServlet("/VoucherController")
 public class VoucherController extends HttpServlet {
+
+    private static final String PERCENTAGE = "percentage";
+    private static final String FIXED = "fixed";
+    private static final String FREESHIP = "FREESHIP";
     @Inject
     IDiscountService discountService;
 
@@ -35,6 +39,12 @@ public class VoucherController extends HttpServlet {
         HttpSession session = request.getSession(false);
         String discountCode = request.getParameter("discountCode");
         String orderTotal = request.getParameter("totalPrice");
+
+        if (session == null || discountCode == null || orderTotal == null) {
+            response.getWriter().write("Invalid request parameters");
+            return;
+        }
+
         Cart cart = (Cart) session.getAttribute("cart");
         Discounts discount = discountService.findByCode(discountCode);
 
@@ -51,29 +61,51 @@ public class VoucherController extends HttpServlet {
                 response.getWriter().write("Discount code has expired");
                 return;
             }
-
+            double orderTotalValue = Double.parseDouble(orderTotal);
+            System.out.println(orderTotalValue + "===============");
             switch (discount.getType()) {
-                case "percentage":
-                    if (discountService.isApplicable(discount, Double.parseDouble(orderTotal))) {
-                        double percentageAmount = Double.parseDouble(orderTotal) * (discount.getAmount() / 100.0);
-                        session.setAttribute("discount", discount);
-                        response.getWriter().write(String.valueOf(percentageAmount));
+                case PERCENTAGE:
+                    if (discount.getCondition() < orderTotalValue) {
+                        System.out.println(discount.getCondition() + "*****************");
+                        if (discountService.isApplicable(discount, Double.parseDouble(orderTotal))) {
+                            double percentageAmount = Double.parseDouble(orderTotal) * (discount.getAmount() / 100.0);
+                            session.setAttribute("discount", discount);
+                            System.out.println(percentageAmount + "----------------");
+                            response.getWriter().write(String.valueOf(percentageAmount));
+                        } else {
+                            response.getWriter().write("Discount is not applicable");
+                        }
                     } else {
-                        response.getWriter().write("Discount code does not apply to your order.");
+                        response.getWriter().write("Order total does not meet the minimum condition for this discount");
                     }
                     break;
-                case "fixed":
-                    if (discountService.isApplicable(discount, Double.parseDouble(orderTotal))) {
-                        double fixedAmount = discount.getAmount();
-                        session.setAttribute("discount", discount);
-                        response.getWriter().write(String.valueOf(fixedAmount));
+                case FIXED:
+                    if (discount.getCondition() < orderTotalValue) {
+                        if (discountService.isApplicable(discount, Double.parseDouble(orderTotal))) {
+                            double fixedAmount = discount.getAmount();
+//                            System.out.println(fixedAmount + "----------------");
+                            session.setAttribute("discount", discount);
+                            response.getWriter().write(String.valueOf(fixedAmount));
+                        } else {
+                            response.getWriter().write("Discount is not applicable");
+                        }
+                    } else {
+                        response.getWriter().write("Order total does not meet the minimum condition for this discount");
                     }
                     break;
-                case "FREESHIP":
+                case FREESHIP:
                     // Handle free shipping discount
-                    session.setAttribute("discount", discount);
-                    response.getWriter().write(String.valueOf(discount.getAmount()));
-                    break;
+                    if (discount.getCondition() < orderTotalValue) {
+                        if (discountService.isApplicable(discount, Double.parseDouble(orderTotal))) {
+                            session.setAttribute("discount", discount);
+                            response.getWriter().write(String.valueOf(discount.getAmount()));
+                            break;
+                        } else {
+                            response.getWriter().write("Discount is not applicable");
+                        }
+                    } else {
+                        response.getWriter().write("Order total does not meet the minimum condition for this discount");
+                    }
                 default:
                     response.getWriter().write("Unknown discount type");
                     break;
@@ -82,7 +114,7 @@ public class VoucherController extends HttpServlet {
 
         } else {
             // Discount code is invalid
-            response.getWriter().write("Invalid discount code");
+            response.getWriter().write("Discount code is invalid");
         }
     }
 

@@ -112,7 +112,7 @@ request.setAttribute("wishlistId", wishlist.getWishListId());
 									class="button btn btn-default bg-primary-green text-primary-white cart_submit search-see-more"
 									style="width: 60%;" title="Xem thêm"></button>
 							</div>
-							<div class="empty-message">
+							<div class="search-empty-message">
 								<span style="display: block;">Không tìm thấy sản phẩm phù hợp</span>
 							</div>
 						</div>
@@ -169,6 +169,7 @@ request.setAttribute("wishlistId", wishlist.getWishListId());
 											<c:forEach items="${cart.getCartItems()}" var="item">
 												<jsp:include page="/templates/cart-item-template.jsp">
 													<jsp:param name="productId" value="${item.product.id}" />
+													<jsp:param name="unitsInStock" value="${item.product.unitsInStock}"/>
 													<jsp:param name="productName" value="${item.product.name}" />
 													<jsp:param name="productThumb"
 														value="${item.product.thumb}" />
@@ -333,12 +334,19 @@ $("#searchInput").on('input', _.debounce(function() {
 		success: function (response) {
 			renderSearchItems(response.productList);
 			var length = response.productList.length;
+			$(".search-see-more").show();
+			$(".search-empty-message").hide();
+			if(length<=0){
+				$(".search-empty-message").show();
+				$(".search-see-more").hide();
+			}
 			if(length < 16) {
 				$('.search-see-more').text('Xem thêm ' + length + ' sản phẩm');
 			}
 			else {
 				$('.search-see-more').text('Xem thêm các sản phẩm khác');
 			}
+
 		}
 	});
 }, 300));
@@ -382,15 +390,14 @@ function renderSearchItems(items) {
 	$.get('/templates/product-search-template.jsp', function (template) {
         var $productContainer = $('.product-list .product-container');
         $productContainer.empty();
-
         $.each(items, function (index, item) {
             var $product = $(template);
-
             $product.attr('data-product-id', item.id);
             $product.find('.product_thumb').attr('src', item.thumb);
             $product.find('.product_name').text(item.name);
+			$product.find('.product_name').attr("href","ProductDetail?productId="+item.id);
 
-            if (item.sale != null) {
+			if (item.sale != null) {
                 $product.find('.product_new_price').text(formatPrice(item.newPrice));
                 $product.find('.product_unit_price').text(formatPrice(item.unitPrice));
             } else {

@@ -284,10 +284,10 @@ aside>*:not(:last-child) {
 												<c:set  value="${requestScope.amount}" var="amount" />
 												<c:choose>
 													<c:when test="${amount == 0}">
-														<fmt:formatNumber value="${orders.totalPrice - 40000}" type="currency" />
+														<fmt:formatNumber value="${requestScope.orders.totalPrice - 40000}" type="currency" />
 													</c:when>
 													<c:otherwise>
-														<fmt:formatNumber value="${orders.totalPrice - 40000 + amount}" type="currency" />
+														<fmt:formatNumber value="${requestScope.orders.totalPrice - 40000 + amount}" type="currency" />
 													</c:otherwise>
 												</c:choose>
 												</span>
@@ -307,7 +307,7 @@ aside>*:not(:last-child) {
 									<div class="total_cost d-flex justify-content-between">
 										<span class="title-head">Tổng cộng</span> <span
 											class="large-price"> <fmt:formatNumber
-												value="${orders.totalPrice}" type="currency" />
+												value="${requestScope.orders.totalPrice}" type="currency" />
 										</span>
 									</div>
 								</aside>
