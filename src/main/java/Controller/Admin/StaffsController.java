@@ -72,7 +72,7 @@ public class StaffsController extends HttpServlet {
         String url = "/admin/DashboardController";
         String error = "";
         if (user != null) {
-            if (BHash.login(password, user.getPasswordHash())) {
+            if (BHash.login(password, user.getPasswordHash())&&user.getRoleId()!=2) {
                 session.setAttribute("user", user);
             } else {
                 url = "/admin/login.jsp";
