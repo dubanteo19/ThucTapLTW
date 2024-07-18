@@ -45,6 +45,7 @@ public class ProductMapper implements RowMapper<Product> {
             if("Column 'sale' not found.".equalsIgnoreCase(e.getMessage())) {
                 return re;
             }
+
 			e.printStackTrace();
 			return null;
 		}

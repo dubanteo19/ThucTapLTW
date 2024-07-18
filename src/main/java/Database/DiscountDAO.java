@@ -15,9 +15,9 @@ public class DiscountDAO extends AbtractDAO<Discounts> implements IDiscountDAO {
 
 	@Override
 	public int save(Discounts discounts) {
-		String sql = "INSERT INTO discounts(amount,code,type,conditions,expDate, quantity) VALUES (?,?,?,?,?,?)";
+		String sql = "INSERT INTO discounts(amount,code,type,conditions,expDate,categoryId,description, quantity) VALUES (?,?,?,?,?,?,?,?)";
 		return save(sql, discounts.getAmount(), discounts.getCode(), discounts.getType(), discounts.getCondition(),
-				discounts.getExpDate(), discounts.getQuantity());
+				discounts.getExpDate(),discounts.getCategoryId(),discounts.getDescription(), discounts.getQuantity());
 	}
 	@Override
 	public List<Discounts> findAllActive() {
@@ -26,9 +26,9 @@ public class DiscountDAO extends AbtractDAO<Discounts> implements IDiscountDAO {
 	}
 	@Override
 	public boolean update(Discounts discounts) {
-		String sql = "UPDATE discounts SET amount =?,code =?,type =?,conditions = ?,expDate = ? where discountId =?";
+		String sql = "UPDATE discounts SET amount =?,code =?,type =?,conditions = ?,expDate = ?,categoryId =?, description=?, quantity=? where discountId =?";
 		return update(sql, discounts.getAmount(), discounts.getCode(), discounts.getType(), discounts.getCondition(),
-				discounts.getExpDate(), discounts.getId());
+				discounts.getExpDate(),discounts.getCategoryId(), discounts.getDescription(), discounts.getQuantity(), discounts.getId());
 	}
 
 	@Override

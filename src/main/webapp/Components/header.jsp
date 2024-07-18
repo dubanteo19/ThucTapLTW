@@ -178,11 +178,13 @@ request.setAttribute("wishlistId", wishlist.getWishListId());
 														value="${item.calculatePrice()}" />
 												</jsp:include>
 											</c:forEach>
-											<div class="empty-message"
+											<div class="empty-message text-center"
 												 style="${cart.cartItems.size() > 0? 'display: none;' : ''}">
-												<i class="fa-solid fa-cart-shopping"></i> <span
-													style="display: block;">Bạn chưa có sản phẩm nào
-													trong giỏ hàng</span>
+												<i class="fa-solid fa-face-sad-tear" style="font-size: 20px; color: #ff6f61;"></i>
+												<p style="display: block;">
+													Bạn chưa có sản phẩm nào
+													trong giỏ hàng
+												</p>
 											</div>
 										</div>
 										<div class="cart-total-info"
