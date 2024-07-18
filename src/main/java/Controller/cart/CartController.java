@@ -5,6 +5,7 @@ import Model.Log;
 import Model.User;
 import Services.ICartService;
 import Services.ILogService;
+import Services.LogServiceManager;
 import Services.MLogFactory;
 import Utils.JsonUtils;
 import com.google.gson.Gson;
@@ -36,8 +37,6 @@ public class CartController extends HttpServlet {
     String fullName;
     @Inject
     private ICartService cartService;
-    @Inject
-    private ILogService logService;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -87,10 +86,10 @@ public class CartController extends HttpServlet {
             jsonResp.addProperty("error", PRODUCT_NOT_FOUND);
             status = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
         }
-        String des = MessageFormat.format("User {0} update product {1} with quantity {2} to cart",
+        String des = MessageFormat.format("Người dùng  {0} cập nhập sản phẩm {1} với số lượng {2} trong giỏ hàng",
                 fullName, idProduct, quantity);
         log.setDescription(des);
-        logService.saveLog(log);
+        LogServiceManager.getLogService().saveLog(log);
         JsonUtils.sendJsonResponse(resp, status, jsonResp.toString());
     }
 
@@ -119,9 +118,9 @@ public class CartController extends HttpServlet {
             jsonResp.addProperty("error", PRODUCT_NOT_FOUND);
             status = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
         }
-        String des = MessageFormat.format("User {0} add product {1} to cart", fullName, idProduct);
+        String des = MessageFormat.format("Người dùng {0} thêm sản phẩm  {1} vào giỏ hàng", fullName, idProduct);
         log.setDescription(des);
-        logService.saveLog(log);
+        LogServiceManager.getLogService().saveLog(log);
         JsonUtils.sendJsonResponse(resp, status, jsonResp.toString());
     }
 
