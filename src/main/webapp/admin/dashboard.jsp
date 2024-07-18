@@ -59,7 +59,7 @@
                             <i class="fa-solid fa-triangle-exclamation icon-red"></i>
                             <p class="fw-bold text-danger text-center mt-2 fs-6">SẮP HẾT
                                 HÀNG</p>
-                            <h5 class="text-center">10 sản phẩm</h5>
+                            <h5 class="text-center">${requestScope.requiredProductCount} sản phẩm</h5>
                             <span> Số sản phẩm cảnh báo hết cần nhập thêm. </span>
                         </div>
                     </div>
@@ -70,7 +70,7 @@
                         <table class="table" id="orders">
                             <thead>
                             <tr>
-                                <th scope="col">ID khách hàng</th>
+                                <th scope="col">ID đơn hàng</th>
                                 <th scope="col">Tên khách hàng</th>
                                 <th scope="col">Tổng tiền</th>
                                 <th scope="col">Trạng thái</th>
@@ -104,7 +104,7 @@
                             </thead>
                             <c:forEach items="${users}" var="user">
                                 <tbody>
-                                <c:if test="${user.roleId != 1 }">
+                                <c:if test="${user.roleId == 1 }">
                                     <tr>
                                         <td>${user.id}</td>
                                         <td>${user.fullName}</td>
