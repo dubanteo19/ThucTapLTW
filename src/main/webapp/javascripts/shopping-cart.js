@@ -182,8 +182,6 @@ function addToCart(idProduct, quantity) {
                     renderCartItem(item, response.itemTotalPrice, item.quantity);
                 } else {
                     console.log("clicked 2")
-                    // itemDisplay.find('.cart_quantity').val(item.quantity);
-                    // itemDisplay.find('.cart_price').text(formatPrice(response.itemTotalPrice));
                     itemDisplay.find('.cart_quantity').val(item.quantity);
                     itemDisplay.find('.cart_price').text(formatPrice(response.itemTotalPrice));
                 }

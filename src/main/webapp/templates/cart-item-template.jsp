@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <link rel="stylesheet" type="text/css" href="styles/icon.css?d">
-<div class="cart-item" data-cart-id="${param.productId}  data-stock-quantity="${param.unitsInStock}""
+<div class="cart-item" data-cart-id="${param.productId}"  data-stock-quantity="${param.unitsInStock}"
      style="border-bottom: 1px solid #eee">
     <div class="row g-0">
         <div class="col-md-4 d-flex align-items-center p-2">
