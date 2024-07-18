@@ -118,7 +118,7 @@
                 </div>
                 <div class="col-5">
                     <div class="sub-title">
-                        <h4>Thống kế doanh thu</h4>
+                        <h4>Thống kế lợi nhuận </h4>
                     </div>
                     <div class="chart">
                         <canvas style="width: 400px; height: 300px;" id="doanhThuChart"></canvas>
@@ -129,7 +129,7 @@
     </div>
 </div>
 </body>
-<script type="text/javascript" src="javascripts/chartDraw.js?d"></script>
+<script type="text/javascript" src="javascripts/chartDraw.js?2"></script>
 <script type="text/javascript" src="javascripts/Utils.js"></script>
 
 <script>
