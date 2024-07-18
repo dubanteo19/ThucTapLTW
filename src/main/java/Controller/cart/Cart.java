@@ -35,9 +35,16 @@ public class Cart {
         Product product = productDAO.findProductById(productId);
         if (product == null)
             return false;
+        if (product.getUnitsInStock() < quantity)
+            return false;
         CartItem cartItem = cart.getOrDefault(productId, new CartItem(product, 0));
-        cartItem.increase(quantity);
-
+        try {
+            cartItem.increase(quantity);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
         if (userId != -1) {
             if (getTotalItems() == 0) {
                 cart.put(productId, cartItem);
@@ -46,8 +53,7 @@ public class Cart {
                 cart.put(productId, cartItem);
                 cartItemDAO.update(userId, getCartItems());
             }
-        }
-        else {
+        } else {
             cart.put(productId, cartItem);
         }
 
@@ -56,13 +62,12 @@ public class Cart {
 
     public boolean update(int userId, int productId, int quantity) {
         Product product = productDAO.findProductById(productId);
-
         if (product == null)
             return false;
-
         CartItem cartItem = cart.get(productId);
         cartItem.setQuantity(quantity);
-
+        if (product.getUnitsInStock() < quantity)
+            return false;
         if (cartItem.getQuantity() <= 0) {
             cart.remove(productId);
         } else
@@ -103,7 +108,7 @@ public class Cart {
         this.cart.putAll(cart);
 
         if (cartItemDAO.getCountCartItems(userId) == 0) {
-            if(getTotalItems() != 0) {
+            if (getTotalItems() != 0) {
                 cartItemDAO.insert(userId, getCartItems());
             }
         } else {

@@ -6,7 +6,6 @@ import Model.Categories;
 
 public interface ICategoryDAO extends GenericDAO<Categories> {
 	List<Categories> findAll();
-	
 	List<Categories> findAllAdmin();
 	
 	Categories findById(int id);

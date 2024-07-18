@@ -24,10 +24,11 @@
     <title>Chi tiết sản phẩm</title>
 </head>
 <style>
-    .header-nav{
-        height: 0!important;
+    .header-nav {
+        height: 0 !important;
     }
-    .header{
+
+    .header {
         min-height: 0 !important;
     }
 </style>
@@ -123,7 +124,8 @@
                             <span class="description fw-bold">Số lượng: </span>
                             <div class="quantity-form">
                                 <button class="btn-green minus-btn">-</button>
-                                <input class="input-quanlity" type="number" value="1" min="1" max="${productDetail.unitsInStock}">
+                                <input class="input-quanlity" type="number" value="1" min="1"
+                                       max="${productDetail.unitsInStock}">
                                 <button class="btn-green plus-btn">+</button>
                             </div>
                         </div>
@@ -134,7 +136,8 @@
                             <div class="col-10" id="add-to-cart">
                                 <span class="fw-bold">Thêm vào giỏ hàng</span>
                                 <br>
-                                <span id="outOfStockMsg" style="${productDetail.unitsInStock > 0 ? 'display: none;' : 'display: block;'}">
+                                <span id="outOfStockMsg"
+                                      style="${productDetail.unitsInStock > 0 ? 'display: none;' : 'display: block;'}">
                                     Sản phẩm đã hết hàng
                                 </span>
                                 <c:if test='${productDetail.unitsInStock > 0}'>
@@ -241,25 +244,23 @@
             outOfStockMsg.hide();
         }
 
-        $("#add-to-cart").click(function () {
-            if (unitsInStock > 0) {
+        $("#add-to-cart").click(async function () {
+            try {
                 let quantity = $(".input-quanlity").val();
-                if (quantity > unitsInStock) {
+                let productId = ${requestScope.productDetail.id};
+
+                let isAdded = await addToCart(productId, quantity);
+
+                if (isAdded) {
+                    notify2("Chúc mừng", "Bạn đã thêm vào giỏ hàng thành công", "success", 800);
+                } else {
                     notify2("Xin lỗi", "Số lượng sản phẩm bạn chọn vượt quá số lượng trong kho!", "error", 1000);
-                    inputQuantity.val(unitsInStock)
-                    return;
                 }
-                let productId = ${productDetail.id};
-                quantity = parseInt(quantity);
-                console.log("Before calling addToCart");
-                addToCart(productId, quantity);
-                console.log(quantity);
-                notify2("Chúc mừng", "Bạn đã thêm vào giỏ hàng thành công ", "success", 800);
-            } else {
-                notify2("Xin lỗi", "Sản phẩm này đã hết hàng!", "error", 1000);
+            } catch (error) {
+                console.log("An error occurred: " + error);
+                notify2("Xin lỗi", "Số lượng sản phẩm bạn chọn vượt quá số lượng trong kho!", "error", 1000);
             }
         });
-
         function plus(val) {
             let newCount = Number(inputQuantity.val()) + val;
             if (newCount > 0 && newCount <= unitsInStock) {
@@ -286,17 +287,6 @@
             show($(this).data("target"));
         });
 
-        <%--$("#add-to-cart").click(function () {--%>
-        <%--    if (unitsInStock > 0) {--%>
-        <%--    let quantity = $(".input-quanlity").val();--%>
-        <%--    let productId = ${productDetail.id};--%>
-        <%--    addToCart(productId, quantity);--%>
-        <%--    notify2("Chúc mừng", "Bạn đã thêm vào giỏ hàng thành công ", "success", 1000);--%>
-        <%--    }--%>
-        <%--    else{--%>
-        <%--        notify2("Xin lỗi", "Sản phẩm này đã hết hàng !", "error", 1000);--%>
-        <%--    }--%>
-        <%--})--%>
         show("description-box");
         $('#imageGallery').lightSlider({
             gallery: true,
@@ -309,29 +299,12 @@
             currentPagerPosition: 'left',
         });
 
-        //   function plus(val) {
-        //         let inputQuanlity = $(".input-quanlity");
-        //         let newCount = Number(inputQuanlity.val()) + val;
-        //     if (newCount > 0) {
-        //         inputQuanlity.val(newCount);
-        //     }
-        // }
-        //
-        // $(".plus-btn").on('click', () => plus(1));
-        // $(".minus-btn").on('click', () => plus(-1));
-        // let productDetailBtns = $(".product-des > button");
-        // productDetailBtns.click(function () {
-        //     productDetailBtns.removeClass("actived");
-        //     $(this).addClass("actived");
-        //     show($(this).data("target"));
-        // });
-
         function hideAll() {
             let descriptionBoxes = $(".description-box");
             descriptionBoxes.each(function () {
                 $(this).hide();
             })
-        };
+        }
 
         function show(id) {
             hideAll();

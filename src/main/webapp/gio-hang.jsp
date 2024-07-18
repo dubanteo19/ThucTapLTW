@@ -107,6 +107,9 @@
         #btn-proceed-checkout:hover {
             background-color: #218838;
         }
+        label{
+            margin-bottom: 0!important;
+        }
 
     </style>
         <%
@@ -143,6 +146,7 @@
                                     <c:forEach items="${cart.getCartItems()}" var="item">
                                         <jsp:include page="/templates/cart-item-horizontal-template.jsp">
                                             <jsp:param name="productId" value="${item.product.id}"/>
+                                            <jsp:param name="unitsInStock" value="${item.product.unitsInStock}"/>
                                             <jsp:param name="productName" value="${item.product.name}"/>
                                             <jsp:param name="productWeight" value="${item.product.weight}"/>
                                             <jsp:param name="productThumb" value="${item.product.thumb}"/>
@@ -243,6 +247,7 @@
 <script type="text/javascript" src="javascripts/lightslider.js"></script>
 <script type="text/javascript" src="javascripts/pagination.js"></script>
 <script type="text/javascript" src="javascripts/shopping-cart.js?j"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
 
 <script>
