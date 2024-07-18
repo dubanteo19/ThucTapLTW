@@ -9,10 +9,14 @@
 		  href="https://unpkg.com/nprogress@0.2.0/nprogress.css">
 </head>
 <body>
+<a href="login.jsp" class="text-white">
 	<div class="d-flex justify-content-between bg-primary-green">
 		<i class="menu-icon fa-solid fa-bars"></i> <i id="logoutBtn"
-			class="fa-solid fa-right-from-bracket sign-out-icon"></i>
+													  class="fa-solid fa-right-from-bracket sign-out-icon"></i>
 	</div>
+
+</a>
+
 </body>
 <script type="text/javascript" src="../javascripts/jquery-3.7.1.js"></script>
 <script type="text/javascript" src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
