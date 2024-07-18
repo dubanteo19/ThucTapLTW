@@ -294,13 +294,13 @@ public class ProductStatisticsDAO extends AbtractDAO<ProductStatistics> implemen
                     new StringBuilder(MessageFormat.format(" (products.costPrice < {0,number,#})", params));
 
             case "category" ->
-                    new StringBuilder(MessageFormat.format(" (categories.categoryId = {0} OR categories.parentCategoryId = {0})", params));
+                    new StringBuilder(MessageFormat.format(" (categories.categoryId = {0,number,#} OR categories.parentCategoryId = {0,number,#})", params));
 
-            case "status" -> new StringBuilder(MessageFormat.format(" (status.statusId = {0})", params));
+            case "status" -> new StringBuilder(MessageFormat.format(" (status.statusId = {0,number,#})", params));
 
-            case "id" -> new StringBuilder(MessageFormat.format(" (products.productId = {0})", params));
+            case "id" -> new StringBuilder(MessageFormat.format(" (products.productId = {0,number,#})", params));
 
-            case "limit" -> new StringBuilder(MessageFormat.format(" LIMIT {0} OFFSET {1}", params[0], params[1]));
+            case "limit" -> new StringBuilder(MessageFormat.format(" LIMIT {0,number,#} OFFSET {1,number,#}", params[0], params[1]));
 
             case "name" ->
                     new StringBuilder(MessageFormat.format(" ((products.productName LIKE ''%{0}%'') OR (categories.categoryName LIKE ''%{0}%''))", params));
@@ -348,7 +348,7 @@ public class ProductStatisticsDAO extends AbtractDAO<ProductStatistics> implemen
 
         Map<String, Object> filters = new HashMap<>();
 //        filters.put("category", 2);
-        filters.put("requiredImport", true);
+//        filters.put("requiredImport", true);
 
         String orderBy = "totalRevenue";
         String orderDir = "DESC";
@@ -359,8 +359,8 @@ public class ProductStatisticsDAO extends AbtractDAO<ProductStatistics> implemen
         int duration = 3;
 
  //       System.out.println(productStatisticsDAO.getCount(filters, duration, "MONTH"));
-//        System.out.println(productStatisticsDAO.findProductStatisticsByFilter(filters, limit, offset, orderBy, orderDir, duration, "MONTH"));
-        System.out.println(productStatisticsDAO.findProductStatisticsByFilterByDate(filters, 4, "2024"));
+        System.out.println(productStatisticsDAO.findProductStatisticsByFilter(filters, limit, offset, orderBy, orderDir, duration, "MONTH"));
+//        System.out.println(productStatisticsDAO.findProductStatisticsByFilterByDate(filters, 4, "2024"));
 //        System.out.println(productStatisticsDAO.getCountProductRequiredImport(filters, 3, "MONTH"));
     }
 }

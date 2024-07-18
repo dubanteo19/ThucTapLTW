@@ -24,6 +24,15 @@ public class ProductSale extends Product {
 		this.endDateDiscount = endDateDiscount;
 	}
 
+	public ProductSale(int id, String sale, double newPrice, int quantity, Timestamp startDateDiscount, Timestamp endDateDiscount) {
+		setId(id);
+		this.sale = sale;
+		this.newPrice = newPrice;
+		this.quantity = quantity;
+		this.startDateDiscount = startDateDiscount;
+		this.endDateDiscount = endDateDiscount;
+	}
+
 	public ProductSale(Product product) {
 		super(product.getDateCreated(), product.getLastUpdated(), product.getId(), 
 				product.getName(), product.getCategories(), product.getCostPrice(), 

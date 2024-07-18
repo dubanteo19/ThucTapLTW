@@ -32,10 +32,16 @@
             <i class="fa-solid fa-people-roof"></i> <span class="menu-text">
 						Quản lý khách hàng</span>
         </a> <a class="nav-link pointer-event" id="products-nav-link"
-                data-link="products-data-table.jsp" href="AdminProductController?action=get">
+                data-link="products-data-table.jsp" href="quan-ly-san-pham">
             <i class="fa-solid fa-box"></i> <span class="menu-text">
 						Quản lý sản phẩm</span>
         </a>
+            <a class="nav-link pointer-event" id="product-sales-nav-link"
+               data-link="products-data-table.jsp" href="quan-ly-giam-gia">
+                <i class="fa-solid fa-box"></i> <span class="menu-text">
+						Sản phẩm giảm giá</span>
+            </a>
+
             <a class="nav-link pointer-event" id="nhap-kho-nav-link"
                href="nhap-kho">
                 <i class="fa-solid fa-box"></i> <span class="menu-text">

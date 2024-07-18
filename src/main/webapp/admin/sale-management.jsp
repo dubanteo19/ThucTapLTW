@@ -128,7 +128,7 @@
                     <div class="section-item col-12">
                         <div class="bg-white">
                             <div class="sub-title">
-                                <h4>Quản lý nhập kho</h4>
+                                <h4>Quản lý sản phẩm giảm giá</h4>
                             </div>
                             <div class="table-container mt-3">
                                 <div class="mb-3">
@@ -151,15 +151,20 @@
                                         </div>
                                     </div>
                                 </div>
-                                <table id="datatable-products-display" class="cell-border hover nowrap w-100">
+                                <table id="datatable-products-display" class="row-border hover nowrap w-100">
                                     <thead>
                                     <tr>
+                                        <th></th>
                                         <th class="text-center">Mã sản phẩm</th>
                                         <th style="min-width: 10vw">Tên sản phẩm</th>
-                                        <th class="text-right">Trọng lượng</th>
-                                        <th class="text-right">Giá nhập</th>
-                                        <th class="text-right">Số lượng nhập</th>
-                                        <th class="text-center">Ngày nhập</th>
+                                        <th class="text-center">Hình ảnh</th>
+                                        <th class="text-right">Giảm giá</th>
+                                        <th class="text-right">Giá gốc</th>
+                                        <th class="text-right">Giá mới</th>
+                                        <th class="text-right">Số lượng</th>
+                                        <th class="text-right">Đã bán</th>
+                                        <th class="text-center">Ngày bắt đầu</th>
+                                        <th class="text-center">Ngày kết thúc</th>
                                     </tr>
                                     </thead>
                                 </table>
@@ -170,7 +175,7 @@
                     <div class="section-item col-12">
                         <div class="bg-white">
                             <div class="sub-title">
-                                <h4>Nhập kho sản phẩm</h4>
+                                <h4>Thêm sản phẩm giảm giá</h4>
                             </div>
                             <div class="table-container mt-3">
                                 <div class="mb-3">
@@ -208,10 +213,12 @@
                                     <tr>
                                         <th class="text-center">Mã sản phẩm</th>
                                         <th style="min-width: 10vw">Tên sản phẩm</th>
-                                        <th class="text-right">Trọng lượng</th>
-                                        <th class="text-right">Giá nhập</th>
-                                        <th class="text-right">Số lượng nhập</th>
-                                        <th class="text-center">Ngày nhập</th>
+                                        <th class="text-right">Giảm giá</th>
+                                        <th class="text-right">Giá gốc</th>
+                                        <th class="text-right">Giá mới</th>
+                                        <th class="text-right">Số lượng</th>
+                                        <th class="text-center">Ngày bắt đầu</th>
+                                        <th class="text-center">Ngày kết thúc</th>
                                     </tr>
                                     </thead>
                                 </table>
@@ -227,7 +234,7 @@
                     <form autocomplete="off" id="formImport">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="filterModalLongTitle">Nhập kho sản phẩm</h5>
+                                <h5 class="modal-title" id="filterModalLongTitle">Thêm giảm giá sản phẩm</h5>
                                 <i data-dismiss="modal" class="close fa-solid fa-xmark"></i>
                             </div>
                             <div class="modal-body">
@@ -236,8 +243,7 @@
                                         <label class="col-4">Mã sản phẩm</label>
                                         <div class="col-8">
                                             <input class="form-control input-number" id="productIdInput" type="text"
-                                                   inputmode="numeric" pattern="[0-9]*"
-                                                   placeholder="Để trống nếu tạo mới">
+                                                   inputmode="numeric" pattern="[0-9]*" required>
                                         </div>
                                     </div>
 
@@ -250,26 +256,45 @@
                                     </div>
 
                                     <div class="form-group row align-items-center">
-                                        <div class="col">
-                                            <label class="mb-2" for="productCostPriceInput">Giá nhập</label>
+                                        <label class="col-4">Giảm giá</label>
+                                        <div class="col-8">
                                             <div class="input-group">
-                                                <input class="form-control input-price" id="productCostPriceInput"
+                                                <input class="form-control input-price" id="saleInput"
                                                        type="text" inputmode="numeric" pattern="[0-9,\.]*" required>
+
+                                                <div class="input-group-prepend">
+                                                    <select class="form-control" id="saleTypeInput">
+                                                        <option selected value="đ">đ</option>
+                                                        <option value="%">%</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row align-items-center">
+                                        <label class="col-4" for="productUnitPrice">Giá gốc</label>
+                                        <div class="col-8">
+                                            <div class="input-group">
+                                                <input class="form-control input-price" id="productUnitPrice"
+                                                       type="text" inputmode="numeric" pattern="[0-9,\.]*" required disabled>
 
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text">đ</div>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
 
-                                        <div class="col">
-                                            <label class="mb-2" for="productWeightInput">Trọng lượng</label>
+                                    <div class="form-group row align-items-center">
+                                        <label class="col-4">Giá mới</label>
+                                        <div class="col-8">
                                             <div class="input-group">
-                                                <input class="form-control input-weight" id="productWeightInput"
-                                                       type="text" inputmode="numeric" pattern="[0-9,.]*" required>
+                                                <input class="form-control input-price" id="productNewPrice"
+                                                       type="text" inputmode="numeric" pattern="[0-9,\.]*" required disabled>
 
                                                 <div class="input-group-prepend">
-                                                    <div class="input-group-text">kg</div>
+                                                    <div class="input-group-text">đ</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -277,8 +302,8 @@
 
                                     <div class="form-group row align-items-center">
                                         <div class="col">
-                                            <label class="mb-2" for="productImportQuantityInput">Số lượng nhập</label>
-                                            <input class="form-control input-price" id="productImportQuantityInput"
+                                            <label class="mb-2" for="productSaleQuantityInput">Số lượng giảm giá</label>
+                                            <input class="form-control input-price" id="productSaleQuantityInput"
                                                    type="text" inputmode="numeric" pattern="[0-9,\.]*" required>
                                         </div>
 
@@ -290,9 +315,17 @@
                                     </div>
 
                                     <div class="form-group row align-items-center">
-                                        <label class="col" for="productDateImportInput">Ngày nhập</label>
-                                        <div class="col">
-                                            <input class="form-control" id="productDateImportInput"
+                                        <label class="col-4">Ngày bắt đầu</label>
+                                        <div class="col-8">
+                                            <input class="form-control" id="startDateInput"
+                                                   type="datetime-local" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row align-items-center">
+                                        <label class="col-4">Ngày kết thúc</label>
+                                        <div class="col-8">
+                                            <input class="form-control" id="endDateInput"
                                                    type="datetime-local" required>
                                         </div>
                                     </div>
@@ -358,28 +391,42 @@
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="col">Trọng lượng</label>
+                                                <label class="col">Giảm giá</label>
                                                 <div class="col">
                                                     <select class="form-select"></select>
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="col">Giá nhập</label>
+                                                <label class="col">Giá gốc</label>
                                                 <div class="col">
                                                     <select class="form-select"></select>
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="col">Số lượng nhập</label>
+                                                <label class="col">Giá mới</label>
                                                 <div class="col">
                                                     <select class="form-select"></select>
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="col">Ngày nhập</label>
+                                                <label class="col">Số lượng</label>
+                                                <div class="col">
+                                                    <select class="form-select"></select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col">Ngày bắt đầu</label>
+                                                <div class="col">
+                                                    <select class="form-select"></select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col">Ngày kết thúc</label>
                                                 <div class="col">
                                                     <select class="form-select"></select>
                                                 </div>
@@ -408,38 +455,44 @@
                         </div>
                         <div class="modal-body">
                             <form id="form-filter">
-                                <div class="form-group">
-                                    <div class="form-group row align-items-center">
-                                        <label class="col" for="durationSelect">Khoảng thời gian thống kê</label>
-                                        <div class="col">
-                                            <select id="durationSelect" class="form-select"
-                                                    onchange="handleDurationChange()">
-                                                <option selected value="3">3</option>
-                                                <option value="6">6</option>
-                                                <option value="12">12</option>
-                                                <option value="-1">Tất cả</option>
-                                                <option value="other">Khác</option>
-                                                <option value="-2">None</option>
-                                            </select>
-                                        </div>
-                                        <div class="col">
-                                            <select id="durationType" class="form-select">
-                                                <option value="DAY">DAY</option>
-                                                <option selected value="MONTH">MONTH</option>
-                                                <option value="YEAR">YEAR</option>
-                                            </select>
+                                <div class="form-group row align-items-center">
+                                    <div class="col">
+                                        <label class="mb-2">Ngày bắt đầu</label>
+                                        <div class="input-group">
+                                            <input class="form-control" id="startDateFilter"
+                                                   type="date">
                                         </div>
                                     </div>
-                                    <input class="mt-2 form-control input-number" type="text" inputmode="numeric"
-                                           pattern="[0-9]*" id="durationInput" style="display: none;"
-                                           placeholder="Khoảng thời gian khác">
+
+                                    <div class="col">
+                                        <label class="mb-2">Ngày kết thúc</label>
+                                        <div class="input-group">
+                                            <input class="form-control" id="endDateFilter"
+                                                   type="date">
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="form-group row align-items-center">
-                                    <label class="col">Thời gian cụ thể</label>
+                                    <label class="col" for="categoriesList">Danh mục sản phẩm</label>
                                     <div class="col">
-                                        <input class="form-control" id="durationDate"
-                                               type="date" required>
+                                        <select id="categoriesList" class="form-select">
+                                            <c:forEach items="${categoriesList}" var="item">
+                                                <option value="${item.id}">${item.name}</option>
+                                            </c:forEach>
+                                            <option selected value="-1">Tất cả</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row align-items-center">
+                                    <label class="col" for="categoriesList">Loại giảm giá</label>
+                                    <div class="col">
+                                        <select id="saleTypeFilter" class="form-select">
+                                            <option value="%">%</option>
+                                            <option value="đ">đ</option>
+                                            <option selected value="-1">Tất cả</option>
+                                        </select>
                                     </div>
                                 </div>
                             </form>
@@ -476,8 +529,8 @@
 <script type="text/javascript" src="../Datatables-V2/datatables.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script type="text/javascript">
-    function formatNumber(number) {
-        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    function formatNumber(number, unit) {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, unit);
     }
 
     function formatCurrency(amount) {
@@ -536,42 +589,45 @@
         });
     }
 
-    function getDurationValue() {
-        var select = document.getElementById('durationSelect');
-        var input = document.getElementById('durationInput');
-
-        if (select.value === 'other') {
-            return input.value;
-        } else {
-            return select.value;
-        }
+    function formatDetailRow(data) {
+        return (
+            '<dl>' +
+            formatSubDetailOnRow('Danh mục', data.categories.name) +
+            '<br>' +
+            formatSubDetailOnRow('Tồn kho', formatNumber(data.unitsInStock, ',')) +
+            '<br>' +
+            formatSubDetailOnRow('Đã bán', parseInt(data.quantitySold / data.quantity * 100) + '%') +
+            '</dl>'
+        );
     }
 
-    function handleDurationChange() {
-        var select = document.getElementById('durationSelect');
-        var input = document.getElementById('durationInput');
-        var durationDate = document.getElementById('durationDate');
-
-        if (select.value === 'other') {
-            input.style.display = 'block';
-        } else {
-            input.style.display = 'none';
-        }
-
-        if (select.value !== '-2') {
-            durationDate.value = '';
-        }
+    function formatSubDetailOnRow(label, data) {
+        return '<b>' + label + ': </b>' + data;
     }
 
     $(document)
         .ready(
             function () {
+                $('#productSaleQuantityInput').on('input', function () {
+                    var input = $(this);
+                    var value = parseInt(input.val().replace(/\D/g, ''));
+                    var unitsInStock = parseInt($('#productUnitInStock').val().replace(/\D/g, ''));
+
+                    if(value > unitsInStock) {
+                        input.val('');
+                        input.addClass('is-invalid');
+                    }
+                    else {
+                        input.removeClass('is-invalid');
+                    }
+                });
+
                 var productIdInput = $('#productIdInput');
 
                 productIdInput.autocomplete({
                     source: function (request, response) {
                         $.ajax({
-                            url: "nhap-kho",
+                            url: "quan-ly-giam-gia",
                             type: 'POST',
                             data: {
                                 action: 'search',
@@ -598,7 +654,7 @@
                     var id = $(this).val();
                     if (id !== '') {
                         $.ajax({
-                            url: 'nhap-kho',
+                            url: 'quan-ly-giam-gia',
                             type: 'POST',
                             data: {
                                 action: 'search',
@@ -610,9 +666,8 @@
 
                                 if (product !== null) {
                                     $('#productNameInput').val(product.name);
-                                    $('#productCostPriceInput').val(product.costPrice);
-                                    $('#productWeightInput').val(formatNumber(product.weight));
-                                    $('#productUnitInStock').val(formatNumber(product.unitsInStock));
+                                    $('#productUnitPrice').val(formatNumber(product.unitPrice, '.'));
+                                    $('#productUnitInStock').val(formatNumber(product.unitsInStock, ','));
 
                                     $('#productCostPriceInput').trigger('input');
                                     $('#productWeightInput').trigger('input');
@@ -645,19 +700,10 @@
                             `;
 
                 let btnSave = document.createElement('div');
-                btnSave.innerHTML = '<button id="btnSave" class="btn btn-success my-2">Nhập kho' + '</button>';
+                btnSave.innerHTML = '<button id="btnSave" class="btn btn-success my-2">Xác nhận' + '</button>';
 
                 $('#btnApplyFilter').click(function (event) {
                     $('#datatable-products-display').DataTable().ajax.reload();
-                });
-
-                $('#durationDate').on('change', function () {
-                    if ($(this).val()) {
-                        $('#durationSelect').val('-2');
-                    } else {
-                        $('#durationSelect').val('3');
-                        $('#durationType').val('MONTH');
-                    }
                 });
 
                 let tableDisplay = $('#datatable-products-display').DataTable({
@@ -668,60 +714,70 @@
                     scrollY: '55vh',
                     order: [],
                     ajax: {
-                        url: 'nhap-kho',
+                        url: 'quan-ly-giam-gia',
                         type: 'POST',
                         data: function (d) {
                             NProgress.start();
                             d.action = 'get';
-                            d.duration = getDurationValue();
-                            d.durationType = $('#durationType').val();
-                            d.dateCreated = $('#durationDate').val();
+                            d.categoryId = $('#categoriesList').val();
+                            d.saleType = $('#saleTypeFilter').val();
+                            d.startDate = $('#startDateFilter').val();
+                            d.endDate = $('#endDateFilter').val();
                             NProgress.done();
                         }
                     },
                     rowCallback: function (row, data) {
-                        $(row).attr('data-id', data.productId);
+                        $(row).attr('data-id', data.id);
                     },
                     columnDefs: [
-                        {targets: 0, name: 'id'},
-                        {targets: 1, name: 'name'},
-                        {targets: 2, name: 'weight'},
-                        {targets: 3, name: 'costPrice'},
-                        {targets: 4, name: 'quantity'},
-                        {targets: 5, name: 'dateCreated'},
+                        {targets: 1, name: 'id'},
+                        {targets: 2, name: 'name'},
+                        {targets: 3, name: 'thumb', orderable: false},
+                        {targets: 4, name: 'sale'},
+                        {targets: 5, name: 'unitPrice'},
+                        {targets: 6, name: 'newPrice'},
+                        {targets: 7, name: 'quantity'},
+                        {targets: 8, name: 'quantitySold'},
+                        {targets: 9, name: 'startDate'},
+                        {targets: 10, name: 'endDate'},
                         {
-                            targets: [2, 3, 4],
+                            targets: [4, 5, 6, 7, 8],
                             className: 'dt-right'
                         },
                         {
-                            targets: [0, 5],
+                            targets: [1, 9, 10],
                             className: 'dt-center'
                         },
                     ],
                     columns: [
                         {
-                            data: 'productId',
-                            render: function (data, type, row) {
-                                if (data == -1) {
-                                    return 'Mới';
-                                }
-                                return data;
-                            }
+                            className: 'dt-control',
+                            orderable: false,
+                            data: null,
+                            defaultContent: ''
                         },
+                        {data: 'id'},
                         {
-                            data: 'productName',
+                            data: 'name',
                             render: function (data, type, row) {
                                 return '<span class="product-name">' + data + '</span>';
                             }
                         },
                         {
-                            data: 'weight',
+                            data: 'thumb',
                             render: function (data, type, row) {
-                                return data + ' kg';
+                                return '<img src="../' + data + '" width="100px" height="100px">';
+                            }
+                        },
+                        {data: 'sale'},
+                        {
+                            data: 'unitPrice',
+                            render: function (data, type, row) {
+                                return formatCurrency(data)
                             }
                         },
                         {
-                            data: 'costPrice',
+                            data: 'newPrice',
                             render: function (data, type, row) {
                                 return formatCurrency(data)
                             }
@@ -729,11 +785,23 @@
                         {
                             data: 'quantity',
                             render: function (data, type, row) {
-                                return formatNumber(data);
+                                return formatNumber(data, ',');
                             }
                         },
                         {
-                            data: 'dateCreated',
+                            data: 'quantitySold',
+                            render: function (data, type, row) {
+                                return formatNumber(data, ',');
+                            }
+                        },
+                        {
+                            data: 'startDateDiscount',
+                            render: function (data, type, row) {
+                                return moment(data, 'MMM D, YYYY, h:mm:ss A').format('DD-MM-YYYY HH:mm');
+                            }
+                        },
+                        {
+                            data: 'endDateDiscount',
                             render: function (data, type, row) {
                                 return moment(data, 'MMM D, YYYY, h:mm:ss A').format('DD-MM-YYYY HH:mm');
                             }
@@ -746,20 +814,40 @@
                     buttons: [
                         {
                             extend: 'copyHtml5',
-                            title: 'Thông tin nhập kho ' + new Date().toISOString().slice(0, 10),
+                            title: 'Danh sách sản phẩm giảm giá ' + new Date().toISOString().slice(0, 10),
+                            exportOptions: {
+                                columns: function (idx, data, node) {
+                                    return idx !== 0 && idx !== 3;
+                                }
+                            },
                         },
                         {
                             extend: 'excelHtml5',
-                            filename: 'Thông tin nhập kho ' + new Date().toISOString().slice(0, 10),
-                            title: ''
+                            filename: 'Danh sách sản phẩm giảm giá ' + new Date().toISOString().slice(0, 10),
+                            title: '',
+                            exportOptions: {
+                                columns: function (idx, data, node) {
+                                    return idx !== 0 && idx !== 3;
+                                }
+                            },
                         },
                         {
                             extend: 'csvHtml5',
-                            title: 'Thông tin nhập kho ' + new Date().toISOString().slice(0, 10),
+                            title: 'Danh sách sản phẩm giảm giá ' + new Date().toISOString().slice(0, 10),
+                            exportOptions: {
+                                columns: function (idx, data, node) {
+                                    return idx !== 0 && idx !== 3;
+                                }
+                            },
                         },
                         {
                             extend: 'pdfHtml5',
-                            title: 'Thông tin nhập kho ' + new Date().toISOString().slice(0, 10),
+                            title: 'Danh sách sản phẩm giảm giá ' + new Date().toISOString().slice(0, 10),
+                            exportOptions: {
+                                columns: function (idx, data, node) {
+                                    return idx !== 0 && idx !== 3;
+                                }
+                            },
                         }
                     ],
                     language: {
@@ -806,6 +894,23 @@
                     }
                 });
 
+                tableDisplay.on('requestChild.dt', function (e, row) {
+                    row.child(format(row.data())).show();
+                });
+
+                tableDisplay.on('click', 'td.dt-control', function (e) {
+                    let tr = e.target.closest('tr');
+                    let row = tableDisplay.row(tr);
+
+                    if (row.child.isShown()) {
+                        // This row is already open - close it
+                        row.child.hide();
+                    } else {
+                        // Open this row
+                        row.child(formatDetailRow(row.data())).show();
+                    }
+                });
+
                 let table = $('#datatable-products').DataTable({
                     pageLength: 25,
                     scrollX: true,
@@ -815,43 +920,38 @@
                     columnDefs: [
                         {targets: 0, name: 'id', type: 'num'},
                         {targets: 1, name: 'name'},
-                        {targets: 2, name: 'weight', type: 'num'},
-                        {targets: 3, name: 'costPrice', type: 'num'},
-                        {targets: 4, name: 'quantity', type: 'num'},
-                        {targets: 5, name: 'dateCreated'},
+                        {targets: 2, name: 'sale'},
+                        {targets: 3, name: 'unitPrice', type: 'num'},
+                        {targets: 4, name: 'newPrice', type: 'num'},
+                        {targets: 5, name: 'quantity', type: 'num'},
+                        {targets: 6, name: 'startDate'},
+                        {targets: 7, name: 'endDate'},
                         {
-                            targets: [2, 3, 4],
+                            targets: [2, 3, 4, 5],
                             className: 'dt-right'
                         },
                         {
-                            targets: [0, 5],
+                            targets: [0, 6, 7],
                             className: 'dt-center'
                         },
                     ],
                     columns: [
-                        {
-                            data: 'id',
-                            render: function (data, type, row) {
-                                if (data == -1) {
-                                    return 'Mới';
-                                }
-                                return data;
-                            }
-                        },
+                        {data: 'id'},
                         {
                             data: 'name',
                             render: function (data, type, row) {
                                 return '<span class="product-name">' + data + '</span>';
                             }
                         },
+                        {data: 'sale'},
                         {
-                            data: 'weight',
+                            data: 'unitPrice',
                             render: function (data, type, row) {
-                                return data + ' kg';
+                                return formatCurrency(data)
                             }
                         },
                         {
-                            data: 'costPrice',
+                            data: 'newPrice',
                             render: function (data, type, row) {
                                 return formatCurrency(data)
                             }
@@ -859,11 +959,17 @@
                         {
                             data: 'quantity',
                             render: function (data, type, row) {
-                                return formatNumber(data);
+                                return formatNumber(data, ',');
                             }
                         },
                         {
-                            data: 'dateCreated',
+                            data: 'startDateDiscount',
+                            render: function (data, type, row) {
+                                return moment(data, 'DD-MM-YYYY HH:mm').format('DD-MM-YYYY HH:mm');
+                            }
+                        },
+                        {
+                            data: 'endDateDiscount',
                             render: function (data, type, row) {
                                 return moment(data, 'DD-MM-YYYY HH:mm').format('DD-MM-YYYY HH:mm');
                             }
@@ -880,20 +986,20 @@
                     buttons: [
                         {
                             extend: 'copyHtml5',
-                            title: 'Nhập kho ' + new Date().toISOString().slice(0, 10),
+                            title: 'Danh sách thêm sản phẩm giảm giá ' + new Date().toISOString().slice(0, 10),
                         },
                         {
                             extend: 'excelHtml5',
-                            filename: 'Nhập kho ' + new Date().toISOString().slice(0, 10),
-                            title: ''
+                            filename: 'Danh sách thêm sản phẩm giảm giá ' + new Date().toISOString().slice(0, 10),
+                            title: '',
                         },
                         {
                             extend: 'csvHtml5',
-                            title: 'Nhập kho ' + new Date().toISOString().slice(0, 10),
+                            title: 'Danh sách thêm sản phẩm giảm giá ' + new Date().toISOString().slice(0, 10),
                         },
                         {
                             extend: 'pdfHtml5',
-                            title: 'Nhập kho ' + new Date().toISOString().slice(0, 10),
+                            title: 'Danh sách thêm sản phẩm giảm giá ' + new Date().toISOString().slice(0, 10),
                         }
                     ],
                     language: {
@@ -926,6 +1032,26 @@
                     location.href = href;
                 });
 
+                $('#saleInput').on('input', function () {
+                    var type = $('#saleTypeInput').val();
+                    var sale = $('#saleInput').val().replace(/\D/g, '');
+                    var unitPrice = $('#productUnitPrice').val().replace(/\D/g, '');
+                    var newPrice;
+
+                    if(type == 'đ') {
+                       newPrice = unitPrice - sale;
+                    }
+                    else {
+                        newPrice = unitPrice - unitPrice * sale / 100;
+                    }
+
+                    $('#productNewPrice').val(formatNumber(newPrice, '.'));
+                });
+
+                $('#saleTypeInput').on('change', function () {
+                    $('#saleInput').trigger('input');
+                });
+
                 $('.input-number').on('input', function () {
                     let value = $(this).val();
                     value = value.replace(/\D/g, '');
@@ -945,45 +1071,28 @@
                     $(this).val(parseInt(value).toLocaleString("vi-VN"));
                 });
 
-                $('.input-weight').on('input', function () {
-                    let value = $(this).val();
-
-                    value = value.replace(/[^0-9.]/g, '');
-
-                    let decimalParts = value.split('.');
-                    if (decimalParts.length > 2) {
-                        value = decimalParts[0] + '.' + decimalParts.slice(1).join('');
-                    }
-
-                    let integerPart = decimalParts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-                    let formattedValue = integerPart;
-
-                    if (decimalParts.length > 1) {
-                        formattedValue += '.' + decimalParts[1];
-                    }
-
-                    $(this).val(formattedValue);
-                });
-
                 $('#formImport').submit(function (e) {
                     e.preventDefault();
 
                     let id = $('#productIdInput').val().trim();
-                    if (id === '') id = -1;
-
                     let name = $('#productNameInput').val();
-                    let weight = $('#productWeightInput').val();
-                    let costPrice = $('#productCostPriceInput').val().replace(/\D/g, '');
-                    let quantity = $('#productImportQuantityInput').val().replace(/\D/g, '');
-                    let dateCreate = moment($('#productDateImportInput').val()).format('DD-MM-YYYY HH:mm');
+                    let sale = $('#saleInput').val();
+                    let saleType = $('#saleTypeInput').val();
+                    let unitPrice = $('#productUnitPrice').val().replace(/\D/g, '');
+                    let newPrice = $('#productNewPrice').val().replace(/\D/g, '');
+                    let quantity = $('#productSaleQuantityInput').val().replace(/\D/g, '');
+                    let startDate = moment($('#startDateInput').val()).format('DD-MM-YYYY HH:mm');
+                    let endDate = moment($('#endDateInput').val()).format('DD-MM-YYYY HH:mm');
 
                     let product = {
                         id: id,
                         name: name,
-                        weight: weight,
-                        costPrice: costPrice,
+                        sale: sale + saleType,
+                        unitPrice: unitPrice,
+                        newPrice: newPrice,
                         quantity: quantity,
-                        dateCreated: dateCreate
+                        startDateDiscount: startDate,
+                        endDateDiscount: endDate
                     };
 
                     var rowNode = table.row.add(product).draw()
@@ -1004,7 +1113,7 @@
 
                     if(data.length > 0) {
                         $.ajax({
-                            url: "nhap-kho",
+                            url: "quan-ly-giam-gia",
                             type: 'POST',
                             data: {
                                 action: 'import',
@@ -1016,16 +1125,16 @@
                                 var msg;
 
                                 if(numAffected === length) {
-                                    msg = 'Đã nhập thành công ' + numAffected + ' sản phẩm';
+                                    msg = 'Đã thêm giảm giá thành công cho ' + numAffected + ' sản phẩm';
                                 }
                                 else {
                                     if(numAffected > 0) {
-                                        msg = 'Đã nhập thành công ' + numAffected + ' sản phẩm.<br>' +
-                                            (length - numAffected) + ' dữ liệu nhập kho đã tồn tại';
+                                        msg = 'Đã thêm giảm giá thành công cho ' + numAffected + ' sản phẩm.<br>' +
+                                            (length - numAffected) + ' dữ liệu giảm giá đã tồn tại';
 
                                     }
                                     else {
-                                        msg = 'Nhập thất bại. Dữ liệu đã tồn tại';
+                                        msg = 'Thêm giảm giá thất bại. Dữ liệu đã tồn tại';
                                     }
                                 }
 
@@ -1095,15 +1204,17 @@
                         excelData.shift();
 
                         var importedData = excelData.map(function (row) {
-                            var id = String(row[selectedColumns[0]]).replace(/\D/g, '');
+                            var saleValue = row[selectedColumns[2]];
 
                             return {
-                                id: id !== '' ? id : -1,
+                                id: row[selectedColumns[0]],
                                 name: row[selectedColumns[1]],
-                                weight: String(row[selectedColumns[2]]).replace(/\D/g, ''),
-                                costPrice: String(row[selectedColumns[3]]).replace(/\D/g, ''),
-                                quantity: String(row[selectedColumns[4]]).replace(/\D/g, ''),
-                                dateCreated: row[selectedColumns[5]]
+                                sale: parseFloat(saleValue) <= 1? parseFloat(saleValue) * 100 + '%' : saleValue,
+                                unitPrice: String(row[selectedColumns[3]]).replace(/\D/g, ''),
+                                newPrice: String(row[selectedColumns[4]]).replace(/\D/g, ''),
+                                quantity: String(row[selectedColumns[5]]).replace(/\D/g, ''),
+                                startDateDiscount: row[selectedColumns[6]],
+                                endDateDiscount: row[selectedColumns[7]]
                             };
                         });
 
@@ -1144,6 +1255,6 @@
             });
 
     $(".nav-link").removeClass("active");
-    $("#nhap-kho-nav-link").addClass("active");
+    $("#product-sales-nav-link").addClass("active");
 </script>
 </html>

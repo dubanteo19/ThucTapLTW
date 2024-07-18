@@ -146,6 +146,11 @@ public class ProductService implements IProductService {
 	@Override
 	public void sell(int id, int quantity) {
 		Product product = findProductById(id);
+
+		if(product instanceof ProductSale) {
+
+		}
+
 		if(product.getUnitsInStock() < quantity)
 			//Không đủ hàng
 			return;

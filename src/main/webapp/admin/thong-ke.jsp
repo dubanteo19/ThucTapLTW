@@ -136,7 +136,6 @@
                                     <th class="text-right">Đã bán</th>
                                     <th>Lợi nhuận</th>
                                     <th>Danh mục</th>
-                                    <th class="text-center">Ngày nhập kho</th>
                                 </tr>
                                 </thead>
                             </table>
@@ -261,7 +260,7 @@
         return (
             '<dl>' +
             formatSubDetailOnRow('Giá nhập', formatCurrency(data.product.costPrice)) +
-            formatSubDetailOnRow(' - Trọng lượng', data.product.weight) +
+            formatSubDetailOnRow(' - Trọng lượng', data.product.weight) + ' kg' +
             '<br>' +
             formatSubDetailOnRow('Giá bán', formatCurrency(data.product.unitPrice)) +
             '<br>' +
@@ -310,7 +309,7 @@
                     },
                     columnDefs: [
                         {
-                            targets: [1, 3, 9],
+                            targets: [1, 3],
                             className: 'dt-center'
                         },
                         {
@@ -326,8 +325,7 @@
                         {targets: 5, name: 'unitsInStock'},
                         {targets: 6, name: 'totalSold'},
                         {targets: 7, name: 'totalRevenue'},
-                        {targets: 3, name: 'thumb'},
-                        {targets: 9, name: 'lastUpdated'}
+                        {targets: 3, name: 'thumb'}
                     ],
                     columns: [
                         {
@@ -384,12 +382,6 @@
                             render: function (data, type, row) {
                                 return '<span class="break-word">' + data + '</span>';
                             }
-                        },
-                        {
-                            data: 'product.lastUpdated',
-                            render: function(data, type, row) {
-                                return moment(data).format('DD/MM/YYYY');
-                            }
                         }
                     ],
                     language: {
@@ -429,7 +421,6 @@
                             },
                         },
                         {
-                            extend: 'excelHtml5',
                             extend: 'excelHtml5',
                             filename: 'Thống kê ' + new Date().toISOString().slice(0, 10),
                             title: '',
