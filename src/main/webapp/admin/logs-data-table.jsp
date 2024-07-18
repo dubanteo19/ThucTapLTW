@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="styles/admin.css?aa">
 </head>
 <style>
+
     .btn-order-detail i {
         color: #fFffff;
     }
@@ -50,6 +51,7 @@
         padding: 10px !important;
         border-radius: 5px !important;
     }
+
 </style>
 <body>
 <jsp:include page="header.jsp"></jsp:include>
@@ -129,9 +131,9 @@
 </div>
 <div class="modal fade " id="log-detail-modal-lg" tabindex="-1" role="dialog" aria-labelledby="logDetailModal"
      aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
-            <div class="container p-3">
+            <div class="modal-body container p-3">
                 <h2 class="text-center">Chi tiết log </h2>
                 <h4>Địa chỉ IP: <span id="modal-ipAddress"></span></h4>
                 <h4>Quốc gia : <span id="modal-nation"></span></h4>
@@ -165,7 +167,8 @@
         ],
         language: {
             url: "https://cdn.datatables.net/plug-ins/2.0.2/i18n/vi.json"
-        }
+        },
+        order: [[4, 'desc']]
     });
     //handle filter level
     $('input[type="checkbox"]').on('change', function () {
@@ -179,7 +182,6 @@
     filterLogs([])
 
     function filterLogs(levels) {
-        console.log(levels)
         $.ajax({
                 type: "GET",
                 url: "/admin/LogController",

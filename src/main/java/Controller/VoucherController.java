@@ -29,18 +29,17 @@ public class VoucherController extends HttpServlet {
             throws ServletException, IOException {
         doPost(request, response);
     }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         String discountCode = request.getParameter("discountCode");
-//        System.out.println(discountCode);
         String orderTotal = request.getParameter("totalPrice");
-//        System.out.println(orderTotal);
         Cart cart = (Cart) session.getAttribute("cart");
         Discounts discount = discountService.findByCode(discountCode);
 
         if (discount != null) {
-            if(discount.getCategoryId() > 0){
+            if (discount.getCategoryId() > 0) {
                 boolean isDiscountValidated = validateDiscount(cart, discount);
                 if (!isDiscountValidated) {
                     response.getWriter().write("Discount code not supported for this category");
@@ -59,8 +58,7 @@ public class VoucherController extends HttpServlet {
                         double percentageAmount = Double.parseDouble(orderTotal) * (discount.getAmount() / 100.0);
                         session.setAttribute("discount", discount);
                         response.getWriter().write(String.valueOf(percentageAmount));
-                    }
-                    else{
+                    } else {
                         response.getWriter().write("Discount code does not apply to your order.");
                     }
                     break;

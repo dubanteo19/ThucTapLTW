@@ -18,6 +18,7 @@ import Services.ILogService;
 import Model.Product;
 import Model.ProductDetail;
 import Services.IProductService;
+import Services.LogServiceManager;
 import Services.MLogFactory;
 
 /**
@@ -28,8 +29,6 @@ public class ProductDetailController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     @Inject
     IProductService productService;
-    @Inject
-    ILogService logService;
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -51,7 +50,7 @@ public class ProductDetailController extends HttpServlet {
             addToVisitedProducts(productDetail, request);
             Log log = MLogFactory.getLog(request, this, 1);
             log.setDescription("Người dùng xem sản phẩm " + productDetail.getName());
-            logService.saveLog(log);
+            LogServiceManager.getLogService().saveLog(log);
             int categoryId = productDetail.getCategories().getId();
             List<Product> relativeProducts = productService.findProductByCategoryId(categoryId, 10, 1);
             List<Product> recommendedProducts = productService.find10Product();

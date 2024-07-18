@@ -118,7 +118,7 @@ public class CartController extends HttpServlet {
             jsonResp.addProperty("error", PRODUCT_NOT_FOUND);
             status = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
         }
-        String des = MessageFormat.format("Người dùng {0} thêm sản phẩm  {1} vào giỏ hàn", fullName, idProduct);
+        String des = MessageFormat.format("Người dùng {0} thêm sản phẩm  {1} vào giỏ hàng", fullName, idProduct);
         log.setDescription(des);
         LogServiceManager.getLogService().saveLog(log);
         JsonUtils.sendJsonResponse(resp, status, jsonResp.toString());

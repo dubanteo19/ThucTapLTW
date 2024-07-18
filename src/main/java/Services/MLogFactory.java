@@ -2,6 +2,7 @@ package Services;
 
 import Model.Log;
 import Model.LogLevel;
+import com.google.gson.Gson;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import java.util.Optional;
 
 public class MLogFactory {
     public static Map<Integer, LogLevel> logMap = new HashMap<Integer, LogLevel>();
+    public static Gson gson = new Gson();
 
     static {
         logMap.put(1, LogLevel.INFO);
@@ -22,6 +24,27 @@ public class MLogFactory {
 
     public static LogLevel getLogLevel(int level) {
         return logMap.get(level);
+    }
+
+
+    public static Log getLog(HttpServletRequest hquest, HttpServlet httpServlet,
+                             int logLevel, String description) {
+        Log log = getLog(hquest, httpServlet, logLevel);
+        log.setDescription(description);
+        return log;
+    }
+
+    public static Log getLog(HttpServletRequest hquest, HttpServlet httpServlet,
+                             int logLevel, Object currentValue, Object afterValue) {
+        Log log = getLog(hquest, httpServlet, logLevel, afterValue);
+        log.setCurrentValue(gson.toJson(currentValue));
+        return log;
+    }
+
+    public static Log getLog(HttpServletRequest hquest, HttpServlet httpServlet, int logLevel, Object object) {
+        Log log = getLog(hquest, httpServlet, logLevel);
+        log.setAfterValue(gson.toJson(object));
+        return log;
     }
 
     public static Log getLog(HttpServletRequest hquest, HttpServlet httpServlet, int logLevel) {

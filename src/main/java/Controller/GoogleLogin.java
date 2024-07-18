@@ -66,8 +66,10 @@ public class GoogleLogin extends HttpServlet {
             session.setAttribute("cart", cart);
             session.setAttribute("wishlist", new Wishlist(userServices.getWishlist(user.getId())));
         }
+        Log log = MLogFactory.getLog(request, this, 2);
+        log.setDescription("Người dùng đăng nhập bằng tài khoản Google");
+        LogServiceManager.getLogService().saveLog(log);
         session.setAttribute("user", user);
-        System.out.println(user);
         String url = "tai-khoan.jsp";
         response.sendRedirect(url);
     }

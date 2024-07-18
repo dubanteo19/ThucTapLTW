@@ -5,11 +5,15 @@ import Model.Log;
 import Model.LogLevel;
 
 import javax.inject.Inject;
+import java.util.Comparator;
 import java.util.List;
 
 public class LogService implements ILogService {
-    @Inject
     ILogDAO logDAO;
+
+    public LogService(ILogDAO logDAO) {
+        this.logDAO = logDAO;
+    }
 
     @Override
     public List<Log> findAllLogs() {

@@ -76,6 +76,7 @@ public class ForgotPassword extends HttpServlet {
             url = "/quen-mat-khau.jsp";
             Verification verification = verificationService.create(user.getId());
             Log log = MLogFactory.getLog(request, this, 2);
+            log.setDescription("Người dùng quên mật khẩu ");
             LogServiceManager.getLogService().saveLog(log);
             Thread emailThread = new Thread(() -> {
                 verificationService.save(verification);

@@ -1,6 +1,4 @@
 package Database;
-
-
 import Model.Log;
 import RowMaper.LogMapper;
 
@@ -9,7 +7,7 @@ import java.util.List;
 public class LogDAO extends AbtractDAO<Log> implements ILogDAO {
     @Override
     public List<Log> findAll() {
-        String sql = "SELECT * FROM logs";
+        String sql = "SELECT * FROM logs ORDER BY dateCreated DESC";
         return querry(sql, new LogMapper());
     }
 
