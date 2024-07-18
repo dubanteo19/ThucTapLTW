@@ -106,7 +106,7 @@
                         }
                     }
                 }
-                return null;
+                return "Tất cả danh mục";
             }
             return findCategoryInArray(categories, categoryId);
         }

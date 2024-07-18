@@ -249,12 +249,13 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="newFullName"
+                        <input type="text" class="form-control" id="newFullName" required
                                name="newFullName" placeholder="" value="${user.fullName}">
                         <label for="newFullName">Họ tên mới</label>
                     </div>
                     <div class="form-floating">
-                        <input type="number" class="form-control" id="newPhone"
+                        <input type="number" pattern="[0-9]{10,11}"
+                               class="form-control" id="newPhone" required
                                name="newPhone" placeholder="" value="${user.phone}"> <label
                             for="newPhone">Số điện thoại mới</label>
                     </div>

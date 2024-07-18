@@ -70,14 +70,15 @@
                                                             <input type="email"
                                                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$"
                                                                    class="form-input" value="<%=email %>" name="email"
-                                                                   id="email" placeholder="Email" required="">
+                                                                   id="email" placeholder="Email" required>
                                                         </fieldset>
                                                     </div>
                                                     <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
                                                         <fieldset class="form-group">
-                                                            <input placeholder="Số điện thoại" type="text" pattern="\d+"
+                                                            <input placeholder="Số điện thoại" type="text" pattern="[0-9]{10,11}"
                                                                    class="form-input form-control-comment"
-                                                                   name="PhoneNumber" required="" id="PhoneNumber"
+
+                                                                   name="PhoneNumber" required id="PhoneNumber"
                                                                    value="<%=phone%>">
                                                         </fieldset>
                                                     </div>
@@ -146,7 +147,6 @@
 </body>
 <script type="text/javascript" src="javascripts/main.js"></script>
 <script type="text/javascript" src="javascripts/jquery-3.7.1.js"></script>
-<script type="text/javascript" src="admin/javascripts/FakeDataBase.js"></script>
 <script>
     $(document).ready(function () {
         $('#eye').click(function () {
@@ -160,15 +160,6 @@
 
         });
     });
-
-    const form = $(#customer_register);
-    form.addEventListener('submit', (e)=>{
-        e.preventDefault();
-        const capchatResponse = grecapcha.getResponse();
-        if(!capchatResponse.length > 0){
-            throw new Error("Capcha not complete")
-        }
-    })
 
     $(document).ready(function () {
         $('#eyes-again').click(function () {

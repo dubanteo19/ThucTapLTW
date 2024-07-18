@@ -75,9 +75,10 @@ public class MailController extends HttpServlet {
 		double totalPrice = orders.getTotalPrice();
 		String formattedTotalPrice = String.format("%,.0f", totalPrice);
 		String voucherInfo = getVoucherInfo(orders, amount);
+		String logoUrl = "https://firebasestorage.googleapis.com/v0/b/i-love-truyen.appspot.com/o/ltv%2Flogo_large.png?alt=media&token=a0cf5e2a-a21e-46c4-b036-d38354736cfb";
 
 		String body = "<div style=\"font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f5f5f5; border: 1px solid #ddd; border-radius: 8px;\">\r\n"
-				+ "<h2 style=\"text-align: center; color: #4CAF50;\">Thông tin đơn hàng</h2>\r\n"
+				+ "<h2 style=\"text-align: center; color: #4CAF50;\"><img src=\"" + logoUrl + "\" alt=\"Logo\" style=\"height: 50px; width: auto; margin-bottom: 10px;\"><br>Thông tin đơn hàng</h2>\r\n"
 				+ "<div style=\"background-color: #fff; padding: 15px; border-radius: 4px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);\">\r\n"
 				+ "<p>Xin chào bạn,"+ to +"</p>\r\n"
 				+ "<p>Đơn hàng của bạn đã được xác nhận. Dưới đây là thông tin chi tiết:</p>\r\n"
@@ -126,7 +127,7 @@ public class MailController extends HttpServlet {
 			sb.append("<tr>");
 			sb.append("<td style=\"padding: 8px; text-align: left; border: 1px solid #ddd;\">").append(item.getProduct().getName()).append("</td>");
 			sb.append("<td style=\"padding: 8px; text-align: center; border: 1px solid #ddd;\">").append(item.getQuantity()).append("</td>");
-			sb.append("<td style=\"padding: 8px; text-align: center; border: 1px solid #ddd;\">").append(item.getPrice()).append("</td>");
+			sb.append("<td style=\"padding: 8px; text-align: center; border: 1px solid #ddd;\">").append(String.format("%,.0f", item.getPrice())).append("</td>");
 			sb.append("</tr>");
 		}
 

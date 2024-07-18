@@ -1,5 +1,7 @@
 let emptyCartMessDiv = $(".empty-message");
 let cartTotalInfoDiv = $(".cart-total-info");
+let emptyCart = $(".empty-cart");
+let cartFooter = $(".cart-footer");
 $(document).on('click', '.add_cart', function () {
     var id = $(this).closest('.product').data('product-id');
     addToCartByProductId(id);
@@ -92,6 +94,8 @@ function updateCartItem(idProduct, quantity) {
                 if (totalItems <= 0) {
                     emptyCartMessDiv.css("display", "block");
                     cartTotalInfoDiv.css("display", "none");
+                    emptyCart.css("display", "block");
+                    cartFooter.css("display", "none");
                 }
                 itemDisplay.remove();
 
@@ -197,10 +201,14 @@ function addToCart(idProduct, quantity) {
 function renderCartItem(item, itemTotalPrice, quantity) {
     if (itemTotalPrice > 0) {
         emptyCartMessDiv.css("display", "none");
+        emptyCart.css("display", "none");
+        cartFooter.css("display", "block");
         cartTotalInfoDiv.css("display", "block");
     } else {
         emptyCartMessDiv.css("display", "block");
         cartTotalInfoDiv.css("display", "none");
+        emptyCart.css("display", "block");
+        cartFooter.css("display", "none");
     }
     $.get('/templates/cart-item-template.jsp', function (template) {
         var $cartItem = $(template);

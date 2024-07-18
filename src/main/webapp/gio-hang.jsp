@@ -78,6 +78,30 @@
         .cart-header-info-item.col-xl-2 {
             text-align: center;
         }
+        .empty-cart {
+            padding: 50px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+            min-height: 200px;
+        }
+        .empty-cart-message {
+            font-size: 18px;
+            color: #555;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .empty-cart-icon {
+            font-size: 50px;
+            color: #ff6f61;
+            margin-right: 10px;
+        }
+
 
         .cart-footer {
             margin-top: 20px;
@@ -141,7 +165,15 @@
                                 <div class="cart-header-info-item col-xl-2">Số lượng</div>
                                 <div class="cart-header-info-item col-xl-2">Thành tiền</div>
                             </div>
-                            <div class="cart_body items">
+                            <div class="cart_body items mb-3">
+                                <div class="row m-0 empty-cart" style="${cart.cartItems.size() > 0? 'display: none;' : ''}">
+                                    <div class="col-12 text-center">
+                                        <i class="fa-solid fa-face-sad-tear empty-cart-icon"></i>
+                                        <p class="empty-cart-message">
+                                            Không có sản phẩm trong giỏ hàng
+                                        </p>
+                                    </div>
+                                </div>
                                 <div class="row m-0">
                                     <c:forEach items="${cart.getCartItems()}" var="item">
                                         <jsp:include page="/templates/cart-item-horizontal-template.jsp">
@@ -158,7 +190,7 @@
                                 </div>
                             </div>
 
-                            <div class="cart-footer">
+                            <div class="cart-footer" style="${cart.cartItems.size() > 0? '' : 'display: none;'}">
                                 <div class="row">
                                     <div class="col-lg-4 col-12 offset-md-8">
                                         <div class="pt-3">
@@ -246,7 +278,7 @@
 
 <script type="text/javascript" src="javascripts/lightslider.js"></script>
 <script type="text/javascript" src="javascripts/pagination.js"></script>
-<script type="text/javascript" src="javascripts/shopping-cart.js?j"></script>
+<script type="text/javascript" src="javascripts/shopping-cart.js?g"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
 
