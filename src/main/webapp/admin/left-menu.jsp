@@ -31,6 +31,10 @@
                     data-link="customers-data-table.jsp" href="UserController?action=get">
             <i class="fa-solid fa-people-roof"></i> <span class="menu-text">
 						Quản lý khách hàng</span>
+        </a> <a class="nav-link" id="staffs-nav-link"
+                data-link="staffs-data-table.jsp" href="StaffController?action=get">
+            <i class="fa-solid fa-people-roof"></i> <span class="menu-text">
+						Quản lý nhân viên</span>
         </a> <a class="nav-link pointer-event" id="products-nav-link"
                 data-link="products-data-table.jsp" href="quan-ly-san-pham">
             <i class="fa-solid fa-box"></i> <span class="menu-text">
@@ -53,10 +57,10 @@
 						Thống kê</span>
             </a>
             <a class="nav-link" id="orders-nav-link"
-                data-link="orders-data-table.jsp" href="OrderController">
-            <i class="fa-solid fa-file-invoice-dollar"></i> <span
-                class="menu-text"> Quản lý đơn hàng</span>
-        </a>
+               data-link="orders-data-table.jsp" href="OrderController">
+                <i class="fa-solid fa-file-invoice-dollar"></i> <span
+                    class="menu-text"> Quản lý đơn hàng</span>
+            </a>
             </a> <a class="nav-link" id="logs-nav-link"
                     data-link="logs-data-table.jsp" href="LogController">
             <i class="fa-solid fa-file-invoice-dollar"></i> <span

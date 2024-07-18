@@ -89,7 +89,7 @@
             <div
                     class="container title d-flex justify-content-between bg-white rounded">
                 <h5>Quản lý voucher</h5>
-                <span class="date">Thứ 2, ngày 30/10/2023 - 11 giờ 25 phút</span>
+                <span class="date">Thứ 6, ngày 19/07/2024</span>
             </div>
             <div class="container-fluid">
                 <div class="row w-100">
@@ -170,7 +170,8 @@
                                                 <input type="hidden" name="action" value="">
                                                 <div class="form-group">
                                                     <label for="voucherIdInput">Mã Voucher</label>
-                                                    <input class="form-control" id="voucherIdInput" name="voucherCode" type="text" placeholder="Nhập mã voucher" required>
+                                                    <input class="form-control" id="voucherIdInput" name="voucherCode"
+                                                           type="text" placeholder="Nhập mã voucher" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
@@ -178,10 +179,13 @@
                                                             <label for="VoucherTypeFilter">Loại Voucher</label>
                                                             <div class="input-group">
                                                                 <div class="input-group-append w-100 ">
-                                                                    <select id="VoucherTypeFilter" class="form-select w-100 h-100" style=" padding: 10px;" name="discountType">
+                                                                    <select id="VoucherTypeFilter"
+                                                                            class="form-select w-100 h-100"
+                                                                            style=" padding: 10px;" name="discountType">
                                                                         <option value="FREESHIP">FREE SHIP</option>
                                                                         <option value="percentage">Giảm theo %</option>
-                                                                        <option value="fixed">Giảm theo số tiền cụ thể</option>
+                                                                        <option value="fixed">Giảm theo số tiền cụ thể
+                                                                        </option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -190,11 +194,16 @@
                                                             <label for="voucherCategoryInput">Loại danh mục</label>
                                                             <div class="input-group">
                                                                 <div class="input-group-append w-100 ">
-                                                                    <select class="form-select" id="voucherCategoryInput" name="voucherCategory" required class="form-select h-100" style=" padding: 10px;">
+                                                                    <select class="form-select"
+                                                                            id="voucherCategoryInput"
+                                                                            name="voucherCategory" required
+                                                                            class="form-select h-100"
+                                                                            style=" padding: 10px;">
                                                                         <option value="0">Tất cả danh mục</option>
                                                                         <c:forEach items="${categories}" var="category">
                                                                             <option value="${category.id}">${category.name}</option>
-                                                                            <c:forEach items="${category.children}" var="child">
+                                                                            <c:forEach items="${category.children}"
+                                                                                       var="child">
                                                                                 <option value="${child.id}">&nbsp;&nbsp;&nbsp;${child.name}</option>
                                                                             </c:forEach>
                                                                         </c:forEach>
@@ -209,9 +218,11 @@
                                                         <div class="col">
                                                             <label for="voucherDiscountInput">Mức giảm</label>
                                                             <div class="input-group">
-                                                                <input class="form-control" id="voucherDiscountInput" name="amount" type="number" min="0" required>
+                                                                <input class="form-control" id="voucherDiscountInput"
+                                                                       name="amount" type="number" min="0" required>
                                                                 <div class="input-group-append">
-                                                                    <select id="saleTypeFilter" disabled class="form-select h-100">
+                                                                    <select id="saleTypeFilter" disabled
+                                                                            class="form-select h-100">
                                                                         <option value="đ">đ</option>
                                                                         <option value="%">%</option>
                                                                     </select>
@@ -219,8 +230,10 @@
                                                             </div>
                                                         </div>
                                                         <div class="col">
-                                                            <label for="voucherMinPurchaseInput">Mua tối thiểu (VNĐ)</label>
-                                                            <input class="form-control" id="voucherMinPurchaseInput" name="condition" type="number" min="0" required>
+                                                            <label for="voucherMinPurchaseInput">Mua tối thiểu
+                                                                (VNĐ)</label>
+                                                            <input class="form-control" id="voucherMinPurchaseInput"
+                                                                   name="condition" type="number" min="0" required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -228,20 +241,25 @@
                                                     <div class="row">
                                                         <div class="col">
                                                             <label for="voucherQuantityInput">Số lượng</label>
-                                                            <input class="form-control" id="voucherQuantityInput" name="quantity" type="number" min="0" required>
+                                                            <input class="form-control" id="voucherQuantityInput"
+                                                                   name="quantity" type="number" min="0" required>
                                                         </div>
                                                         <div class="col">
                                                             <label for="voucherExpiryDateInput">Ngày hết hạn</label>
-                                                            <input class="form-control" id="voucherExpiryDateInput" type="date" name="expiryDate" required>
+                                                            <input class="form-control" id="voucherExpiryDateInput"
+                                                                   type="date" name="expiryDate" required>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="voucherDescriptionInput">Mô tả</label>
-                                                    <textarea class="form-control" id="voucherDescriptionInput" name="description" rows="3" required></textarea>
+                                                    <textarea class="form-control" id="voucherDescriptionInput"
+                                                              name="description" rows="3" required></textarea>
                                                 </div>
                                                 <div class="form-group">
-                                                    <button class="btn btn-primary" id="addVoucher" type="submit">Thêm Voucher</button>
+                                                    <button class="btn btn-primary" id="addVoucher" type="submit">Thêm
+                                                        Voucher
+                                                    </button>
                                                 </div>
                                             </form>
                                         </div>
@@ -326,7 +344,7 @@
         $(".btn-huy").click(function () {
             hideDeleteForm();
         })
-        document.getElementById('VoucherTypeFilter').addEventListener('change', function() {
+        document.getElementById('VoucherTypeFilter').addEventListener('change', function () {
             var voucherType = this.value;
             var saleTypeFilter = document.getElementById('saleTypeFilter');
 
