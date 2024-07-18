@@ -14,7 +14,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import Model.Categories;
 import Model.Discounts;
+import Services.ICategoryService;
 import Services.IDiscountService;
 
 /**
@@ -25,6 +27,8 @@ public class DiscountsController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
      @Inject
      IDiscountService discountService;
+	 @Inject
+	 ICategoryService categoryService;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -38,6 +42,8 @@ public class DiscountsController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<Discounts> discounts = discountService.findAll();
+		List<Categories> categories = categoryService.findAll();
+		request.setAttribute("categories", categories);
 		request.setAttribute("discounts", discounts);
 		request.getRequestDispatcher("/admin/vouchers-data-table.jsp").forward(request, response);
 		
@@ -94,16 +100,21 @@ public class DiscountsController extends HttpServlet {
 		int amount = Integer.valueOf(request.getParameter("amount"));
 		String voucherCode = request.getParameter("voucherCode");
 		String discountType = request.getParameter("discountType");
-		Double condition = Double.valueOf(request.getParameter("condition"));
+		int quantity = Integer.parseInt(request.getParameter("quantity"));
+		String description = request.getParameter("description");
+		int voucherCategory = Integer.parseInt(request.getParameter("voucherCategory"));
+		double condition = Double.parseDouble(request.getParameter("condition"));
 		String expiryDateString  =request.getParameter("expiryDate");
 			Date expiryDate = java.sql.Date.valueOf(expiryDateString);
 			Discounts discounts = new Discounts();
 			discounts.setAmount(amount);
 			discounts.setCode(voucherCode);
 			discounts.setType(discountType);
+			discounts.setQuantity(quantity);
+			discounts.setCategoryId(voucherCategory);
+			discounts.setDescription(description);
 			discounts.setCondition(condition);
 			discounts.setExpDate(expiryDate);
-			System.out.println(discounts);
 			discountService.save(discounts);
 			
 		doGet(request, response);
