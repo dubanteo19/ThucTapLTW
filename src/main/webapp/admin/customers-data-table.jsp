@@ -52,8 +52,8 @@
                                 <th scope="col">Chức năng</th>
                             </tr>
                             </thead>
-                                <tbody>
-                                <c:forEach items="${users}" var="user">
+                            <tbody>
+                            <c:forEach items="${users}" var="user">
                                 <c:if test="${user.roleId != 1 }">
                                     <tr>
                                         <td>${user.id}</td>
@@ -71,8 +71,8 @@
                                         </a></td>
                                     </tr>
                                 </c:if>
-                                </c:forEach>
-                                </tbody>
+                            </c:forEach>
+                            </tbody>
 
                         </table>
                     </div>
@@ -85,14 +85,14 @@
 <script type="text/javascript">
     $(".nav-link").removeClass("active");
     $("#customers-nav-link").addClass("active");
-    new DataTable("#users-table",{
+    new DataTable("#users-table", {
         columns: [
-            { data: 'id' },
-            { data: "Tên khách hàng" },
-            { data: 'Số điện thoại' },
-            { data: 'Email' },
-            { data: 'Trạng thái' },
-            { data: 'Chức năng' },
+            {data: 'id'},
+            {data: "Tên khách hàng"},
+            {data: 'Số điện thoại'},
+            {data: 'Email'},
+            {data: 'Trạng thái'},
+            {data: 'Chức năng'},
         ],
     });
 </script>

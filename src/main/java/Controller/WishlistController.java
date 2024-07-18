@@ -3,9 +3,10 @@ package Controller;
 import Model.Product;
 import Model.User;
 import Model.Wishlist;
-import Services.ILogService;
 import Services.IProductService;
 import Services.IUserService;
+import Services.LogServiceManager;
+import Services.MLogFactory;
 import Utils.JsonUtils;
 import com.google.gson.JsonObject;
 
@@ -28,8 +29,6 @@ public class WishlistController extends HttpServlet {
 
     @Inject
     IProductService productService;
-    @Inject
-    ILogService logService;
     private Wishlist wishlist;
 
     public WishlistController() {
@@ -63,19 +62,25 @@ public class WishlistController extends HttpServlet {
         if (idParam != null && !idParam.trim().isEmpty()) {
             int productId = Integer.parseInt(idParam);
             Product product = productService.findProductById(productId);
-
             if (product != null) {
                 if (wishlist.add(product)) {
                     userService.addWishlist(userId, productId);
+                    LogServiceManager
+                            .getLogService()
+                            .saveLog(MLogFactory
+                                    .getLog(req, this, 1, "Người dùng thêm sản phẩm " + product.getName() + " vào wishlist"));
                     jsonResp.addProperty("status", "add");
                 } else {
+                    LogServiceManager
+                            .getLogService()
+                            .saveLog(MLogFactory
+                                    .getLog(req, this, 1, "Người dùng xóa sản phẩm " + product.getName() + " khỏi wishlist"));
                     userService.removeWishlist(userId, productId);
                     jsonResp.addProperty("status", "remove");
                 }
             }
 
             jsonResp.addProperty("totalWishlist", wishlist.size());
-
             status = HttpServletResponse.SC_OK;
         } else {
             status = HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
