@@ -94,7 +94,7 @@
         <div
                 class="container title d-flex justify-content-between bg-white rounded">
             <h5>Quản lý đơn hàng</h5>
-            <span class="date">Thứ 2, ngày 30/10/2023 - 11 giờ 25 phút</span>
+            <span class="date">Thứ 6, ngày 19/07/2024</span>
         </div>
         <div class="container-fluid">
             <div class="row w-100">

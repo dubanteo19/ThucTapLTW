@@ -22,5 +22,7 @@ public interface IUserDAO extends GenericDAO<User> {
 	boolean addWishlist(int userId, int productId);
 	boolean removeWishlist(int userId, int productId);
 
+	boolean updateRole(User user);
+
 	boolean updateStatus(User user);
 }

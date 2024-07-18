@@ -226,7 +226,8 @@ request.setAttribute("wishlistId", wishlist.getWishListId());
 		<nav class="navbar navbar-expand-lg navbar-light bg-light p-xl-0 logo-menu">
 			<div class="container">
 				<div class="menubar d-sm-flex">
-					<a class="navbar-brand m-lg-0" href="Home"> <img
+					<a class="navbar-brand m-lg-0" href="Home">
+						<img
 						src="images/logo/logo.png" alt="" width="200" height=""
 						class="d-inline-block align-text-top" title="Logo">
 					</a>

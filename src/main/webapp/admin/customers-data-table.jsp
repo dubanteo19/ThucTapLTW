@@ -37,11 +37,11 @@
         <div class="container-fluid">
             <div class="row w-100">
                 <div class="col-12">
-                    <div class="list-orders mt-3 bg-white">
+                    <div class=" mt-3 bg-white">
                         <div class="sub-title">
                             <h4>Danh sách khách hàng</h4>
                         </div>
-                        <table class="table" id="users-table">
+                        <table class="cell-border hover nowrap w-100" id="users-table">
                             <thead>
                             <tr>
                                 <th scope="col">ID</th>
@@ -94,6 +94,9 @@
             {data: 'Trạng thái'},
             {data: 'Chức năng'},
         ],
+        language: {
+            url: "https://cdn.datatables.net/plug-ins/2.0.2/i18n/vi.json"
+        },
     });
 </script>
 
