@@ -71,6 +71,7 @@ public class ProductStatisticsService implements IProductStatisticsService {
         Map<String, Object> filters = new HashMap<>();
         int year = LocalDate.now().getYear();
         double totalRevenue;
+
         totalRevenue = findProductStatisticsByFilterByDate(filters, month, String.valueOf(year))
                 .stream()
                 .map(ProductStatistics::getTotalRevenue)
