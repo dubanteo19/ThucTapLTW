@@ -61,7 +61,8 @@ public class ProductImportDAO extends AbtractDAO<ProductImport> implements IProd
                     ", products.weight = ?" +
                     ", products.costPrice = ?" +
                     ", products.lastUpdatedImport = ?" +
-                    "WHERE productId = ? AND products.lastUpdatedImport < ?";
+                    ", products.statusId = 8" +
+                    " WHERE productId = ? AND products.lastUpdatedImport < ?";
 
             Connection conn = JDBCConnector.getConnection();
             PreparedStatement statement = conn.prepareStatement(sql);

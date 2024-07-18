@@ -608,6 +608,20 @@
     $(document)
         .ready(
             function () {
+                $('#productSaleQuantityInput').on('input', function () {
+                    var input = $(this);
+                    var value = parseInt(input.val().replace(/\D/g, ''));
+                    var unitsInStock = parseInt($('#productUnitInStock').val().replace(/\D/g, ''));
+
+                    if(value > unitsInStock) {
+                        input.val('');
+                        input.addClass('is-invalid');
+                    }
+                    else {
+                        input.removeClass('is-invalid');
+                    }
+                });
+
                 var productIdInput = $('#productIdInput');
 
                 productIdInput.autocomplete({
