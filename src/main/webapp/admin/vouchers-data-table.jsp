@@ -27,7 +27,7 @@
     }
 
     .form-voucher {
-        max-width: 700px;
+        width: 500px;
         margin: auto;
         padding: 20px;
         border: 1px solid #ddd;
@@ -110,25 +110,27 @@
                                 <tr>
                                     <th scope="col">ID</th>
                                     <th scope="col">Mã</th>
-                                    <th scope="col">Điều kiện</th>
+                                    <th scope="col">Mức giảm</th>
                                     <th scope="col">Loại giảm giá</th>
-                                    <th scope="col">Mô tả</th>
                                     <th scope="col">Loại danh mục</th>
                                     <th scope="col">Số lượng</th>
+                                    <th scope="col">Điều kiện</th>
                                     <th scope="col">Ngày hết hạn</th>
                                     <th scope="col">Chức năng</th>
                                 </tr>
                                 </thead>
                                 <c:forEach items="${discounts}" var="item">
-                                    <tbody id="${item.id}" class="tableBody">
+                                    <tbody id="${item.id}">
                                     <tr>
                                         <td>${item.id}</td>
                                         <td>${item.code}</td>
-                                        <td>${item.amount}</td>
+                                       <c:if test="">
+
+                                       </c:if>
                                         <td>${item.type}</td>
-                                        <td>${item.description}</td>
-                                        <td>findCategoryName(${item.categoryId})</td>
+                                        <td>${item.categoryId}</td>
                                         <td>${item.quantity}</td>
+                                        <td>${item.condition}</td>
                                         <td>${item.expDate}</td>
                                         <td>
                                             <div class="btn-group">
@@ -164,7 +166,7 @@
                                         </div>
                                         <div class="modal-body">
                                             <form action="DiscountsController" method="post" id="changeVoucher">
-                                                <input type="hidden" name="pos" id="position" value="">
+                                                <input type="hidden" name="position" id="position" value="">
                                                 <input type="hidden" name="action" value="">
                                                 <div class="form-group">
                                                     <label for="voucherIdInput">Mã Voucher</label>
@@ -173,13 +175,13 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col">
-                                                            <label for="voucherDiscountInput">Loại Voucher</label>
+                                                            <label for="VoucherTypeFilter">Loại Voucher</label>
                                                             <div class="input-group">
                                                                 <div class="input-group-append w-100 ">
                                                                     <select id="VoucherTypeFilter" class="form-select w-100 h-100" style=" padding: 10px;" name="discountType">
-                                                                        <option value="FREESHIP">FREESHIP</option>
-                                                                        <option value="percentage">percentage</option>
-                                                                        <option value="fixed">fixed</option>
+                                                                        <option value="FREESHIP">FREE SHIP</option>
+                                                                        <option value="percentage">Giảm theo %</option>
+                                                                        <option value="fixed">Giảm theo số tiền cụ thể</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -189,6 +191,7 @@
                                                             <div class="input-group">
                                                                 <div class="input-group-append w-100 ">
                                                                     <select class="form-select" id="voucherCategoryInput" name="voucherCategory" required class="form-select h-100" style=" padding: 10px;">
+                                                                        <option value="0">Tất cả danh mục</option>
                                                                         <c:forEach items="${categories}" var="category">
                                                                             <option value="${category.id}">${category.name}</option>
                                                                             <c:forEach items="${category.children}" var="child">
@@ -204,13 +207,13 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col">
-                                                            <label for="voucherDiscountInput">Giảm giá</label>
+                                                            <label for="voucherDiscountInput">Mức giảm</label>
                                                             <div class="input-group">
                                                                 <input class="form-control" id="voucherDiscountInput" name="amount" type="number" min="0" required>
                                                                 <div class="input-group-append">
                                                                     <select id="saleTypeFilter" disabled class="form-select h-100">
-                                                                        <option value="%">%</option>
                                                                         <option value="đ">đ</option>
+                                                                        <option value="%">%</option>
                                                                     </select>
                                                                 </div>
                                                             </div>
@@ -238,14 +241,14 @@
                                                     <textarea class="form-control" id="voucherDescriptionInput" name="description" rows="3" required></textarea>
                                                 </div>
                                                 <div class="form-group">
-                                                    <button class="btn btn-primary" type="submit">Thêm Voucher</button>
+                                                    <button class="btn btn-primary" id="addVoucher" type="submit">Thêm Voucher</button>
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>y
                     </div>
                 </div>
             </div>
@@ -271,10 +274,26 @@
         $(".btn-edit-voucher").click(function () {
             $(".modal-form").toggle();
             var voucherId = $(this).data("id");
+            $("#newCategoryModalLabel").text("Chỉnh Sửa Voucher");
+            $("#addVoucher").text("Chỉnh Sửa Voucher")
             let index = $("#position").val(voucherId);
             $("#changeVoucher > input[name='action']").val("changeVoucher");
+            var row = $(this).closest("tr");
+            $("#voucherIdInput").val(row.find("td:nth-child(2)").text().trim());
+            $("#voucherDiscountInput").val(row.find("td:nth-child(3)").text().trim());
+            $("#VoucherTypeFilter").val(row.find("td:nth-child(4)").text().trim());
+            $("#voucherCategoryInput").val(row.find("td:nth-child(6)").text().trim());
+            $("#voucherMinPurchaseInput").val(row.find("td:nth-child(8)").text().trim());
+            $("#voucherQuantityInput").val(row.find("td:nth-child(7)").text().trim());
+            $("#voucherExpiryDateInput").val(row.find("td:nth-child(9)").text().trim());
+            $("#voucherDescriptionInput").val(row.find("td:nth-child(5)").text().trim());
+
             console.log(index);
         });
+        $(".addVoucher").click(function () {
+            $("#newCategoryModalLabel").text("Thêm Voucher");
+            $("#addVoucher").text("Thêm Voucher")
+        })
 
         let deleteForm = $(".delete-form");
 
@@ -316,51 +335,6 @@
             } else {
                 saleTypeFilter.value = 'đ';
             }
-        });
-
-        var categories = [
-            <c:forEach items="${categories}" var="category" varStatus="loop">
-            {
-                id: ${category.id},
-                name: "${category.name}",
-                children: [
-                    <c:forEach items="${category.children}" var="child" varStatus="childLoop">
-                    {
-                        id: ${child.id},
-                        name: "${child.name}",
-                        children: [
-
-                        ]
-                    }<c:if test="${!childLoop.last}">,</c:if>
-                    </c:forEach>
-                ]
-            }<c:if test="${!loop.last}">,</c:if>
-            </c:forEach>
-        ];
-
-        function findCategoryName(categoryId) {
-            function findCategoryInArray(categories, categoryId) {
-                for (var i = 0; i < categories.length; i++) {
-                    if (categories[i].id === categoryId) {
-                        return categories[i].name;
-                    } else if (categories[i].children && categories[i].children.length > 0) {
-                        let foundName = findCategoryInArray(categories[i].children, categoryId);
-                        if (foundName) {
-                            return foundName;
-                        }
-                    }
-                }
-                return "Tất cả danh mục";
-            }
-            return findCategoryInArray(categories, categoryId);
-        }
-        const tableBody = $('.tableBody');
-        items.forEach(item => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-            <td>${findCategoryName(item.categoryId)}</td>
-        `;
-            tableBody.appendChild(row);
         });
     });
 

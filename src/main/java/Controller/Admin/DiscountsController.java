@@ -66,7 +66,7 @@ public class DiscountsController extends HttpServlet {
 	}
 
 	private void deleteVoucher(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int index = Integer.valueOf(request.getParameter("pos"));
+		int index = Integer.parseInt(request.getParameter("pos"));
 		Discounts discounts = new Discounts();
 		discounts.setId(index);
 		discountService.delete(discounts);
@@ -75,11 +75,15 @@ public class DiscountsController extends HttpServlet {
 	}
 
 	private void changeVoucher(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int index = Integer.valueOf(request.getParameter("pos"));
-		int amount = Integer.valueOf(request.getParameter("amount"));
+		int index = Integer.parseInt(request.getParameter("position"));
+		System.out.println(index);
+		int amount = Integer.parseInt(request.getParameter("amount"));
 		String voucherCode = request.getParameter("voucherCode");
 		String discountType = request.getParameter("discountType");
-		Double condition = Double.valueOf(request.getParameter("condition"));
+		int quantity = Integer.parseInt(request.getParameter("quantity"));
+		String description = request.getParameter("description");
+		int voucherCategory = Integer.parseInt(request.getParameter("voucherCategory"));
+		double condition = Double.parseDouble(request.getParameter("condition"));
 		String expiryDateString  =request.getParameter("expiryDate");
 		Date expiryDate = java.sql.Date.valueOf(expiryDateString);
 		Discounts discounts = new Discounts();
@@ -87,9 +91,11 @@ public class DiscountsController extends HttpServlet {
 		discounts.setAmount(amount);
 		discounts.setCode(voucherCode);
 		discounts.setType(discountType);
+		discounts.setQuantity(quantity);
+		discounts.setCategoryId(voucherCategory);
+		discounts.setDescription(description);
 		discounts.setCondition(condition);
 		discounts.setExpDate(expiryDate);
-		
 		discountService.update(discounts);
 		doGet(request, response);
 		
@@ -97,7 +103,7 @@ public class DiscountsController extends HttpServlet {
 	}
 
 	private void addVoucher(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int amount = Integer.valueOf(request.getParameter("amount"));
+		int amount = Integer.parseInt(request.getParameter("amount"));
 		String voucherCode = request.getParameter("voucherCode");
 		String discountType = request.getParameter("discountType");
 		int quantity = Integer.parseInt(request.getParameter("quantity"));
