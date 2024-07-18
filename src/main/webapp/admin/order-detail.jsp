@@ -23,9 +23,68 @@
         color: #fFffff;
     }
 
-    .status-bar {
-        width: 300px !important;
+    .status {
+        font-weight: bold;
+        padding: 5px 10px;
+        width: 200px;
+        border-radius: 5px;
+        color: #fff;
     }
+
+    .status-container {
+        display: flex;
+        align-items: center;
+        padding: 30px 0;
+        justify-content: space-between;
+    }
+
+    .form-check-inline {
+        position: relative;
+        margin: 0 15px;
+    }
+
+    .form-check-inline::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 100%;
+        width: 30px;
+        height: 3px;
+        background-color: #6c757d; /* Bootstrap secondary color */
+        transform: translateY(-50%);
+        z-index: -1;
+    }
+
+    .form-check-inline:last-child::before {
+        display: none;
+    }
+
+    .form-check-input {
+        transform: scale(1.5);
+    }
+
+    .form-check-label {
+        font-weight: bold;
+        margin-left: 5px;
+    }
+
+    /* Specific Status Styles */
+    .status-4 {
+        background-color: #007bff; /* Bootstrap primary color */
+    }
+
+    .status-5 {
+        background-color: #fd7e14; /* Bootstrap orange color */
+    }
+
+    .status-6 {
+        background-color: #28a745; /* Bootstrap green color */
+    }
+
+    .status-7 {
+        background-color: #dc3545; /* Bootstrap red color */
+    }
+
 </style>
 <body>
 <jsp:include page="header.jsp"></jsp:include>
@@ -41,13 +100,13 @@
         <div class="container-fluid">
             <div class="row w-100">
                 <div class="col-12">
-                    <div class="list-orders mt-3 bg-white">
+                    <div class=" mt-3 bg-white">
                         <div class="sub-title">
                             <h4>Chi tiết đơn hàng</h4>
                         </div>
                         <c:set var="order" scope="request" value="${requestScope.order}"/>
                         <div class="order-detail mt-3 row">
-                            <div class="col-6">
+                            <div class="col-7">
                                 <div>
                                     <h5>ID đơn hàng: ${order.id}</h5>
                                 </div>
@@ -65,7 +124,7 @@
                                     <h5>Phương thức thanh toán: ${order.paymentMethod}</h5>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-5">
                                 <div>
                                     <h5>
                                         Phí vận chuyển:
@@ -75,33 +134,74 @@
                                 </div>
                                 <div class="d-flex ">
                                     <h5>Phiếu giảm giá:</h5>
-                                    <c:if test="${not empty requestScope.discount}">
-                                        <h5>${requestScope.discount.code}</h5>
-                                        <h5>-
-                                            <fmt:formatNumber type="currency"
-                                                              value="${requestScope.discount.amount}"/>
-                                        </h5>
-                                    </c:if>
-                                </div>
+                                    <c:choose>
+                                        <c:when test="${not empty requestScope.discount}">
+                                            <h5>${requestScope.discount.code}</h5>
+                                            <h5>-
+                                                <fmt:formatNumber type="currency"
+                                                                  value="${requestScope.discount.amount}"/>
+                                            </h5>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <h5>Không có </h5>
+                                        </c:otherwise>
+                                    </c:choose></div>
                                 <div>
                                     <h5>
                                         Tổng đơn hàng:
-                                        <fmt:formatNumber type="currency" value="${order.totalPrice}"/>
+                                        <strong>
+                                            <fmt:formatNumber type="currency" value="${order.totalPrice}"/>
+                                        </strong>
                                     </h5>
                                 </div>
                             </div>
-                            <div class="status-bar">
-                                <h5>Trạng thái</h5>
-                                <form action="OrderController" id="statusForm">
-                                    <input type="hidden" name="action" value="put"> <input
-                                        type="hidden" name="orderId" value="${order.id}"> <select
-                                        class="form-select" name="statusId">
-                                    <option id="status6" value="6">Đã hoàn thành</option>
-                                    <option id="status7" value="7">Đã hủy</option>
-                                    <option id="status4" value="4">Đang xử lý</option>
-                                    <option id="status5" value="5">Đang vận chuyển</option>
-                                </select>
-                                </form>
+                            <div>
+                                <div class="d-flex ">
+                                    <h5 class="me-5">Trạng thái: </h5>
+                                    <h5 class="status status-${order.status.id}">${order.status.description}</h5>
+                                </div>
+                                <h5><strong>
+                                    Cập nhập trạng thái
+                                </strong></h5>
+                                <%--                                <form action="OrderController" id="statusForm">--%>
+                                <%--                                    <input type="hidden" name="action" value="put"> <input--%>
+                                <%--                                        type="hidden" name="orderId" value="${order.id}"> <select--%>
+                                <%--                                        class="form-select" name="statusId">--%>
+                                <%--                                    <option id="status6" value="6">Đã hoàn thành</option>--%>
+                                <%--                                    <option id="status7" value="7">Đã hủy</option>--%>
+                                <%--                                    <option id="status4" value="4">Đang xử lý</option>--%>
+                                <%--                                    <option id="status5" value="5">Đang vận chuyển</option>--%>
+                                <%--                                </select>--%>
+                                <%--                                </form>--%>
+                            </div>
+                        </div>
+
+                        <div class="container  status-container">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="statusOptions"
+                                <c:if test="${order.status.id == 4}">
+                                       checked
+                                </c:if>
+                                       id="statusProcessing" value="processing">
+                                <label class=" form-check-label" for="statusProcessing">Đang xử lý</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="statusOptions"
+                                <c:if test="${order.status.id == 5}">
+                                       checked
+                                </c:if>
+                                       id="statusDelivering" value="delivering">
+                                <label class="form-check-label" for="statusDelivering">Đang vận chuyển</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="statusOptions"
+                                       id="statusCompleted" value="completed">
+                                <label class="form-check-label" for="statusCompleted">Đã hoàn thành</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="statusOptions"
+                                       id="statusCanceled" value="canceled">
+                                <label class="form-check-label" for="statusCanceled">Đã hủy</label>
                             </div>
                         </div>
                         <table class="table" id="orders">
