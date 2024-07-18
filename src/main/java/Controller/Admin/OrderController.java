@@ -39,12 +39,26 @@ public class OrderController extends HttpServlet {
         String action = request.getParameter("action") != null ? request.getParameter("action") : "get";
         switch (action) {
             case "get" -> get(request, response);
+            case "getFilter" -> getFilter(request, response);
             case "detail" -> detail(request, response);
             case "put" -> put(request, response);
 
             default -> throw new IllegalArgumentException("Unexpected value: " + action);
         }
 
+    }
+
+    protected void getFilter(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Orders> orders = orderService.findAll();
+        String statusCodeParameter = request.getParameter("status");
+        System.out.println(statusCodeParameter);
+        int statusCode = Integer.parseInt(statusCodeParameter);
+        var filterOrders = orders.stream()
+                .filter(o -> o.getStatus().getId() == statusCode)
+                .toList();
+        request.setAttribute("orders", filterOrders);
+        request.setAttribute("statusCode", statusCodeParameter);
+        request.getRequestDispatcher("/admin/orders-data-table.jsp").forward(request, response);
     }
 
     /**

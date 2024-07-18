@@ -66,7 +66,7 @@
         <div class="container-fluid ">
             <div class="row w-100">
                 <div class="col-12">
-                    <div class="list-orders mt-3 bg-white">
+                    <div class="mt-3 bg-white">
                         <div class="sub-title">
                             <h4>Bảng ghi log</h4>
                         </div>
@@ -111,7 +111,7 @@
                                 </label>
                             </div>
                         </div>
-                        <table class="table" id="log-table">
+                        <table class="cell-border hover nowrap w-100" id="log-table">
                             <thead>
                             <tr>
                                 <th scope="col">#</th>

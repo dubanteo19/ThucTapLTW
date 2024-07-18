@@ -27,7 +27,7 @@
 <jsp:include page="header.jsp"></jsp:include>
 <div class="row">
     <jsp:include page="left-menu.jsp"></jsp:include>
-    <div class="col-9 pt-3">
+    <div class="col-10 pt-3">
         <div
                 class="container title d-flex justify-content-between bg-white rounded">
             <h5>Quản lý đơn hàng</h5>
@@ -36,11 +36,56 @@
         <div class="container-fluid">
             <div class="row w-100">
                 <div class="col-12">
-                    <div class="list-orders mt-3 bg-white">
+                    <div class=" mt-3 bg-white">
                         <div class="sub-title">
                             <h4>Danh sách đơn hàng</h4>
                         </div>
-                        <table class="table" id="order-table">
+                        <h5 class="mt-3">Bộ lọc</h5>
+                        <div class="container d-flex p-2">
+                            <div class="form-check form-switch me-5">
+                                <input class="form-check-input" type="checkbox"
+                                       value="4"
+                                       <c:if test="${requestScope.statusCode == 4}">checked</c:if>
+                                       id="status-4">
+                                <label class="form-check-label"
+                                       for="status-4">Đang xử lý
+                                </label>
+                            </div>
+                            <div class="form-check form-switch me-5">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       <c:if test="${requestScope.statusCode == 5}">checked</c:if>
+                                       value="5"
+                                       id="status-5">
+                                <label class="form-check-label"
+                                       for="status-5">
+                                    Đang vận chuyển
+                                </label>
+                            </div>
+                            <div class="form-check form-switch me-5">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       <c:if test="${requestScope.statusCode == 6}">checked</c:if>
+                                       value="6"
+                                       id="status-6">
+                                <label class="form-check-label"
+                                       for="status-6">
+                                    Đã hoàn thành
+                                </label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       <c:if test="${requestScope.statusCode == 7}">checked</c:if>
+                                       value="7"
+                                       id="status-7">
+                                <label class="form-check-label"
+                                       for="status-7">
+                                    Đã hủy
+                                </label>
+                            </div>
+                        </div>
+                        <table class="cell-border hover nowrap w-100" id="order-table">
                             <thead>
                             <tr>
                                 <th scope="col">ID đơn hàng</th>
@@ -89,6 +134,11 @@
 <script type="text/javascript">
     $(".nav-link").removeClass("active");
     $("#orders-nav-link").addClass("active");
+    $('input[type="checkbox"]').on('change', function () {
+        let filterStatus = $(this).val();
+        window.location = "OrderController?action=getFilter&status=" + filterStatus;
+        console.log(filterStatus);
+    });
     let table = new DataTable("#order-table", {
         columns: [
             {data: '#'},

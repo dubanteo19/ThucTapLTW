@@ -340,12 +340,14 @@
             </div>
 
             <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-                <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000">
+                <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true"
+                     data-delay="3000">
                     <div class="toast-header" style="background-color: var(--primary-green); color: white">
                         <i class="fa-solid fa-bell me-2"></i>
                         <strong class="me-auto">Thông báo</strong>
                         <small>1s ago</small>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"
+                                aria-label="Close"></button>
                     </div>
                     <div class="toast-body">
                         <span class="toast-content"></span>
@@ -695,7 +697,7 @@
                 $(document).on('click', '#btnSave', function () {
                     var data = table.rows().data().toArray();
 
-                    if(data.length > 0) {
+                    if (data.length > 0) {
                         $.ajax({
                             url: "nhap-kho",
                             type: 'POST',
