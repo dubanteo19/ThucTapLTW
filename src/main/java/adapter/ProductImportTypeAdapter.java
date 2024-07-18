@@ -15,25 +15,19 @@ public class ProductImportTypeAdapter implements JsonDeserializer<ProductImport>
     public ProductImport deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
 
+        int productId = jsonObject.get("id").getAsInt();
+        String productName = jsonObject.get("name").getAsString();
         double weight = jsonObject.get("weight").getAsDouble();
         double costPrice = jsonObject.get("costPrice").getAsDouble();
         int quantity = jsonObject.get("quantity").getAsInt();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-        String dateCreatedStr = jsonObject.get("dateCreated").getAsString();
 
-        LocalDateTime localDateTime = LocalDateTime.parse(dateCreatedStr, formatter);
-
+        LocalDateTime localDateTime = LocalDateTime.parse(jsonObject.get("dateCreated").getAsString()
+                , DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
         Timestamp dateCreated = Timestamp.valueOf(localDateTime);
 
-        int productId = jsonObject.get("id").getAsInt();
-        String productName = jsonObject.get("name").getAsString();
-
-        Product product = new Product();
-        product.setName(productName);
-        product.setId(productId);
-
         ProductImport productImport = new ProductImport();
-        productImport.setProduct(product);
+        productImport.setProductId(productId);
+        productImport.setProductName(productName);
         productImport.setWeight(weight);
         productImport.setCostPrice(costPrice);
         productImport.setQuantity(quantity);

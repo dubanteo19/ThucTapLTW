@@ -3,8 +3,7 @@ package Database;
 import Model.Product;
 import Model.ProductImport;
 import RowMaper.ProductImportMapper;
-import RowMaper.column.CategoriesColumn;
-import RowMaper.column.ProductsColumn;
+import RowMaper.column.ProductImportColumn;
 import Utils.JDBCConnector;
 
 import java.sql.Connection;
@@ -22,8 +21,8 @@ public class ProductImportDAO extends AbtractDAO<ProductImport> implements IProd
     @Override
     public int save(List<ProductImport> productImports) {
         String sql = """
-                INSERT INTO productimports (productId, weight, costPrice, quantity, dateCreated)
-                SELECT ?, ?, ?, ?, ?
+                INSERT INTO productimports (productId, productName, weight, costPrice, quantity, dateCreated)
+                SELECT ?, ?, ?, ?, ?, ?
                 FROM dual
                 WHERE NOT EXISTS (
                     SELECT 1 FROM productimports\s
@@ -33,7 +32,9 @@ public class ProductImportDAO extends AbtractDAO<ProductImport> implements IProd
 
         Map<Integer, ProductImport> productImportMap = new HashMap<>();
         for (ProductImport productImport : productImports) {
-            int productId = productImport.getProduct().getId();
+            int productId = productImport.getProductId();
+
+            if (productId == -1) continue;
 
             if (!productImportMap.containsKey(productId)) {
                 productImportMap.put(productId, productImport);
@@ -73,7 +74,7 @@ public class ProductImportDAO extends AbtractDAO<ProductImport> implements IProd
                 statement.setDouble(2, object.getWeight());
                 statement.setDouble(3, object.getCostPrice());
                 statement.setTimestamp(4, date);
-                statement.setInt(5, object.getProduct().getId());
+                statement.setInt(5, object.getProductId());
                 statement.setTimestamp(6, date);
 
                 statement.addBatch();
@@ -94,15 +95,16 @@ public class ProductImportDAO extends AbtractDAO<ProductImport> implements IProd
 
     @Override
     public void setParameters(PreparedStatement statement, ProductImport productImport) throws SQLException {
-        int productId = productImport.getProduct().getId();
+        int productId = productImport.getProductId();
 
         statement.setInt(1, productId);
-        statement.setDouble(2, productImport.getWeight());
-        statement.setDouble(3, productImport.getCostPrice());
-        statement.setInt(4, productImport.getQuantity());
-        statement.setTimestamp(5, productImport.getDateCreated());
-        statement.setInt(6, productId);
-        statement.setTimestamp(7, productImport.getDateCreated());
+        statement.setString(2, productImport.getProductName());
+        statement.setDouble(3, productImport.getWeight());
+        statement.setDouble(4, productImport.getCostPrice());
+        statement.setInt(5, productImport.getQuantity());
+        statement.setTimestamp(6, productImport.getDateCreated());
+        statement.setInt(7, productId);
+        statement.setTimestamp(8, productImport.getDateCreated());
     }
 
     @Override
@@ -117,8 +119,11 @@ public class ProductImportDAO extends AbtractDAO<ProductImport> implements IProd
         }
 
         if (duration != -1) {
+            if (queryFilter == null || queryFilter.isEmpty()) sql.append(" WHERE");
+            else sql.append(" AND");
+
             sql.append(MessageFormat
-                    .format(" AND productimports.dateCreated >= DATE_SUB(NOW(), INTERVAL {0} {1})", duration, durationType));
+                    .format(" productimports.dateCreated >= DATE_SUB(NOW(), INTERVAL {0} {1})", duration, durationType));
         }
 
         sql.append(" ORDER BY");
@@ -127,7 +132,7 @@ public class ProductImportDAO extends AbtractDAO<ProductImport> implements IProd
             sql.append(queryOrder);
         }
 
-        sql.append(" products.productId ASC")
+        sql.append(" productimports.productId ASC")
                 .append(getQueryFilter("limit", limit, offSet)).append(";");
 
         return querry(sql.toString(), new ProductImportMapper());
@@ -138,8 +143,6 @@ public class ProductImportDAO extends AbtractDAO<ProductImport> implements IProd
         StringBuilder queryFilter = getQueryFilters(filters);
         StringBuilder sql = new StringBuilder("""
                 SELECT COUNT(*) FROM productimports
-                LEFT JOIN products ON products.productId = productimports.productId
-                INNER JOIN categories ON categories.categoryId = products.productId
                 """);
 
         if (queryFilter != null && !queryFilter.isEmpty()) {
@@ -148,8 +151,11 @@ public class ProductImportDAO extends AbtractDAO<ProductImport> implements IProd
         }
 
         if (duration != -1) {
+            if (queryFilter == null || queryFilter.isEmpty()) sql.append(" WHERE");
+            else sql.append(" AND");
+
             sql.append(MessageFormat
-                    .format(" AND productimports.dateCreated >= DATE_SUB(NOW(), INTERVAL {0} {1})", duration, durationType));
+                    .format(" productimports.dateCreated >= DATE_SUB(NOW(), INTERVAL {0} {1})", duration, durationType));
         }
 
         return count(sql.toString());
@@ -158,8 +164,6 @@ public class ProductImportDAO extends AbtractDAO<ProductImport> implements IProd
     private StringBuilder getQueryProductImport() {
         return new StringBuilder("""
                 SELECT * FROM productimports
-                LEFT JOIN products ON products.productId = productimports.productId
-                INNER JOIN categories ON categories.categoryId = products.productId
                 """);
     }
 
@@ -180,41 +184,20 @@ public class ProductImportDAO extends AbtractDAO<ProductImport> implements IProd
 
     private StringBuilder getQueryFilter(String filter, Object... params) {
         return switch (filter) {
-            case "minCostPrice" ->
-                    new StringBuilder(MessageFormat.format(" (products.costPrice > {0,number,#})", params));
+            case "id" -> new StringBuilder(MessageFormat.format(" (productimports.productId = {0,number,#})", params));
 
-            case "maxCostPrice" ->
-                    new StringBuilder(MessageFormat.format(" (products.costPrice < {0,number,#})", params));
+            case "limit" ->
+                    new StringBuilder(MessageFormat.format(" LIMIT {0,number,#} OFFSET {1,number,#}", params[0], params[1]));
 
-            case "category" ->
-                    new StringBuilder(MessageFormat.format(" (categories.categoryId = {0,number,#} OR categories.parentCategoryId = {0,number,#})", params));
-
-            case "id" -> new StringBuilder(MessageFormat.format(" (products.productId = {0,number,#})", params));
-
-            case "limit" -> new StringBuilder(MessageFormat.format(" LIMIT {0,number,#} OFFSET {1,number,#}", params[0], params[1]));
-
-            case "dateCreated"
-                    -> new StringBuilder(MessageFormat.format(" (productimports.dateCreated = {0})", params));
+            case "dateCreated" ->
+                    new StringBuilder(MessageFormat.format(" (DATE(productimports.dateCreated) = ''{0}'')", params));
 
             case "search" -> {
                 StringBuilder columnsStr = new StringBuilder();
-                for (ProductsColumn c : ProductsColumn.values()) {
-                    if (c != ProductsColumn.CategoryId
-                            && c != ProductsColumn.BlogId
-                            && c != ProductsColumn.StatusId
-                            && c != ProductsColumn.Thumb) {
+                for (ProductImportColumn c : ProductImportColumn.values()) {
+                    if (c != ProductImportColumn.CategoryId) {
                         columnsStr
-                                .append("products.")
-                                .append(c.name()).append(" LIKE ")
-                                .append("'%").append(params[0]).append("%'").append(" OR ");
-                    }
-
-                }
-                for (CategoriesColumn c : CategoriesColumn.values()) {
-                    if (c != CategoriesColumn.CategoryId
-                            && c != CategoriesColumn.ParentCategoryId) {
-                        columnsStr
-                                .append("categories.")
+                                .append("productimports.")
                                 .append(c.name()).append(" LIKE ")
                                 .append("'%").append(params[0]).append("%'").append(" OR ");
                     }
@@ -235,7 +218,7 @@ public class ProductImportDAO extends AbtractDAO<ProductImport> implements IProd
 
         switch (order) {
             case "name":
-                query.append(" products.productName ");
+                query.append(" productimports.productName ");
                 break;
 
             case "dateCreated":
@@ -243,7 +226,7 @@ public class ProductImportDAO extends AbtractDAO<ProductImport> implements IProd
                 break;
 
             case "id":
-                query.append(" products.productId ");
+                query.append(" productimports.productId ");
                 break;
 
             case "costPrice":
@@ -280,21 +263,19 @@ public class ProductImportDAO extends AbtractDAO<ProductImport> implements IProd
         String dateCreatedStr = "10-07-2003 13:00";
         LocalDateTime localDateTime = LocalDateTime.parse(dateCreatedStr, formatter);
 
-        list.add(new ProductImport(p1, 1, 1, 1, Timestamp.valueOf(localDateTime)));
-        list.add(new ProductImport(p2, 2, 2, 2, Timestamp.valueOf(localDateTime)));
-
         ProductImportDAO productImportDAO = new ProductImportDAO();
 //        System.out.println("Row affected: " + productImportDAO.save(list));
 
         Map<String, Object> filters = new HashMap<>();
+//        filters.put("dateCreated", "2024-07-17");
 
-        String orderBy = "costPrice";
+        String orderBy = "dateCreated";
         String orderDir = "DESC";
 
         int limit = 5;
         int offset = 0;
 
-        int duration = 1;
+        int duration = -1;
         String durationType = "MONTH";
 
         productImportDAO.find(filters, limit, offset, orderBy, orderDir, duration, durationType).forEach(System.out::println);

@@ -101,7 +101,15 @@
             cursor: pointer;
         }
 
+        .scroll-container {
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+            height: 100vh;
+        }
         .section-item {
+            scroll-snap-align: start;
+            padding: 20px;
+            box-sizing: border-box;
             height: 100vh;
         }
     </style>
@@ -114,96 +122,98 @@
     <div class="col-10 pt-3">
         <div class="container-fluid">
             <div class="row w-100">
-                <div class="section-item col-12">
-                    <div class="bg-white">
-                        <div class="sub-title">
-                            <h4>Quản lý nhập kho</h4>
-                        </div>
-                        <div class="table-container mt-3">
-                            <div class="mb-3">
-                                <div class="table-control d-flex align-items-center">
-                                    <button type="button" id="btn-filter" class="btn btn-info btn-control"
-                                            data-toggle="modal" data-target="#filterModal">
-                                        <i class="fa-solid fa-filter"></i>Bộ lọc
-                                    </button>
-
-                                    <div class="ms-auto text-end btn-container-dropdown">
-                                        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Xuất File
+                <div class="scroll-container">
+                    <div class="section-item col-12">
+                        <div class="bg-white">
+                            <div class="sub-title">
+                                <h4>Quản lý nhập kho</h4>
+                            </div>
+                            <div class="table-container mt-3">
+                                <div class="mb-3">
+                                    <div class="table-control d-flex align-items-center">
+                                        <button type="button" id="btn-filter" class="btn btn-info btn-control"
+                                                data-toggle="modal" data-target="#filterModal">
+                                            <i class="fa-solid fa-filter"></i>Bộ lọc
                                         </button>
-                                        <div id="optionExportDisplay" class="dropdown-menu export-menu">
-                                            <span class="dropdown-item">Copy</span>
-                                            <span class="dropdown-item">CSV</span>
-                                            <span class="dropdown-item">Excel</span>
-                                            <span class="dropdown-item">PDF</span>
+
+                                        <div class="ms-auto text-end btn-container-dropdown">
+                                            <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Xuất File
+                                            </button>
+                                            <div id="optionExportDisplay" class="dropdown-menu export-menu">
+                                                <span class="dropdown-item">Copy</span>
+                                                <span class="dropdown-item">CSV</span>
+                                                <span class="dropdown-item">Excel</span>
+                                                <span class="dropdown-item">PDF</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <table id="datatable-products-display" class="cell-border hover nowrap w-100">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center">Mã sản phẩm</th>
+                                        <th style="min-width: 10vw">Tên sản phẩm</th>
+                                        <th class="text-right">Trọng lượng</th>
+                                        <th class="text-right">Giá nhập</th>
+                                        <th class="text-right">Số lượng nhập</th>
+                                        <th class="text-center">Ngày nhập</th>
+                                    </tr>
+                                    </thead>
+                                </table>
                             </div>
-                            <table id="datatable-products-display" class="cell-border hover nowrap w-100">
-                                <thead>
-                                <tr>
-                                    <th class="text-center">Mã sản phẩm</th>
-                                    <th style="min-width: 10vw">Tên sản phẩm</th>
-                                    <th class="text-right">Trọng lượng</th>
-                                    <th class="text-right">Giá nhập</th>
-                                    <th class="text-right">Số lượng nhập</th>
-                                    <th class="text-center">Ngày nhập</th>
-                                </tr>
-                                </thead>
-                            </table>
                         </div>
                     </div>
-                </div>
 
-                <div class="section-item col-12">
-                    <div class="bg-white">
-                        <div class="sub-title">
-                            <h4>Nhập kho sản phẩm</h4>
-                        </div>
-                        <div class="table-container mt-3">
-                            <div class="mb-3">
-                                <div class="table-control d-flex align-items-center">
-                                    <button id="btnImport" class="btn btn-secondary"
-                                            data-toggle="modal" data-target="#importModal">Thêm sản phẩm
-                                    </button>
-                                    <div class="btn-control btn-container-dropdown">
-                                        <button type="button" class="btn btn-secondary dropdown-toggle"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Nhập từ File
+                    <div class="section-item col-12">
+                        <div class="bg-white">
+                            <div class="sub-title">
+                                <h4>Nhập kho sản phẩm</h4>
+                            </div>
+                            <div class="table-container mt-3">
+                                <div class="mb-3">
+                                    <div class="table-control d-flex align-items-center">
+                                        <button id="btnImport" class="btn btn-secondary"
+                                                data-toggle="modal" data-target="#importModal">Thêm sản phẩm
                                         </button>
-                                        <div class="dropdown-menu export-menu">
-                                            <span class="dropdown-item">CSV</span>
-                                            <span class="dropdown-item"
-                                                  data-toggle="modal" data-target="#importFileModal">Excel</span>
+                                        <div class="btn-control btn-container-dropdown">
+                                            <button type="button" class="btn btn-secondary dropdown-toggle"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Nhập từ File
+                                            </button>
+                                            <div class="dropdown-menu export-menu">
+                                                <span class="dropdown-item">CSV</span>
+                                                <span class="dropdown-item"
+                                                      data-toggle="modal" data-target="#importFileModal">Excel</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="ms-auto text-end btn-container-dropdown">
-                                        <button type="button" class="btn btn-warning dropdown-toggle"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Xuất File
-                                        </button>
-                                        <div id="optionExport" class="dropdown-menu export-menu">
-                                            <span class="dropdown-item">Copy</span>
-                                            <span class="dropdown-item">CSV</span>
-                                            <span class="dropdown-item">Excel</span>
-                                            <span class="dropdown-item">PDF</span>
+                                        <div class="ms-auto text-end btn-container-dropdown">
+                                            <button type="button" class="btn btn-warning dropdown-toggle"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Xuất File
+                                            </button>
+                                            <div id="optionExport" class="dropdown-menu export-menu">
+                                                <span class="dropdown-item">Copy</span>
+                                                <span class="dropdown-item">CSV</span>
+                                                <span class="dropdown-item">Excel</span>
+                                                <span class="dropdown-item">PDF</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <table id="datatable-products" class="cell-border hover nowrap w-100">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center">Mã sản phẩm</th>
+                                        <th style="min-width: 10vw">Tên sản phẩm</th>
+                                        <th class="text-right">Trọng lượng</th>
+                                        <th class="text-right">Giá nhập</th>
+                                        <th class="text-right">Số lượng nhập</th>
+                                        <th class="text-center">Ngày nhập</th>
+                                    </tr>
+                                    </thead>
+                                </table>
                             </div>
-                            <table id="datatable-products" class="cell-border hover nowrap w-100">
-                                <thead>
-                                <tr>
-                                    <th class="text-center">Mã sản phẩm</th>
-                                    <th style="min-width: 10vw">Tên sản phẩm</th>
-                                    <th class="text-right">Trọng lượng</th>
-                                    <th class="text-right">Giá nhập</th>
-                                    <th class="text-right">Số lượng nhập</th>
-                                    <th class="text-center">Ngày nhập</th>
-                                </tr>
-                                </thead>
-                            </table>
                         </div>
                     </div>
                 </div>
@@ -407,6 +417,7 @@
                                                 <option value="12">12</option>
                                                 <option value="-1">Tất cả</option>
                                                 <option value="other">Khác</option>
+                                                <option value="-2">None</option>
                                             </select>
                                         </div>
                                         <div class="col">
@@ -425,20 +436,8 @@
                                 <div class="form-group row align-items-center">
                                     <label class="col">Thời gian cụ thể</label>
                                     <div class="col">
-                                        <input class="form-control" id="productDateFilter"
-                                               type="datetime-local" required>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row align-items-center">
-                                    <label class="col" for="categoriesList">Danh mục sản phẩm</label>
-                                    <div class="col">
-                                        <select id="categoriesList" class="form-select">
-                                            <c:forEach items="${categoriesList}" var="item">
-                                                <option value="${item.id}">${item.name}</option>
-                                            </c:forEach>
-                                            <option selected value="-1">Tất cả</option>
-                                        </select>
+                                        <input class="form-control" id="durationDate"
+                                               type="date" required>
                                     </div>
                                 </div>
                             </form>
@@ -549,11 +548,16 @@
     function handleDurationChange() {
         var select = document.getElementById('durationSelect');
         var input = document.getElementById('durationInput');
+        var durationDate = document.getElementById('durationDate');
 
         if (select.value === 'other') {
             input.style.display = 'block';
         } else {
             input.style.display = 'none';
+        }
+
+        if (select.value !== '-2') {
+            durationDate.value = '';
         }
     }
 
@@ -645,6 +649,15 @@
                     $('#datatable-products-display').DataTable().ajax.reload();
                 });
 
+                $('#durationDate').on('change', function () {
+                    if ($(this).val()) {
+                        $('#durationSelect').val('-2');
+                    } else {
+                        $('#durationSelect').val('3');
+                        $('#durationType').val('MONTH');
+                    }
+                });
+
                 let tableDisplay = $('#datatable-products-display').DataTable({
                     serverSide: true,
                     pageLength: 25,
@@ -660,13 +673,12 @@
                             d.action = 'get';
                             d.duration = getDurationValue();
                             d.durationType = $('#durationType').val();
-                            d.categoryId = $('#categoriesList').val();
-                            d.dateCreated = $('#productDateFilter').val();
+                            d.dateCreated = $('#durationDate').val();
                             NProgress.done();
                         }
                     },
                     rowCallback: function (row, data) {
-                        $(row).attr('data-id', data.product.id);
+                        $(row).attr('data-id', data.productId);
                     },
                     columnDefs: [
                         {targets: 0, name: 'id'},
@@ -686,7 +698,7 @@
                     ],
                     columns: [
                         {
-                            data: 'product.id',
+                            data: 'productId',
                             render: function (data, type, row) {
                                 if (data == -1) {
                                     return 'Mới';
@@ -695,7 +707,7 @@
                             }
                         },
                         {
-                            data: 'product.name',
+                            data: 'productName',
                             render: function (data, type, row) {
                                 return '<span class="product-name">' + data + '</span>';
                             }
@@ -720,8 +732,8 @@
                         },
                         {
                             data: 'dateCreated',
-                            render: function(data, type, row) {
-                                return moment(data).format('DD/MM/YYYY');
+                            render: function (data, type, row) {
+                                return moment(data, 'MMM D, YYYY, h:mm:ss A').format('DD-MM-YYYY HH:mm');
                             }
                         }
                     ],
@@ -1006,15 +1018,16 @@
                                 }
                                 else {
                                     if(numAffected > 0) {
-                                        msg = 'Đã nhập thành công ' + numAffected + ' sản phẩm.' +
-                                            ' Trong đó ' + (length - numAffected) + ' dữ liệu nhập kho đã tồn tại'
+                                        msg = 'Đã nhập thành công ' + numAffected + ' sản phẩm.<br>' +
+                                            (length - numAffected) + ' dữ liệu nhập kho đã tồn tại';
+
                                     }
                                     else {
                                         msg = 'Nhập thất bại. Dữ liệu đã tồn tại';
                                     }
                                 }
 
-                                $('.toast-content').text(msg);
+                                $('.toast-content').html(msg);
                                 $('.toast').toast('show');
 
                                 table.clear().draw();

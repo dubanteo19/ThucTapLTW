@@ -46,14 +46,10 @@ public class WarehouseController extends HttpServlet {
     ICategoryService categoryService;
 
     private int totalRecords;
-    private List<Categories> categoriesList;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         totalRecords = productImportService.getCount(new HashMap<>(), -1, null);
-        categoriesList = categoryService.findAll();
-
-        req.setAttribute("categoriesList", categoriesList);
         req.getRequestDispatcher("/admin/warehouse-management.jsp").forward(req, resp);
     }
 
@@ -130,7 +126,7 @@ public class WarehouseController extends HttpServlet {
         String orderDir = req.getParameter("order[0][dir]");
         int duration = Integer.parseInt(req.getParameter("duration"));
         String durationType = req.getParameter("durationType");
-        int categoryId = Integer.parseInt(req.getParameter("categoryId"));
+        String dateCreated = req.getParameter("dateCreated");
 
         if (orderBy != null && !orderBy.isEmpty()) {
             orderBy = req.getParameter(MessageFormat.format("columns[{0}][name]", Integer.parseInt(orderBy)));
@@ -138,12 +134,13 @@ public class WarehouseController extends HttpServlet {
 
         Map<String, Object> filters = new HashMap<>();
 
-        if (searchValue != null && !searchValue.isEmpty()) {
-            filters.put("search", searchValue);
+        if(dateCreated !=  null && !dateCreated.isEmpty()) {
+            filters.put("dateCreated", dateCreated);
+            duration = -1;
         }
 
-        if (categoryId > 0) {
-            filters.put("category", categoryId);
+        if (searchValue != null && !searchValue.isEmpty()) {
+            filters.put("search", searchValue);
         }
 
         int totalRecordsFiltered = productImportService.getCount(filters, duration, durationType);
