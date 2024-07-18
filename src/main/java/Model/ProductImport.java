@@ -5,7 +5,8 @@ import java.sql.Timestamp;
 
 public class ProductImport implements Serializable {
 
-    private Product product;
+    private int productId;
+    private String productName;
     private double weight;
     private double costPrice;
     private int quantity;
@@ -15,20 +16,29 @@ public class ProductImport implements Serializable {
 
     }
 
-    public ProductImport(Product product, double weight, double costPrice, int quantity, Timestamp dateCreated) {
-        this.product = product;
+    public ProductImport(int productId, String productName, double weight, double costPrice, int quantity, Timestamp dateCreated) {
+        this.productId = productId;
+        this.productName = productName;
         this.weight = weight;
         this.costPrice = costPrice;
         this.quantity = quantity;
         this.dateCreated = dateCreated;
     }
 
-    public Product getProduct() {
-        return product;
+    public int getProductId() {
+        return productId;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public double getWeight() {
@@ -66,11 +76,12 @@ public class ProductImport implements Serializable {
     @Override
     public String toString() {
         return "ProductImport{" +
-                "weight=" + weight +
+                "productId=" + productId +
+                ", productName='" + productName + '\'' +
+                ", weight=" + weight +
                 ", costPrice=" + costPrice +
                 ", quantity=" + quantity +
                 ", dateCreated=" + dateCreated +
-                ", product=" + product +
                 '}';
     }
 }

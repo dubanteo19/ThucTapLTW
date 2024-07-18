@@ -5,6 +5,7 @@ import Utils.JDBCConnector;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class AbtractDAO<T> implements GenericDAO<T> {
@@ -214,9 +215,10 @@ public class AbtractDAO<T> implements GenericDAO<T> {
             }
 
             int[] result = statement.executeBatch();
+            int totalRowsAffected = Arrays.stream(result).sum();
             conn.commit();
 
-            return result.length;
+            return totalRowsAffected;
         } catch (SQLException e) {
             e.printStackTrace();
             return 0;

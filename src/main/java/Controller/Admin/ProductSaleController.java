@@ -1,12 +1,14 @@
 package Controller.Admin;
 
+import Model.Categories;
 import Model.Product;
 import Model.ProductImport;
+import Model.ProductSale;
 import Services.ICategoryService;
-import Services.IProductImportService;
+import Services.IProductSaleService;
 import Services.IProductService;
 import Utils.JsonUtils;
-import adapter.ProductImportTypeAdapter;
+import adapter.ProductSaleTypeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -26,23 +28,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet("/admin/nhap-kho")
-public class WarehouseController extends HttpServlet {
+@WebServlet("/admin/quan-ly-giam-gia")
+public class ProductSaleController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
     @Inject
+    IProductSaleService productSaleService;
+    @Inject
     IProductService productService;
 
     @Inject
-    IProductImportService productImportService;
+    ICategoryService categoryService;
 
+    private List<Categories> categoriesList;
     private int totalRecords;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        totalRecords = productImportService.getCount(new HashMap<>(), -1, null);
-        req.getRequestDispatcher("/admin/warehouse-management.jsp").forward(req, resp);
+        categoriesList = categoryService.findAll();
+        totalRecords = productSaleService.getCount(new HashMap<>());
+
+        req.setAttribute("categoriesList", categoriesList);
+        req.getRequestDispatcher("/admin/sale-management.jsp").forward(req, resp);
     }
 
     @Override
@@ -71,13 +79,14 @@ public class WarehouseController extends HttpServlet {
 
         try {
             Gson gson = new GsonBuilder()
-                    .registerTypeAdapter(ProductImport.class, new ProductImportTypeAdapter())
+                    .registerTypeAdapter(ProductSale.class, new ProductSaleTypeAdapter())
                     .create();
-            Type productListType = new TypeToken<List<ProductImport>>() {
+            Type productListType = new TypeToken<List<ProductSale>>() {
             }.getType();
 
-            List<ProductImport> productImports = gson.fromJson(jsonData, productListType);
-            int rowAffected = productImportService.save(productImports);
+            List<ProductSale> productSales = gson.fromJson(jsonData, productListType);
+
+            int rowAffected = productSaleService.save(productSales);
 
             jsonObject.addProperty("affected", rowAffected);
             JsonUtils.sendJsonResponse(resp, HttpServletResponse.SC_OK, jsonObject.toString());
@@ -116,9 +125,10 @@ public class WarehouseController extends HttpServlet {
         String searchValue = req.getParameter("search[value]");
         String orderBy = req.getParameter("order[0][column]");
         String orderDir = req.getParameter("order[0][dir]");
-        int duration = Integer.parseInt(req.getParameter("duration"));
-        String durationType = req.getParameter("durationType");
-        String dateCreated = req.getParameter("dateCreated");
+        int categoryId = Integer.parseInt(req.getParameter("categoryId"));
+        String saleType = req.getParameter("saleType");
+        String startDate = req.getParameter("startDate");
+        String endDate = req.getParameter("endDate");
 
         if (orderBy != null && !orderBy.isEmpty()) {
             orderBy = req.getParameter(MessageFormat.format("columns[{0}][name]", Integer.parseInt(orderBy)));
@@ -126,21 +136,31 @@ public class WarehouseController extends HttpServlet {
 
         Map<String, Object> filters = new HashMap<>();
 
-        if (dateCreated != null && !dateCreated.isEmpty()) {
-            filters.put("dateCreated", dateCreated);
-            duration = -1;
-        }
-
         if (searchValue != null && !searchValue.isEmpty()) {
             filters.put("search", searchValue);
         }
 
-        int totalRecordsFiltered = productImportService.getCount(filters, duration, durationType);
+        if (saleType != null && !saleType.isEmpty() && !saleType.equals("-1")) {
+            filters.put("saleType", saleType);
+        }
+
+        if (startDate != null && !startDate.isEmpty()) {
+            filters.put("startDate", startDate);
+        }
+
+        if (endDate != null && !endDate.isEmpty()) {
+            filters.put("endDate", endDate);
+        }
+
+        if (categoryId > 0) {
+            filters.put("category", categoryId);
+        }
+
+        int totalRecordsFiltered = productSaleService.getCount(filters);
         JsonObject jsonObject = new JsonObject();
 
         if (totalRecordsFiltered != -1) {
-            List<ProductImport> data = productImportService
-                    .find(filters, limit, offset, orderBy, orderDir, duration, durationType);
+            List<ProductSale> data = productSaleService.find(filters, limit, offset, orderBy, orderDir);
             jsonObject.addProperty("recordsFiltered", totalRecordsFiltered);
             jsonObject.add("data", new Gson().toJsonTree(data).getAsJsonArray());
         }
