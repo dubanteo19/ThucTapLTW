@@ -260,7 +260,7 @@
         return (
             '<dl>' +
             formatSubDetailOnRow('Giá nhập', formatCurrency(data.product.costPrice)) +
-            formatSubDetailOnRow(' - Trọng lượng', data.product.weight) +
+            formatSubDetailOnRow(' - Trọng lượng', data.product.weight) + ' kg' +
             '<br>' +
             formatSubDetailOnRow('Giá bán', formatCurrency(data.product.unitPrice)) +
             '<br>' +
